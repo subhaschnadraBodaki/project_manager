@@ -3,17 +3,20 @@ import {useQuery} from 'react-query'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import getProjectList from './FetchData'
 
-export default function ProjectListTable({ actionBody }) {
+import supabaseData from '../supabaseData'
+
+export default function ProjectListTable({actionBody}) {
     const columns = [
+        { field: "project_code", header: "Project_code" },
         { field: "name", header: "Name" },
-        { field: "country.name", header: "Country" },
-        { field: "company", header: "Company" },
-        { field: "representative.name", header: "Representative" }
+        { field: "project_manager", header: "Project_manager" },
+        // { field: "project_status", header: "Project_status" }
     ];
 
-    const { status, data, error } = useQuery('products', getProjectList)
+
+
+    const { status, data, error } = useQuery('products', supabaseData)
 
     if (status === 'loading') {
         return <div>loading...</div> // loading state
@@ -27,16 +30,21 @@ export default function ProjectListTable({ actionBody }) {
         return <Column key={col.field} field={col.field} header={col.header} />;
     })
 
+    const statusBodyTemplate = (data) => {
+        return <span className={"text-"+data.project_status.toLowerCase()+"-500" + " bg-"+data.project_status.toLowerCase()+"-100" + " rounded-lg" +" bg-cover"+ " p-1"} >{data.project_status}</span>;
+    }
+
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
     const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
     return (
         <div>
-            <DataTable value={data.customers}  paginator
+            <DataTable value={data}  paginator
                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10, 30, 50]}
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[1, 2, 5]}
                 paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} >
                
                 {dynamicColumns}
+                <Column field="project_status" header ="Project_status" body={statusBodyTemplate}></Column>
                 <Column field="action" header="Action" body={actionBody}></Column>
 
 
@@ -44,3 +52,4 @@ export default function ProjectListTable({ actionBody }) {
         </div>
     )
 }
+

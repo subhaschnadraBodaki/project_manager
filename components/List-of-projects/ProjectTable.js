@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 export default function ProjectTable() {
     const router = useRouter()
 
-    const ActionButton = ({ route }) => {
+    const ActionButton = () => {
         return (
             <React.Fragment>
                 <button onClick={() => router.push('/projectOverview')}>

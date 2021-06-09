@@ -1,16 +1,22 @@
 import React from 'react'
-import ProjectTable from '../components/List-of-projects/ProjectTable'
+import {signIn  , signOut , useSession} from 'next-auth/client'
 
-
-export default function Home() {
+export default function  Home() {
+ 
+const [session , loading] =useSession()
+  
+return (
+    <>
+      {!session && <>
+        Not signed in <br/>
+        <button onClick ={()=> signIn()}>Sign In</button>
+        </>}
+        {session && <>
+        Signed in as {session.user.name} <br/>
+        <button onClick ={()=>signOut()}>Sign out</button>
+        </>}
     
-  return (
-    <React.Fragment>
-
-    <div>
-     <ProjectTable/>
-    </div>
-    
-    </React.Fragment>
+      <h1>Welcome to home page </h1>
+    </>
   )
 }
