@@ -17,10 +17,7 @@ const dynamicColumns = columns.map((col)=> {
 
     return (
         <div >
-                <div className="max-w-4xl  flex items-center justify-center my-6  ">
-            
-                        <h2 className="text-2xl">Project Overview</h2>
-                    </div>
+                
                     <DataTable value={data} resizableColumns columnResizeMode="expand">
                         {dynamicColumns}
                     </DataTable>      

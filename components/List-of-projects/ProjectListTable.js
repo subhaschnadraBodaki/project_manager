@@ -17,6 +17,7 @@ export default function ProjectListTable({actionBody}) {
 
 
     const { status, data, error } = useQuery('products', supabaseData)
+    
 
     if (status === 'loading') {
         return <div>loading...</div> // loading state
@@ -30,9 +31,17 @@ export default function ProjectListTable({actionBody}) {
         return <Column key={col.field} field={col.field} header={col.header} />;
     })
 
+
     const statusBodyTemplate = (data) => {
-        return <span className={"text-"+data.project_status.toLowerCase()+"-500" + " bg-"+data.project_status.toLowerCase()+"-100" + " rounded-lg" +" bg-cover"+ " p-1"} >{data.project_status}</span>;
+        if(data.project_status==null){
+
+            return <span className={"text-black" +  " rounded-lg" +" bg-cover"+ " p-1"} >{data.project_status}</span>;
+   
+        }else{
+            return <span className={"text-"+data.project_status.toLowerCase()+"-500" + " bg-"+data.project_status.toLowerCase()+"-100" + " rounded-lg" +" bg-cover"+ " p-1"} >{data.project_status}</span>;
+        }
     }
+
 
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
     const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
@@ -40,7 +49,7 @@ export default function ProjectListTable({actionBody}) {
         <div>
             <DataTable value={data}  paginator
                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[1, 2, 5]}
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5, 10, 15]}
                 paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} >
                
                 {dynamicColumns}

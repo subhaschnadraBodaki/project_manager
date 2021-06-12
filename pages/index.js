@@ -6,7 +6,8 @@ export default function  Home() {
 const [session , loading] =useSession()
   
 return (
-    <>
+  <>
+
       {!session && <>
         Not signed in <br/>
         <button onClick ={()=> signIn()}>Sign In</button>
@@ -18,5 +19,6 @@ return (
     
       <h1>Welcome to home page </h1>
     </>
+    
   )
 }
