@@ -1,24 +1,33 @@
 import React from 'react'
-import {signIn  , signOut , useSession} from 'next-auth/client'
+import { useKeycloak } from '@react-keycloak/ssr'
 
-export default function  Home() {
- 
-const [session , loading] =useSession()
-  
-return (
-  <>
+export default function Home() {
 
-      {!session && <>
-        Not signed in <br/>
-        <button onClick ={()=> signIn()}>Sign In</button>
-        </>}
-        {session && <>
-        Signed in as {session.user.name} <br/>
-        <button onClick ={()=>signOut()}>Sign out</button>
-        </>}
-    
-      <h1>Welcome to home page </h1>
-    </>
-    
+  const { keycloak, initialized } = useKeycloak()
+
+  return (
+
+    <div>
+      <div>
+        <h1>Welcome to keycloak-nextauth authentication  </h1>
+      </div>
+      <div>
+        <div>{`User is ${!keycloak.authenticated ? 'NOT ' : ''
+          }authenticated`}</div>
+        <div>
+
+          {!keycloak.authenticated && (
+            <button type="button" onClick={() => keycloak.login()}>
+              Login
+            </button>
+          )}
+        </div>
+        {keycloak.authenticated && (
+          <button type="button" onClick={() => keycloak.logout()}>
+            Logout
+          </button>
+        )}
+      </div>
+    </div>
   )
 }

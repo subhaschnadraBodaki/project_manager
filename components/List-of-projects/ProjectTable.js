@@ -10,7 +10,7 @@ export default function ProjectTable() {
     const ActionButton = () => {
         return (
             <React.Fragment>
-                <button onClick={() => router.push('/projectOverview')}>
+                <button onClick={() => router.push('/projects/projectOverview')}>
                        <EyeIcon className="h-5 w-5 mr-4" />
                 </button>
 
@@ -24,7 +24,7 @@ export default function ProjectTable() {
     return (
         <div className="card">
 
-            <h1 className='text-black text-center text-2xl'>List Of Projects</h1>
+            <h1 className='my-5 text-black text-2xl flex align-item justify-center'>List Of Projects</h1>
             <TableToolbar />
 
             <ProjectListTable actionBody={ActionButton} />

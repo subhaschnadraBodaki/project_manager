@@ -9,7 +9,7 @@ export default function TableToolbar() {
     const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-              <button className="bg-gray-500 px-5 py-3 text-sm shadow-sm font-medium tracking-wider border text-white rounded-2xl hover:shadow-lg hover:bg-gray-600 flex" onClick={()=>{router.push('/addProject')}}><PlusIcon className="h-5  w-5"/> Add Project</button>
+              <button className="bg-gray-500 px-5 py-3 text-sm shadow-sm font-medium tracking-wider border text-white rounded-2xl hover:shadow-lg hover:bg-gray-600 flex" onClick={()=>{router.push('/projects/addProject')}}><PlusIcon className="h-5  w-5"/> Add Project</button>
                
             </React.Fragment>
         )

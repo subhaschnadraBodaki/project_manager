@@ -4,21 +4,21 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 
-import supabaseData from '../supabaseData'
+import ContactsData from './ContactsData'
 
-export default function ProjectListTable({actionBody}) {
+export default function AccountsTable ({actionBody}) {
     const columns = [
-        { field: "project_code", header: "Project_code" },
-        { field: "name", header: "Name" },
-        { field: "project_manager", header: "Project_manager" },
-        // { field: "project_status", header: "Project_status" }
+        { field: "id", header: "Id" },
+        { field: "contact_name", header: "Name" },
+        { field: "email", header: "Email" },
+        { field: "updated_at", header: "Updated_at" }
     ];
 
 
 
-    const { status, data, error } = useQuery('products', supabaseData)
+    const { status, data, error } = useQuery('products', ContactsData)
     
-
+console.log(data)
     if (status === 'loading') {
         return <div>loading...</div> // loading state
     }
@@ -28,37 +28,25 @@ export default function ProjectListTable({actionBody}) {
     }
 
     const dynamicColumns =  columns.map((col) => {
-        return <Column key={col.field} field={col.field} header={col.header} />;
+        return <Column  key={col.field} field={col.field} header={col.header} />;
     })
-
-
-    const statusBodyTemplate = (data) => {
-        if(data.project_status==null){
-
-            return <span className={"text-black" +  " rounded-lg" +" bg-cover"+ " p-1"} >{data.project_status}</span>;
-   
-        }else{
-            return <span className={"text-"+data.project_status.toLowerCase()+"-500" + " bg-"+data.project_status.toLowerCase()+"-100" + " rounded-lg" +" bg-cover"+ " p-1"} >{data.project_status}</span>;
-        }
-    }
 
 
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
     const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
     return (
         <div>
-            <DataTable value={data}  paginator
+            <DataTable value={data} resizableColumns columnResizeMode="expand"  paginator
                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5, 10, 15]}
                 paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} >
                
                 {dynamicColumns}
-                <Column  header ="Project_status" body={statusBodyTemplate}></Column>
-                <Column  header="Action" body={actionBody}></Column>
+               
+                <Column field="action" header="Action" body={actionBody}></Column>
 
 
             </DataTable>
         </div>
     )
 }
-

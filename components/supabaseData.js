@@ -18,6 +18,8 @@ const supabaseData =async() => {
 export default supabaseData
 
 
+
+
 // let {data:projects  , error}= await supabase
 // .from('projects')
 // .select('*')
