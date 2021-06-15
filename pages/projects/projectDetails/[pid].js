@@ -1,17 +1,18 @@
 import React from 'react'
-import ProjectOverview from '../../components/Project-overview/ProjectOverview'
-import TabsRender from '../../components/Project-overview//Tabs/TabsRender';
-import Section1 from '../../components/Project-overview/Section1'
-import Section2 from '../../components/Project-overview/Section2'
-import Heading from '../../components/Project-overview/Heading'
+// import ProjectOverview from '../../components/Project-overview/ProjectOverview'
+import TabsRender from '../../../components/Project-overview/Tabs/TabsRender';
+import Section1 from '../../../components/Project-overview/Section1'
+import Section2 from '../../../components/Project-overview/Section2'
+import Heading from '../../../components/Project-overview/Heading'
 import { useKeycloak } from '@react-keycloak/ssr';
+
 
 export default function projectOverview() {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
     const { keycloak } = useKeycloak()
 
-    const projectDetails = keycloak.authenticated ? (<div>
+    const projectDetails = keycloak.authenticated ? (<>
         <div className="mx-10 px-5">
 
             <Heading />
@@ -26,7 +27,7 @@ export default function projectOverview() {
             <TabsRender />
         </div>
 
-    </div>
+    </>
     ) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>
         Login
     </button></>)

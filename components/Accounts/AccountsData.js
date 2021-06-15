@@ -1,5 +1,5 @@
 const AccountsData =async()=>{
-    const response =await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL_ACCOUNTS ,{
+    const response =await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL +'/accounts?select=*',{
         method:'get',
         headers:{
             "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,

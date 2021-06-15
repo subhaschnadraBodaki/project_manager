@@ -21,7 +21,7 @@ const queryClient = new QueryClient()
 
 
 function MyApp({ Component, pageProps ,cookies}) {
-  const navLinks =[ 'Dashboard', 'Projects' , 'Employees']
+  // const navLinks =[ 'Dashboard', 'Projects' , 'Employees']
   return (
     
     <SSRKeycloakProvider
@@ -29,9 +29,9 @@ function MyApp({ Component, pageProps ,cookies}) {
     persistor={SSRCookies(cookies)}
   >
     <QueryClientProvider client={queryClient}>
-    <NavBar dashboard={navLinks[0]}  page1={navLinks[1]} page2={navLinks[2]}></NavBar>
+    {/* <NavBar dashboard={navLinks[0]}  page1={navLinks[1]} page2={navLinks[2]}></NavBar> */}
       <Component {...pageProps} />
-    </QueryClientProvider>
+      </QueryClientProvider>
     </SSRKeycloakProvider>
     
   )

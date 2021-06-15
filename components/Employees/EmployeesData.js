@@ -1,5 +1,5 @@
 const EmployeesData =async()=>{
-    const response =await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL_EMPLOYEES ,{
+    const response =await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL+'/employees?select=*' ,{
         method:'get',
         headers:{
             "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,

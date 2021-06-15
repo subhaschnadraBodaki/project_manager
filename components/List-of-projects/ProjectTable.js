@@ -4,14 +4,21 @@ import TableToolbar from './TableToolbar'
 import { EyeIcon, PencilIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 
-export default function ProjectTable() {
-    const router = useRouter()
 
-    const ActionButton = () => {
+
+export default function ProjectTable({data}) {
+    const router = useRouter()
+    
+    const ActionOnClick = async (rowData) => {
+        await router.push('/projects/projectDetails/'+ rowData.id)
+        console.log(rowData)
+
+    }
+    const ActionButton = (rowData) => {
         return (
             <React.Fragment>
-                <button onClick={() => router.push('/projects/projectOverview')}>
-                       <EyeIcon className="h-5 w-5 mr-4" />
+                <button onClick={() => ActionOnClick(rowData)}>
+                    <EyeIcon className="h-5 w-5 mr-4" />
                 </button>
 
                 <button>
@@ -20,6 +27,7 @@ export default function ProjectTable() {
             </React.Fragment>
         );
     }
+    
 
     return (
         <div className="card">
@@ -27,7 +35,7 @@ export default function ProjectTable() {
             <h1 className='my-5 text-black text-2xl flex align-item justify-center'>List Of Projects</h1>
             <TableToolbar />
 
-            <ProjectListTable actionBody={ActionButton} />
+            <ProjectListTable actionBody={ActionButton} data={data}/>
 
         </div>
     )

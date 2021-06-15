@@ -1,9 +1,12 @@
 import React from 'react'
-// import {supabase} from '../utils/supabaseClient'
 
 
-const supabaseData =async() => {
-    const response =await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL ,{
+
+
+
+const ProjectDetailsData =async(pid) => {
+    console.log(pid)
+    const response =await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL+'/projects?select=*' ,{
         method:'get',
         headers:{
             "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -11,11 +14,11 @@ const supabaseData =async() => {
         }
         
     })
-    if (!response.ok) throw new Error(response.statusText)
+    //  if (!response.ok) throw new Error(response.statusText)
     return await response.json()
 }
 
-export default supabaseData
+export default ProjectDetailsData
 
 
 
