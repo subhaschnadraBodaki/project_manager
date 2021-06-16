@@ -15,7 +15,7 @@ const dynamicColumns = columns.map((col)=> {
     return <Column key={col.field} field = {col.field} header={col.header}/>
 })
     
-    return (
+    return (    
         <div>
              <DataTable value={data} resizableColumns columnResizeMode="expand">
                         {dynamicColumns}

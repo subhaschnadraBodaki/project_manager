@@ -11,7 +11,7 @@ export default function ProjectTable({data}) {
     
     const ActionOnClick = async (rowData) => {
         await router.push('/projects/projectDetails/'+ rowData.id)
-        console.log(rowData)
+        // console.log(rowData)
 
     }
     const ActionButton = (rowData) => {

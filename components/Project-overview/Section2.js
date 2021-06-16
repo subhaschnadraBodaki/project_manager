@@ -34,19 +34,39 @@ export default function Section2() {
         return <p>error :{error.message}</p>
     }
     
-console.log(data)
+// console.log(data)
 
 
     return (
-        <div className="grid grid-cols-2 grid-rows-4 gap-1">
-            <div className="mt-2 m-auto p-2 " >Project_Description</div>
-            <div className=" mt-2 border-2 border-solid border-gray-400 m-auto p-2 " >{data[0].description}</div>
-            <div className="m-auto p-2" >Planned_start_Date</div>
-            <div className="border-2 border-solid border-gray-400 m-auto p-2 " >{data[0].planned_start_date}</div>
-            <div className="m-auto p-2" >Planned_End_Date</div>
-            <div className="border-2 border-solid border-gray-400 m-auto p-2 ">{data[0].planned_end_date}</div>
-            <div className="m-auto p-2" >Actual_Start_date</div>
-            <div className="border-2 border-solid border-gray-400 m-auto p-2 ">{data[0].actual_start_date}</div>
+        <div className ="grid grid-cols-6 gap-4 my-5">
+            <div>Start Date</div>
+            <div>End Date</div>
+            <div>Budgeted Effort</div>
+            <div>Percentage of Completion</div>
+            <div>Budgeted Revenue</div>
+            <div>Billed Amount</div>
+            <div>{data.map(date=>{
+                if(date.actual_start_date===null){
+                  return  date.planned_start_date
+                }
+                else{
+                    return date.actual_start_date
+                }
+            })}</div>
+            <div>{data.map(date=>{
+                if(date.actual_end_date===null){
+                  return  date.planned_end_date
+                }
+                else{
+                    return date.actual_end_date
+                }
+            })}</div>
+            <div> 1000$</div>
+            <div>27%</div>
+            <div>500$</div>
+            <div>1500$</div>
+
+
         </div>
     )
 }

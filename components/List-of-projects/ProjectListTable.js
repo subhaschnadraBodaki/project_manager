@@ -52,7 +52,7 @@ const dt =useRef(null)
     const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
     return (
         <div>
-            <DataTable ref={dt}  value={data}  paginator
+            <DataTable ref={dt}  value={data} resizableColumns columnResizeMode="expand"  paginator
                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5, 10, 15]}
                 paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} >
