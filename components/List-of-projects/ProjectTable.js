@@ -10,7 +10,7 @@ export default function ProjectTable({data}) {
     const router = useRouter()
     
     const ActionOnClick = async (rowData) => {
-        await router.push('/projects/projectDetails/'+ rowData.id)
+        await router.push('/projectdetails/'+ rowData.id)
         // console.log(rowData)
 
     }

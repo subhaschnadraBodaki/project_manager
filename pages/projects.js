@@ -1,8 +1,8 @@
 import React from 'react'
-import ProjectTable from '../../components/List-of-projects/ProjectTable'
+import ProjectTable from '../components/List-of-projects/ProjectTable'
 import { useKeycloak } from '@react-keycloak/ssr'
 
-export default function projectLists({data}) {
+export default function projects({data}) {
     const { keycloak } = useKeycloak()
 
     const listOfProjects = keycloak.authenticated ? (<div>

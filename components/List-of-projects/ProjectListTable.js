@@ -11,9 +11,9 @@ import { EyeIcon, PencilIcon } from '@heroicons/react/solid'
 
 export default function ProjectListTable({ actionBody ,data }) {
     const columns = [
-        { field: "project_code", header: "Project_code" },
+        { field: "project_code", header: "Project Code" },
         { field: "name", header: "Name" },
-        { field: "project_manager", header: "Project_manager" },
+        { field: "project_manager", header: "Project Manager" },
         // { field: "project_status", header: "Project_status" }
     ];
 
@@ -58,7 +58,7 @@ const dt =useRef(null)
                 paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} >
                 
                 {dynamicColumns}
-                <Column header="Project_status" body={statusBodyTemplate}></Column>
+                <Column header="Status" body={statusBodyTemplate}></Column>
                 <Column header="Action" body={actionBody}></Column>
 
 
