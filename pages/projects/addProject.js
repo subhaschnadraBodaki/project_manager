@@ -1,5 +1,5 @@
 import React from 'react'
-import ProjectForm from '../../components/FormComponents/ProjectForm'
+import ProjectForm from '../../components/ProjectForm'
 import { useKeycloak } from '@react-keycloak/ssr'
 export default function addProject() {
     const {keycloak}=useKeycloak()

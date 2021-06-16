@@ -1,12 +1,12 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import FormikControl from './FormikControl'
+import FormikControl from './FormComponents/FormikControl'
 import { useMutation, useQueryClient } from 'react-query';
  import axios from 'axios';
-
-
-
+ import {useQuery} from 'react-query'
+//  import AccountsData from './FetchedData/AccountsData'
+// import CurrencyData from './FetchedData/CurrencyData'
 
 function ProjectForm () {
   // --------------------------------------initial Values---------------------
@@ -20,8 +20,6 @@ function ProjectForm () {
       planned_revenue:'',
       planned_start_date: null,
       planned_end_date: null,
-      actual_start_date: null,
-      actual_end_date: null,
       // billable: [],
       created_by:'',
       last_modified_by:'',
@@ -30,6 +28,10 @@ function ProjectForm () {
       extra_data:'',
       project_notes:''
   }
+// -----------------------------DynamicDropdown-----------------------
+
+// const Cdata = useQuery('products', CurrencyData)
+// console.log(Cdata)
 
 // --------------------------Select Options----------------------------
 
@@ -137,11 +139,13 @@ function ProjectForm () {
     >
       {formik => {
         return (
-    <div className="min-h-screen  justify-items-center container w-full mx-auto   bg-gray-100 ">
-    <div className="bg-white shadow-sm py-6 text-blue-900 ">
+    <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
+    <div className=" shadow-sm py-6 text-blue-900 ">
     <h2 className="text-2xl text-center  font-semibold px-20">Add Project Details</h2>
     </div>
-    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 lg:gap-x-16  md:gap-x-24 ml-8 gap-y-5 px-20 py-6 ">
+   
+    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 lg:gap-x-8  md:gap-x-24 ml-8 gap-y-5 px-20 py-6 md:mx-36
+     bg-gray-100 " autoComplete="off">
       <h2 className="col-span-2 text-xl text-left text-blue-900  font-semibold mb-2">Basic Details</h2>
       <div>
       <FormikControl
@@ -310,7 +314,7 @@ function ProjectForm () {
       <div className="ml-3">
              <FormikControl
               control='date'
-              label='Planned Start date'
+              label='Planned Start Date'
               name='planned_start_date'
             />
     </div>
@@ -318,26 +322,11 @@ function ProjectForm () {
     <div className="ml-3">
              <FormikControl
               control='date'
-              label='Planned End date'
+              label='Planned End Date'
               name='planned_end_date'
             />
     </div>
 
-    <div className="ml-3 mt-2">
-             <FormikControl
-              control='date'
-              label='Actual Start Date'
-              name='actual_start_date'
-            />
-    </div>
-
-    <div className="ml-3 mt-2">
-             <FormikControl
-              control='date'
-              label='Actual End Date'
-              name='actual_end_date'
-            />
-    </div>
     <h2 className="col-span-2 text-xl text-left mt-3 text-blue-900  font-semibold mb-2">Extra User-Defined Data</h2>
 
     <div className="ml-3">
@@ -374,6 +363,7 @@ function ProjectForm () {
    
     </Form>
     </div>
+   
   )
 }}
 </Formik>
