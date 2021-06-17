@@ -4,14 +4,11 @@ import TableToolbar from './TableToolbar'
 import { EyeIcon, PencilIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 
-
-
 export default function ProjectTable({data}) {
     const router = useRouter()
     
     const ActionOnClick = async (rowData) => {
-        await router.push('/projectdetails/'+ rowData.id)
-        // console.log(rowData)
+        await router.push(`/projectdetails/${rowData.id}`)
 
     }
     const ActionButton = (rowData) => {
@@ -28,7 +25,6 @@ export default function ProjectTable({data}) {
         );
     }
     
-
     return (
         <div className="card">
 

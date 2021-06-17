@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 
 import { useState , useRef } from 'react';
 
-import { EyeIcon, PencilIcon } from '@heroicons/react/solid'
+
 
 export default function ProjectListTable({ actionBody ,data }) {
     const columns = [
@@ -18,7 +18,7 @@ export default function ProjectListTable({ actionBody ,data }) {
     ];
 
 
-const dt =useRef(null)
+// const dt =useRef(null)
     // const [selectedProject, setSelectedProject] = useState(null)
     // const { status, data, error } = useQuery('products', supabaseData)
 
@@ -52,7 +52,7 @@ const dt =useRef(null)
     const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
     return (
         <div>
-            <DataTable ref={dt}  value={data} resizableColumns columnResizeMode="expand"  paginator
+            <DataTable   value={data} resizableColumns columnResizeMode="expand"  paginator
                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5, 10, 15]}
                 paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} >
