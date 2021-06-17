@@ -1,11 +1,11 @@
 import React from "react";
 import Tabs from './Tabs'
 
-export default function TabsRender() {
+export default function TabsRender({projectsData}) {
   
        return (
        <>
-         <Tabs  color="blue"  />
+         <Tabs  color="blue" projectsData={projectsData}  />
        </>
      );
    }

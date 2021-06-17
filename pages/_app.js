@@ -8,7 +8,7 @@ import cookie from 'cookie'
 import {SSRKeycloakProvider , SSRCookies} from  '@react-keycloak/ssr'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-import NavBar from '../components/NavBar'
+
 
 
 const keycloakCfg = {
