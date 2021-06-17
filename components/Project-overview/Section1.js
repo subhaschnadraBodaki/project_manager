@@ -10,26 +10,14 @@ export default function Section1({data}) {
       
       <div className ="grid grid-cols-6 gap-4 my-5">
             
-            {columns.map(c => {
-                return <div>{c}</div>
+            {columns.map((c,index) => {
+                return <div key={index} >{c}</div>
             })}
 
-            {values.map( v => {
-                return <div>{v}</div>
+            {values.map( (v,index) => {
+                return <div key={index} >{v}</div>
             })}
             
-            {/* <div>Project Id</div>
-            <div>Name</div>
-            <div>Status</div>
-            <div>Project Manager</div>
-            <div>State</div>
-            <div>Customer Name</div> */}
-            {/* <div>{data[0].project_code}</div>
-            <div>{data[0].name}</div>
-            <div>{data[0].project_status}</div>
-            <div>{data[0].project_manager}</div>
-            <div>something</div>
-            <div>Venerate</div> */}
             
         </div>
     )

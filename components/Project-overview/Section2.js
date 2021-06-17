@@ -31,12 +31,12 @@ export default function Section2({ data }) {
     return (
         <div className="grid grid-cols-6 gap-4 my-5">
 
-            {columns.map(c => {
-                return <div>{c}</div>
+            {columns.map((c ,index) => {
+                return <div key={index} >{c}</div>
             })}
 
-            {values.map(v => {
-                return <div>{v}</div>
+            {values.map((v,index) => {
+                return <div key={index} >{v}</div>
             })}
 
         </div>
