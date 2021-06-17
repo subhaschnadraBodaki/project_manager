@@ -1,12 +1,7 @@
 import React from 'react'
-import { useQuery } from 'react-query'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-
-
-import { useState , useRef } from 'react';
-
 
 
 export default function ProjectListTable({ actionBody ,data }) {
@@ -14,22 +9,8 @@ export default function ProjectListTable({ actionBody ,data }) {
         { field: "project_code", header: "Project Code" },
         { field: "name", header: "Name" },
         { field: "project_manager", header: "Project Manager" },
-        // { field: "project_status", header: "Project_status" }
+      
     ];
-
-
-// const dt =useRef(null)
-    // const [selectedProject, setSelectedProject] = useState(null)
-    // const { status, data, error } = useQuery('products', supabaseData)
-
-
-    // if (status === 'loading') {
-    //     return <div>loading...</div> // loading state
-    // }
-
-    // if (status === 'error') {
-    //     return <div>{error.message}</div> // error state
-    // }
 
     const dynamicColumns = columns.map((col) => {
         return <Column key={col.field} field={col.field} header={col.header} />;
@@ -47,7 +28,6 @@ export default function ProjectListTable({ actionBody ,data }) {
     }
 
 
-
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
     const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
     return (
@@ -60,7 +40,6 @@ export default function ProjectListTable({ actionBody ,data }) {
                 {dynamicColumns}
                 <Column header="Status" body={statusBodyTemplate}></Column>
                 <Column header="Action" body={actionBody}></Column>
-
 
             </DataTable>
             

@@ -32,11 +32,11 @@ export default function Section2({ data }) {
         <div className="grid grid-cols-6 gap-4 my-5">
 
             {columns.map((c ,index) => {
-                return <div key={index} className="text-sm font-medium flex justify-center" >{c}</div>
+                return <div key={index} className="text-sm font-medium text-gray-600 flex justify-center" >{c}</div>
             })}
 
             {values.map((v,index) => {
-                return <div key={index} className="text-base flex justify-center" >{v}</div>
+                return <div key={index} className="text-lg rounded bg-gray-200 flex justify-center" >{v}</div>
             })}
 
         </div>

@@ -1,6 +1,7 @@
 import React from 'react'
 import ProjectTable from '../components/List-of-projects/ProjectTable'
 import { useKeycloak } from '@react-keycloak/ssr'
+import axios from 'axios'
 
 export default function projects({data}) {
     const { keycloak } = useKeycloak()
@@ -21,17 +22,18 @@ export default function projects({data}) {
 }
 
 export async function getStaticProps (){
-    const response =await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL+'/projects?select=*' ,{
+    const response =await axios({
         method:'get',
+        url:    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?select=*` ,
         headers:{
             "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
             "Content-Type": "application/json"
         }
         
     })
-    if (!response.ok) throw new Error(response.statusText)
+    if (response.status!=200) throw new Error(response.statusText)
     
-    const data =await response.json()
+    const data =await response.data
     
     return {
         props:{
