@@ -1,5 +1,5 @@
 import React from 'react'
-
+import StatusTemplate from '../StatusTemplate'
 
 export default function Section1({ projectsData }) {
 
@@ -14,11 +14,13 @@ export default function Section1({ projectsData }) {
 
     const { project_code, name, project_status, project_manager } = projectsData[0]
 
-    const values = [project_code, name, project_status, project_manager, 'something', 'Venerate']
+    
+
+  const values = [project_code, name, <StatusTemplate status={project_status}/>, project_manager, 'something', 'Venerate']
 
     return (
-
-      <div className="grid grid-cols-6 gap-4 my-5">
+<div >
+      <div className="grid grid-cols-6 gap-4  my-5">
 
         {columns.map((c, index) => {
 
@@ -27,7 +29,7 @@ export default function Section1({ projectsData }) {
           }
           else {
 
-            return <div key={index} className="text-sm text-gray-600 font-medium flex justify-center" >{c}</div>
+            return <div key={index} className="text-sm text-gray-800 font-medium flex justify-center" >{c}</div>
           }
         })}
 
@@ -37,12 +39,13 @@ export default function Section1({ projectsData }) {
           }
           else {
 
-            return <div key={index} className="text-base  flex justify-center" >{v}</div>
+            return <div key={index} className="text-lg  flex justify-center" >{v}</div>
           }
 
         })}
 
 
+      </div>
       </div>
     )
   }

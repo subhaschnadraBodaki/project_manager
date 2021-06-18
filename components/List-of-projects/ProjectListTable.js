@@ -27,7 +27,6 @@ export default function ProjectListTable({ actionBody ,data }) {
         }
     }
 
-
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
     const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
     return (
@@ -46,6 +45,4 @@ export default function ProjectListTable({ actionBody ,data }) {
         </div>
     )
 }
-
-
 

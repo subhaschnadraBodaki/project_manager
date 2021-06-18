@@ -6,7 +6,7 @@ import Heading from '../../components/Project-overview/Heading'
 import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
 
-export default function projectOverview({projectsData , status ,statusText}) {
+export default function projectOverview({projectsData }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
     const { keycloak } = useKeycloak()
@@ -16,12 +16,15 @@ export default function projectOverview({projectsData , status ,statusText}) {
 
             <Heading />
         </div>
-        <div className="mx-1 px-2 border-2 border-gray-600 border-solid">
+        <div className="mx-1 px-2 border-2 rounded-lg border-gray-600 border-double divide-y-2 divide-solid m-px">
+        <div >
             <Section1 projectsData={projectsData}  />
         </div>
-        <div className="border-2 border-gray-600 border-solid my-5 mx-1 px-2">
+        <div >
             <Section2 projectsData={projectsData} />
         </div>
+        </div>
+        
         <div className="my-5 px-2">
             <TabsRender projectsData={projectsData} />
         </div>
@@ -31,16 +34,12 @@ export default function projectOverview({projectsData , status ,statusText}) {
         Login
     </button></>)
 
-  
-   
-
     return (
         <>
             {projectDetails}
         </>
     )
 }
-
 
 export async function getServerSideProps(context){
     const {pid}= context.query
@@ -53,17 +52,10 @@ export async function getServerSideProps(context){
             }
         })    
         
-   
-    
-    
-    
     if (response.status!=200) throw new Error(response.statusText)
-    
-    
     
     const projectsData=  response.data
    
-    
 return{
     props:{
         projectsData ,

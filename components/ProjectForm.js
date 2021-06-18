@@ -79,12 +79,6 @@ for (const item of currencydata) {
     { key: 'Yellow', value: 'Yellow' }
   ]
 
-<<<<<<< HEAD
-  // const checkboxOptionsBillable = [
-  //   { key: 'Yes', value: 'true'},
-  //   { key: 'No', value: 'false'}
-  // ]
-=======
   const checkboxOptionsBillable =  [
     { key: 'Yes', value: true},
     ]
@@ -92,7 +86,6 @@ for (const item of currencydata) {
     const statusOptions = [
       { key: 'Active', value: true },
     ] 
->>>>>>> d82eb4f2413bff804249d5af24a182f127eeb645
 
 
   // -----------------------------Post Data--------------------------------

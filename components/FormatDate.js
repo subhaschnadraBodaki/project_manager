@@ -1,4 +1,4 @@
-import React from "react";
+
 
 export default function formatDate (input) {
     var datePart = input.match(/\d+/g),

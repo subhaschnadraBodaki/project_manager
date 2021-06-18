@@ -4,15 +4,15 @@ import formatDate from '../FormatDate'
 
 export default function Section2({ projectsData }) {
 
-    if (projectsData[0]==null || projectsData[0] ===undefined) {
+    if (projectsData[0] == null || projectsData[0] === undefined) {
 
         return <div>No Data Found</div>
-       
+
     }
-    else{
+    else {
         const columns = ['Start Date', 'End Date', 'Budgeted Effort', 'Percentage Completion', 'Budgeted Revenue', 'Billed Amount']
 
-        const {actual_start_date , actual_end_date,planned_start_date,planned_end_date , currency , percentage_of_completion}=projectsData[0]
+        const { actual_start_date, actual_end_date, planned_start_date, planned_end_date, currency, percentage_of_completion } = projectsData[0]
 
         function startDate() {
             if (actual_start_date === null) {
@@ -40,29 +40,30 @@ export default function Section2({ projectsData }) {
         const values = [sDate, eDate, '30 hr', percentage_of_completion, '$500', currency]
 
         return (
-            <div className="grid grid-cols-6 gap-4 my-5">
+            <div >
+                <div className="grid grid-cols-6 gap-4 my-5">
 
-                {columns.map((c, index) => {
-                    if (c === null) {
-                        return <div key={index} className="text-sm font-medium text-gray-600 flex justify-center" > - </div>
-                    }
-                    else {
+                    {columns.map((c, index) => {
+                        if (c === null) {
+                            return <div key={index} className="text-sm font-medium text-gray-600 flex justify-center" > - </div>
+                        }
+                        else {
 
-                        return <div key={index} className="text-sm font-medium text-gray-600 flex justify-center" >{c}</div>
-                    }
-                })}
+                            return <div key={index} className="text-sm font-medium text-gray-800 flex justify-center" >{c}</div>
+                        }
+                    })}
 
-                {values.map((v, index) => {
+                    {values.map((v, index) => {
 
-                    if (v === null) {
-                        return <div key={index} className="text-lg rounded bg-gray-200 flex justify-center"> - </div>
-                    }
-                    else {
+                        if (v === null) {
+                            return <div key={index} className="text-lg  flex justify-center"> - </div>
+                        }
+                        else {
 
-                        return <div key={index} className="text-lg rounded bg-gray-200 flex justify-center" >{v}</div>
-                    }
-                })}
-
+                            return <div key={index} className="text-lg  flex justify-center" >{v}</div>
+                        }
+                    })}
+                </div>
             </div>
         )
     }

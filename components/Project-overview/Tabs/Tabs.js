@@ -11,10 +11,12 @@ import RisksData from "./TabsData/RisksData";
 import StatusReportsData from "./TabsData/StatusReportsData";
 
 const Tabs = ({ color, projectsData }) => {
+  
   const [openTab, setOpenTab] = React.useState(1);
-  const tabs = ['Teams', 'Risks', 'Deliverables', 'Issues', 'Change Requests', 'Resource Requests', 'Status Reports', 'Financials', 'Milestones', 'Tasks']
+  
+  const tabs = ['Tasks','Milestones','Team', 'Risks', 'Deliverables', 'Issues', 'Change Req.', 'Resource Req.', 'Status ', 'Financials',  ]
 
-  const TabsContent =[<TeamsData projectsData={projectsData} /> , <RisksData projectsData={projectsData}/> , <DeliverablesData projectsData={projectsData}/>,<IssuesData projectsData={projectsData}/>,<ChangeRequestsData projectsData={projectsData}/>,<ResourceRequestData projectsData={projectsData}/>,<StatusReportsData projectsData={projectsData}/>,<FinancialsData projectsData={projectsData}/>,<MilestonesData projectsData={projectsData}/>,<TasksData projectsData={projectsData}/>]
+  const TabsContent =[<TasksData projectsData={projectsData}/>,<MilestonesData projectsData={projectsData}/>,<TeamsData projectsData={projectsData} /> , <RisksData projectsData={projectsData}/> , <DeliverablesData projectsData={projectsData}/>,<IssuesData projectsData={projectsData}/>,<ChangeRequestsData projectsData={projectsData}/>,<ResourceRequestData projectsData={projectsData}/>,<StatusReportsData projectsData={projectsData}/>,<FinancialsData projectsData={projectsData}/>,]
 
   return (
     <>
@@ -26,10 +28,10 @@ const Tabs = ({ color, projectsData }) => {
           >
             {tabs.map((tab, index) => {
               return (
-                <li key={index} className="-mb-px flex-grow h-10 w-10 mr-2 last:mr-0  flex-auto text-center">
+                <li key={index} className="text-center  flex-auto mr-2">
                   <a
-                    className={
-                      "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                    className={ 
+                      "text-xs  font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
                       (openTab === index+1
                         ? "text-white bg-" + color + "-500"
                         : "text-" + color + "-500 bg-white")
@@ -74,3 +76,4 @@ export default Tabs
 
 
 
+// -mb-px flex-grow h-10 w-10  mr-2 last:mr-0  flex-auto text-center

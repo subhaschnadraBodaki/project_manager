@@ -19,7 +19,6 @@ function reportingDate (){
     }
 }
     const columns = [
-        // {field:"reporting_date" , header:"Reporting Date"},
         {field:"quality_status" , header:"Quality Status"},
         {field:"effort_status" , header:"Effort Status"},
         {field:"milestone_status"  , header:"Milestone Status"}
