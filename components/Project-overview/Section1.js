@@ -4,7 +4,7 @@ import React from 'react'
 export default function Section1({ projectsData }) {
 
 
-  console.log(projectsData[0])
+  
   if (projectsData[0]==null || projectsData[0] === undefined) {
 
     return <div>No data Found</div>

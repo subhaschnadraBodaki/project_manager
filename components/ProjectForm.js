@@ -85,7 +85,8 @@ function ProjectForm () {
   ]
 
   // const checkboxOptionsBillable = [
-  //   { key: 'Yes', value: 'true'}
+  //   { key: 'Yes', value: 'true'},
+  //   { key: 'No', value: 'false'}
   // ]
 
 

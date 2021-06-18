@@ -6,11 +6,11 @@ import Heading from '../../components/Project-overview/Heading'
 import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
 
-export default function projectOverview({projectsData }) {
+export default function projectOverview({projectsData , status ,statusText}) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
     const { keycloak } = useKeycloak()
-
+    
     const projectDetails = keycloak.authenticated ? (<>
         <div className="mx-10 px-5">
 
@@ -30,6 +30,10 @@ export default function projectOverview({projectsData }) {
     ) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>
         Login
     </button></>)
+
+  
+   
+
     return (
         <>
             {projectDetails}
@@ -37,9 +41,9 @@ export default function projectOverview({projectsData }) {
     )
 }
 
+
 export async function getServerSideProps(context){
     const {pid}= context.query
-    // console.log(context)
     
         const response =await axios({
             method :'GET',
@@ -49,14 +53,7 @@ export async function getServerSideProps(context){
             }
         })    
         
-    // const p = axios({
-    //     method :'GET',
-    //     url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?project_id=eq.${pid}&select=*`,
-    //     headers:{
-    //         apikey:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    //     }
-    // })    
-    // const d = await axios.all([response ,p])
+   
     
     
     
@@ -70,6 +67,7 @@ export async function getServerSideProps(context){
 return{
     props:{
         projectsData ,
+     
        
     }
 }
