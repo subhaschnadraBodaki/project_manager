@@ -29,7 +29,7 @@ export async function getStaticProps (){
     
     const response1= axios({
         method:'get',
-        url:    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/currencies?select=id,code` ,
+        url:    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/currencies?select=code` ,
         headers:{
             "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
             "Content-Type": "application/json"

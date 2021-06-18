@@ -6,7 +6,7 @@ function RadioButtons (props) {
   const { label, name, options, ...rest } = props
   return (
     <div>
-      <label className="block   tracking-wide text-gray-700   text-sm lg:text-base  font-medium mb-0" >{label}</label>
+      <label className="label" >{label}</label>
       <Field name={name} >
         {({ field }) => {
           return options.map(option => {
