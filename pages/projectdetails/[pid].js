@@ -6,7 +6,7 @@ import Heading from '../../components/Project-overview/Heading'
 import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
 
-export default function projectOverview({section1}) {
+export default function projectOverview({projectsData }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
     const { keycloak } = useKeycloak()
@@ -17,13 +17,13 @@ export default function projectOverview({section1}) {
             <Heading />
         </div>
         <div className="mx-1 px-2 border-2 border-gray-600 border-solid">
-            <Section1 data={section1} />
+            <Section1 projectsData={projectsData}  />
         </div>
         <div className="border-2 border-gray-600 border-solid my-5 mx-1 px-2">
-            <Section2 data={section1} />
+            <Section2 projectsData={projectsData} />
         </div>
         <div className="my-5 px-2">
-            <TabsRender />
+            <TabsRender projectsData={projectsData} />
         </div>
 
     </>
@@ -43,22 +43,34 @@ export async function getServerSideProps(context){
     
         const response =await axios({
             method :'GET',
-            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*`,
+            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*)`,
             headers:{
                 apikey:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
             }
         })    
-            
+        
+    // const p = axios({
+    //     method :'GET',
+    //     url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?project_id=eq.${pid}&select=*`,
+    //     headers:{
+    //         apikey:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    //     }
+    // })    
+    // const d = await axios.all([response ,p])
     
     
     
-     if (response.status!=200) throw new Error(response.statusText)
+    if (response.status!=200) throw new Error(response.statusText)
     
-    const section1= await response.data
-
+    
+    
+    const projectsData=  response.data
+   
+    
 return{
     props:{
-        section1:section1
+        projectsData ,
+       
     }
 }
 

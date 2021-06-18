@@ -1,11 +1,21 @@
 import React from "react";
-import TabsContent1 from "./TabsContent1";
-import TabsContent2 from "./TabsContent2";
-import TabsContent3 from "./TabsContent3";
+import TasksData from "./TabsData/TasksData";
+import TeamsData from "./TabsData/TeamsData";
+import ChangeRequestsData from "./TabsData/ChangeRequestsData";
+import DeliverablesData from "./TabsData/DeliverablesData";
+import FinancialsData from "./TabsData/FinancialsData";
+import IssuesData from "./TabsData/IssuesData";
+import MilestonesData from "./TabsData/MilestonesData";
+import ResourceRequestData from "./TabsData/ResourceRequestData";
+import RisksData from "./TabsData/RisksData";
+import StatusReportsData from "./TabsData/StatusReportsData";
 
-const Tabs = ({ color, tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 }) => {
+const Tabs = ({ color, projectsData }) => {
   const [openTab, setOpenTab] = React.useState(1);
   const tabs = ['Teams', 'Risks', 'Deliverables', 'Issues', 'Change Requests', 'Resource Requests', 'Status Reports', 'Financials', 'Milestones', 'Tasks']
+
+  const TabsContent =[<TeamsData projectsData={projectsData} /> , <RisksData projectsData={projectsData}/> , <DeliverablesData projectsData={projectsData}/>,<IssuesData projectsData={projectsData}/>,<ChangeRequestsData projectsData={projectsData}/>,<ResourceRequestData projectsData={projectsData}/>,<StatusReportsData projectsData={projectsData}/>,<FinancialsData projectsData={projectsData}/>,<MilestonesData projectsData={projectsData}/>,<TasksData projectsData={projectsData}/>]
+
   return (
     <>
       <div className="flex flex-wrap">
@@ -42,15 +52,15 @@ const Tabs = ({ color, tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
             <div className="px-4 py-5 flex-auto">
               <div className="tab-content tab-space">
-                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                  <TabsContent1 />
+            
+            {TabsContent.map((content , index)=>{
+              return (
+              <div key={index} className={openTab === index+1 ? "block" : "hidden"} id="link1">
+                  {content}
                 </div>
-                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                  <TabsContent2 />
-                </div>
-                <div className={openTab === 3 ? "block" : "hidden"} id="link3">
-                  <TabsContent3 />
-                </div>
+                )
+            })}
+            
               </div>
             </div>
           </div>
@@ -61,3 +71,6 @@ const Tabs = ({ color, tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab
 };
 
 export default Tabs
+
+
+

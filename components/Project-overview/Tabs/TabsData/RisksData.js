@@ -2,7 +2,7 @@ import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
-export default function TabsContent1() {
+export default function RisksData() {
     const data = [{ projectId: '##', Name: '##', Status: '##', projectManager: '##' }]
     const columns = [
         {field:"projectId" , header:"R1"},
