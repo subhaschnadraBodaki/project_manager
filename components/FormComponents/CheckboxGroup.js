@@ -6,7 +6,7 @@ function CheckboxGroup (props) {
   const { label, name, options, ...rest } = props
   return (
     <div >
-      <label className="block   tracking-wide text-gray-700   text-sm lg:text-base  font-medium mb-1">{label}</label>
+      <label className="label">{label}</label>
       <Field name={name}>
         {({ field }) => {
           return options.map(option => {
@@ -18,7 +18,8 @@ function CheckboxGroup (props) {
                   {...field}
                   {...rest}
                   value={option.value}
-                  checked={field.value.includes(option.value)}
+                  //  checked={field.value.includes(option.value)}
+                  checked={field.value === option.value}
                 />
                 <label className= "mr-4 text-sm ml-1" htmlFor={option.value}>{option.key}</label>
               </React.Fragment>

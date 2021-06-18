@@ -5,53 +5,48 @@ import FormikControl from './FormComponents/FormikControl'
 import { useMutation, useQueryClient } from 'react-query';
  import axios from 'axios';
  import {useQuery} from 'react-query'
-//  import AccountsData from './FetchedData/AccountsData'
-// import CurrencyData from './FetchedData/CurrencyData'
 
-function ProjectForm () {
+function ProjectForm ({currencydata,accountdata}) {
   // --------------------------------------initial Values---------------------
   const initialValues = {
       name: '',
       project_code:'',
-      project_manager: '',
+      project_manager_id: '',
       description: '',
+      // percentage_of_completion:'',
       opportunity:'',
       planned_hours: '',
       planned_revenue:'',
       planned_start_date: null,
       planned_end_date: null,
-      // billable: [],
-      created_by:'',
-      last_modified_by:'',
+      billable: false,
+      active: false,
       region:'',
       actual_poc:'',
-      extra_data:'',
       project_notes:''
   }
-// -----------------------------DynamicDropdown-----------------------
+// -----------------------------Dynamic Select Options-----------------------
 
-// const Cdata = useQuery('products', CurrencyData)
-// console.log(Cdata)
+// --------------Account Id--------------
+let dropdownOptionsAccountId = [];
+for (const item of accountdata) {
+  let obj = {};
+  obj['key'] = item.account_name;
+  obj['value'] = item.id;
+  dropdownOptionsAccountId.push(obj);
+}
 
-// --------------------------Select Options----------------------------
+//   ---------------Currency--------------
+let dropdownOptionsCurrency =[];
+for (const item of currencydata) {
+  let obj = {};
+  obj['key'] = item.code;
+  obj['value'] = item.id;
+  dropdownOptionsCurrency.push(obj);
+}
 
-  const statusOptions = [
-    { key: 'Active', value: "true" },
-    { key: 'Not Active', value: "false" }
-  ]
+// -------------------------- Static Select Options----------------------------
 
-  const dropdownOptionsAccountId = [
-    { key: 'Account ID', value: '' },
-    { key: 'Vijay', value: '1' },
-    { key: 'Subhash', value: '2' },
-    { key: 'Abhishek', value: '3' }
-  ]
-
-  const dropdownOptionsCurrency = [
-    { key: 'currency', value: '' },
-    { key: 'INR', value: 'INR' },
-    { key: 'USD', value: 'USD' }
-  ]
 
   const dropdownOptionsbillable = [
     { key: 'Billing Type', value: '' },
@@ -84,10 +79,20 @@ function ProjectForm () {
     { key: 'Yellow', value: 'Yellow' }
   ]
 
+<<<<<<< HEAD
   // const checkboxOptionsBillable = [
   //   { key: 'Yes', value: 'true'},
   //   { key: 'No', value: 'false'}
   // ]
+=======
+  const checkboxOptionsBillable =  [
+    { key: 'Yes', value: true},
+    ]
+   
+    const statusOptions = [
+      { key: 'Active', value: true },
+    ] 
+>>>>>>> d82eb4f2413bff804249d5af24a182f127eeb645
 
 
   // -----------------------------Post Data--------------------------------
@@ -118,13 +123,35 @@ function ProjectForm () {
 
   const validationSchema = Yup.object({
       name: Yup.string().required('Required'),
-      project_code: Yup.string().required('Required'),
-      project_manager: Yup.string().required('Required'),
-      planned_revenue: Yup.string().max(14,'Must be 14 digits or less'),
-     actual_poc: Yup.string().max(3,'Must be 3 digits or less')
+      project_code: Yup.string().required('Required').test(
+        'Is positive?', 
+        ' The Project Code must be greater than 0!', 
+        (value) => value > 0
+      ),
+      project_manager_id: Yup.string().required('Required'),
+      planned_revenue: Yup.string().max(14,'Must be 14 digits or less').test(
+        'Is positive?', 
+        ' Amount must be greater than 0!', 
+        (value) => value > 0
+      ),
+     actual_poc: Yup.string().max(3,'Must be 3 digits or less').test(
+        'Is positive?', 
+        ' The Number must be positive', 
+        (value) => value >= 0
+      ),
+      planned_hours: Yup.string().test(
+        'Is positive?', 
+        ' The Number must be positive', 
+        (value) => value >= 0
+      ),
+      planned_start_date: Yup.date(),
+        planned_end_date: Yup.date().min(
+            Yup.ref('planned_start_date'),
+            "end date can't be before start date"
+          )
   })
 
-  
+  // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
   console.log(data)
       
@@ -145,9 +172,9 @@ function ProjectForm () {
     <h2 className="text-2xl text-center  font-semibold px-20">Add Project Details</h2>
     </div>
    
-    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 lg:gap-x-8  md:gap-x-24 ml-8 gap-y-5 px-20 py-6 md:mx-36
-     bg-gray-100 " autoComplete="off">
-      <h2 className="col-span-2 text-xl text-left text-blue-900  font-semibold mb-2">Basic Details</h2>
+    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 lg:gap-x-32  md:gap-x-28 ml-8 md:gap-y-3 px-20 py-6 md:mx-28
+    " autoComplete="off">
+      <h2 className="h2Form">Basic Details</h2>
       <div>
       <FormikControl
         control='input'
@@ -171,6 +198,7 @@ function ProjectForm () {
         control='select'
         label='Project Type'
         name='project_type'
+       
         options={dropdownOptionsProjectType}
       />
       </div>
@@ -190,7 +218,7 @@ function ProjectForm () {
         control='input'
         type='text'
         label='Project manager'
-        name='project_manager'
+        name='project_manager_id'
       />
       </div>
 
@@ -204,7 +232,7 @@ function ProjectForm () {
       </div>
       
     
-       <div className="ml-3 ">
+       <div className="ml-3 col-span-2">
          <FormikControl
         control='textarea'
         label='Description'
@@ -212,7 +240,7 @@ function ProjectForm () {
         />
         </div>
 
-        <div className="ml-3">
+        <div className="ml-3 col-span-2">
          <FormikControl
         control='textarea'
         label='Opportunity'
@@ -226,12 +254,12 @@ function ProjectForm () {
         label='Project Status'
         name='project_status'
         options={dropdownOptionsProjectStatus}
-      />
-      </div>
+       />
+       </div>
       
         <div className="ml-3 mt-1">
         <FormikControl
-        control='radio'
+        control='checkbox'
         label='Status'
         name='active'
         options={statusOptions}
@@ -243,25 +271,25 @@ function ProjectForm () {
         control='select'
         label='Billing Type'
         name='billing_type'
+
         options={dropdownOptionsbillable}
       />
       </div>
 
-      {/* <div className='ml-3 mt-1'>
+      <div className='ml-3 mt-1'>
       <FormikControl
       control='checkbox'
       label='Billable'
       name='billable'
-      options={checkboxOptionsBillable}
-      /> */}
-     { /* 
-      </div> */}
+      options={checkboxOptionsBillable} 
+      />
+      </div>
 
        <div>
       <FormikControl
         control='select'
         label='Currency'
-        name='currency'
+        name='currency_code'
         options={dropdownOptionsCurrency}
       />
       </div>
@@ -274,8 +302,16 @@ function ProjectForm () {
         name='region'
       />
       </div>
+      {/* <div>
+      <FormikControl
+        control='input'
+        type='number'
+        label='% Complete'
+        name='percentage_of_completion'
+      />
+      </div> */}
       
-      <div className="ml-3">
+      <div className="ml-3 col-span-2">
          <FormikControl
         control='textarea'
         label='Project Notes'
@@ -284,7 +320,7 @@ function ProjectForm () {
         </div>
       
 
-     <h2 className="col-span-2 text-xl mt-3  text-left text-blue-900  font-semibold mb-2">Effort and Budget</h2> 
+     <h2 className="h2Form">Effort and Budget</h2> 
      <div>
       <FormikControl
         control='input'
@@ -299,6 +335,7 @@ function ProjectForm () {
         type='number'
         label='Planned revenue'
         name='planned_revenue'
+        placeholder='Amount'
       />
       </div>
 
@@ -311,7 +348,7 @@ function ProjectForm () {
       />
       </div>
 
-      <h2 className="col-span-2 text-xl text-left mt-3 text-blue-900  font-semibold mb-2">Dates</h2> 
+      <h2 className="h2Form">Dates</h2> 
       <div className="ml-3">
              <FormikControl
               control='date'
@@ -328,35 +365,9 @@ function ProjectForm () {
             />
     </div>
 
-    <h2 className="col-span-2 text-xl text-left mt-3 text-blue-900  font-semibold mb-2">Extra User-Defined Data</h2>
+   
 
-    <div className="ml-3">
-         <FormikControl
-        control='textarea'
-        label='Extra Data'
-        name='extra_data'
-        />
-        </div>
-
-    <h2 className="col-span-2 text-xl text-left mt-3 text-blue-900  font-semibold mb-2">Audit Fields</h2>
-
-    <div>
-      <FormikControl
-        control='input'
-        type='text'
-        label='Created by'
-        name='created_by'
-      />
-      </div>
-
-      <div>
-      <FormikControl
-        control='input'
-        type='text'
-        label='Last modified by'
-        name='last_modified_by'
-      />
-      </div>
+    
     
     <div className="text-right mt-5  col-span-2 mr-20 ">
      <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" disabled={!formik.isValid}>Submit</button>

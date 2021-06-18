@@ -18,7 +18,7 @@ export default function addproject({currencydata,accountdata}) {
 export async function getStaticProps (){
     const response = axios({
         method:'get',
-        url:    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/accounts?select=id,account_name` ,
+        url:   " https://cthpociewycattzfdtep.supabase.co/rest/v1/accounts?select=id,account_name" ,
         headers:{
             "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
             "Content-Type": "application/json"
@@ -29,7 +29,7 @@ export async function getStaticProps (){
     
     const response1= axios({
         method:'get',
-        url:    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/currencies?select=id,code` ,
+        url:   " https://cthpociewycattzfdtep.supabase.co/rest/v1/currencies?select=code" ,
         headers:{
             "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
             "Content-Type": "application/json"

@@ -5,6 +5,7 @@ import Select from './DropDown'
 import RadioButtons from './RadioButtons'
 import CheckboxGroup from './CheckboxGroup'
 import DatePicker from './DatePicker'
+import SelectPR from './DropdownPrimeReact'
 // import ChakraInput from './ChakraInput'
 
 function FormikControl (props) {
@@ -16,6 +17,8 @@ function FormikControl (props) {
       return <Textarea {...rest} />
     case 'select':
       return <Select {...rest} />
+    case 'selectPR':
+      return <SelectPR {...rest} />
     case 'radio':
       return <RadioButtons {...rest} />
     case 'checkbox':
