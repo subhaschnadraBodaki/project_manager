@@ -6,15 +6,12 @@ import { useMutation, useQueryClient } from 'react-query';
  import axios from 'axios';
  import {useQuery} from 'react-query'
 
-function ProjectForm ({currencydata,accountdata}) {
+function ProjectForm ({currencydata,accountdata,projectManager}) {
   // --------------------------------------initial Values---------------------
   const initialValues = {
       name: '',
       project_code:'',
-      project_manager_id: '',
       description: '',
-      // percentage_of_completion:'',
-      opportunity:'',
       planned_hours: '',
       planned_revenue:'',
       planned_start_date: null,
@@ -22,13 +19,12 @@ function ProjectForm ({currencydata,accountdata}) {
       billable: false,
       active: false,
       region:'',
-      actual_poc:'',
       project_notes:''
   }
 // -----------------------------Dynamic Select Options-----------------------
 
 // --------------Account Id--------------
-let dropdownOptionsAccountId = [];
+let dropdownOptionsAccountId = [{key:"Account",value:""}];
 for (const item of accountdata) {
   let obj = {};
   obj['key'] = item.account_name;
@@ -37,12 +33,21 @@ for (const item of accountdata) {
 }
 
 //   ---------------Currency--------------
-let dropdownOptionsCurrency =[];
+let dropdownOptionsCurrency =[{key:"Currency",value:""}];
 for (const item of currencydata) {
   let obj = {};
   obj['key'] = item.code;
   obj['value'] = item.id;
   dropdownOptionsCurrency.push(obj);
+}
+
+// ---------------Project Manager-----------
+let dropdownProjectManager =[{key:"Project Manager",value:""}];
+for (const item of projectManager) {
+  let obj = {};
+  obj['key'] = item.first_name;
+  obj['value'] = item.user_id;
+  dropdownProjectManager.push(obj);
 }
 
 // -------------------------- Static Select Options----------------------------
@@ -72,21 +77,26 @@ for (const item of currencydata) {
     { key: 'Post GoLive Support', value: 'Post_GoLive_Support' }
   ]
 
-  const dropdownOptionsProjectStatus = [
-    { key: 'Project Status', value: '' },
-    { key: 'Green', value: 'Green' },
-    { key: 'Red', value: 'Red' },
-    { key: 'Yellow', value: 'Yellow' }
-  ]
 
   const checkboxOptionsBillable =  [
-    { key: 'Yes', value: true},
+    { key: 'Billable', value: true},
     ]
    
     const statusOptions = [
       { key: 'Active', value: true },
     ] 
+    
+    const dropdownOpportunity = [
+      { key: 'opportunity', value: '' },
+      { key: 'Account1', value: 'Account1' },
+      { key: 'Account2', value: 'Account2' }
+    ]
 
+    const dropdownRegion = [
+      { key: 'Region', value: '' },
+      { key: 'Benglore', value: 'Benglore' },
+      { key: 'Noida', value: 'Noida' }
+    ]
 
   // -----------------------------Post Data--------------------------------
 
@@ -101,13 +111,13 @@ for (const item of currencydata) {
     onMutate: variables => {
            console.log('onmutate',variables)
      },
-    onError: (error, variables, context) => {
-      console.log(`rolling back optimistic update with id ${context.id}`,error,variables)
+    onError: (error) => {
+      console.log(error)
     },
     onSuccess: (data, variables, context) => {
        console.log('onSuccess',variables,data)
     },
-    onSettled: (data, error, variables, context) => {
+    onSettled: (data, error) => {
     console.log('onSettled',data,error)
   },
   })
@@ -126,11 +136,6 @@ for (const item of currencydata) {
         'Is positive?', 
         ' Amount must be greater than 0!', 
         (value) => value > 0
-      ),
-     actual_poc: Yup.string().max(3,'Must be 3 digits or less').test(
-        'Is positive?', 
-        ' The Number must be positive', 
-        (value) => value >= 0
       ),
       planned_hours: Yup.string().test(
         'Is positive?', 
@@ -165,10 +170,11 @@ for (const item of currencydata) {
     <h2 className="text-2xl text-center  font-semibold px-20">Add Project Details</h2>
     </div>
    
-    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 lg:gap-x-32  md:gap-x-28 ml-8 md:gap-y-3 px-20 py-6 md:mx-28
+    <Form className="formGrid
     " autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
       <div>
+        
       <FormikControl
         control='input'
         type='text'
@@ -191,7 +197,6 @@ for (const item of currencydata) {
         control='select'
         label='Project Type'
         name='project_type'
-       
         options={dropdownOptionsProjectType}
       />
       </div>
@@ -208,68 +213,35 @@ for (const item of currencydata) {
        
       <div>
       <FormikControl
-        control='input'
-        type='text'
+        control='select'
         label='Project manager'
         name='project_manager_id'
+        options={dropdownProjectManager}
       />
       </div>
 
       <div > 
        <FormikControl
         control='select'
-        label='Account ID'
+        label='Account'
         name='account_id'
         options={dropdownOptionsAccountId}
       />
       </div>
       
     
-       <div className="ml-3 col-span-2">
-         <FormikControl
-        control='textarea'
-        label='Description'
-        name='description'
-        />
-        </div>
-
-        <div className="ml-3 col-span-2">
-         <FormikControl
-        control='textarea'
-        label='Opportunity'
-        name='opportunity'
-        />
-        </div>
-
-        <div > 
-       <FormikControl
-        control='select'
-        label='Project Status'
-        name='project_status'
-        options={dropdownOptionsProjectStatus}
-       />
-       </div>
-      
-        <div className="ml-3 mt-1">
-        <FormikControl
-        control='checkbox'
-        label='Status'
-        name='active'
-        options={statusOptions}
-      />
-      </div>
+       
 
       <div > 
        <FormikControl
         control='select'
         label='Billing Type'
         name='billing_type'
-
         options={dropdownOptionsbillable}
       />
       </div>
 
-      <div className='ml-3 mt-1'>
+      <div className=' mt-3'>
       <FormikControl
       control='checkbox'
       label='Billable'
@@ -287,24 +259,42 @@ for (const item of currencydata) {
       />
       </div>
 
-      <div>
-      <FormikControl
-        control='input'
-        type='text'
-        label='Region'
-        name='region'
+      <div className=" mb-3">
+        <FormikControl
+        control='checkbox'
+        label='Active'
+        name='active'
+        options={statusOptions}
       />
       </div>
-      {/* <div>
+
+      <div>
+         <FormikControl
+        control='select'
+        label='Opportunity'
+        name='opportunity'
+        options={dropdownOpportunity}
+        />
+        </div>
+
+      <div>
       <FormikControl
-        control='input'
-        type='number'
-        label='% Complete'
-        name='percentage_of_completion'
+        control='select'
+        label='Region'
+        name='region'
+        options={dropdownRegion}
       />
-      </div> */}
+      </div>
       
-      <div className="ml-3 col-span-2">
+      <div className=" col-span-2">
+         <FormikControl
+        control='textarea'
+        label='Description'
+        name='description'
+        />
+        </div>
+      
+      <div className=" col-span-2">
          <FormikControl
         control='textarea'
         label='Project Notes'
@@ -329,15 +319,6 @@ for (const item of currencydata) {
         label='Planned revenue'
         name='planned_revenue'
         placeholder='Amount'
-      />
-      </div>
-
-       <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Actual Poc'
-        name='actual_poc'
       />
       </div>
 

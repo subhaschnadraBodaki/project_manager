@@ -5,14 +5,16 @@ import TextError from './TextError'
 function CheckboxGroup (props) {
   const { label, name, options, ...rest } = props
   return (
-    <div >
-      <label className="label">{label}</label>
+    <div className="grid grid-cols-5 md:grid-cols-5 ">
+      {/* <label className="label">{label}</label> */}
+       
       <Field name={name}>
         {({ field }) => {
           return options.map(option => {
             return (
               <React.Fragment key={option.key}>
-                <input
+                 <label className= "label col-start-2 col-span-1  " htmlFor={option.value}>{option.key}</label>
+                <input className="h-4 w-4 border col-start-3 col-span-3  border-gray-400 mt-1  "
                   type='checkbox'
                   id={option.value}
                   {...field}
@@ -21,12 +23,13 @@ function CheckboxGroup (props) {
                   //  checked={field.value.includes(option.value)}
                   checked={field.value === option.value}
                 />
-                <label className= "mr-4 text-sm ml-1" htmlFor={option.value}>{option.key}</label>
+               
               </React.Fragment>
             )
           })
         }}
       </Field>
+     
       <ErrorMessage component={TextError} name={name} />
       </div>
   )

@@ -7,9 +7,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 function DatePicker (props) {
   const { label, name, ...rest } = props
   return (
-    <div  >
+    <div className="grid grid-cols-5" >
       <label htmlFor={name} className="label">{label}</label>
-      <Field name={name} autocomplete="off">
+      <div className="col-span-3">
+      <Field name={name}  autocomplete="off">
         {({ form, field }) => {
           const { setFieldValue } = form
           const { value } = field
@@ -29,6 +30,7 @@ function DatePicker (props) {
           )
         }}
       </Field>
+      </div>
       <ErrorMessage component={TextError} name={name} />
     </div>
   )

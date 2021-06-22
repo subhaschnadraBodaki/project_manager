@@ -2,7 +2,7 @@ import React from 'react'
 import ProjectForm from '../components/ProjectForm'
 import axios from 'axios'
 import { useKeycloak } from '@react-keycloak/ssr'
-export default function addproject({currencydata,accountdata,projectManager}) {
+export default function addproject({currencydata,accountdata}) {
     const {keycloak}=useKeycloak()
 
     const addProjectForm =keycloak.authenticated?( <ProjectForm currencydata={currencydata} accountdata={accountdata} projectManager={projectManager}/>):(<> <span>You have been logged out click here to login again</span> <br/> < button type="button" onClick={() => keycloak.login()}>
