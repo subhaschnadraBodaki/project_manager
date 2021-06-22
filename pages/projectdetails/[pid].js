@@ -16,7 +16,7 @@ export default function projectOverview({projectsData }) {
 
             <Heading />
         </div>
-        <div className="mx-1 px-2 border-2 rounded-lg border-gray-600 border-double divide-y-2 divide-solid m-px">
+        <div className="mx-1 px-2 ">
         <div >
             <Section1 projectsData={projectsData}  />
         </div>
@@ -65,3 +65,6 @@ return{
 }
 
 }
+
+
+// border-2 rounded-lg border-gray-600 border-double divide-solid m-px
