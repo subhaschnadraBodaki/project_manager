@@ -12,7 +12,7 @@ export default function Section1({ projectsData }) {
   
   else {
     
-    const columns = ['Project Code', 'Name', 'Status', 'Project Manager', 'State', 'Customer Name']
+    const columns = ['Project Code', 'Name', 'PRJ Health', 'Project Manager', 'State', 'Customer Name']
 
     const { project_code, name, project_status, project_manager } = projectsData[0]
 

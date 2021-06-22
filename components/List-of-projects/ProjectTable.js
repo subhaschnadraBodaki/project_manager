@@ -11,6 +11,11 @@ export default function ProjectTable({data}) {
         await router.push(`/projectdetails/${rowData.id}`)
 
     }
+    const EditOnClick = async (rowData) => {
+        await router.push(`/editproject/${rowData.id}`)
+
+    }
+    
     const ActionButton = (rowData) => {
         return (
             <React.Fragment>
@@ -18,7 +23,7 @@ export default function ProjectTable({data}) {
                     <EyeIcon className="h-5 w-5 mr-4" />
                 </button>
 
-                <button>
+                <button onClick={() => EditOnClick(rowData)}>
                     <PencilIcon className="h-5 w-5 " />
                 </button>
             </React.Fragment>

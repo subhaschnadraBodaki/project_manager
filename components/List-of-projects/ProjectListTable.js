@@ -37,7 +37,7 @@ export default function ProjectListTable({ actionBody ,data }) {
                 paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} >
                 
                 {dynamicColumns}
-                <Column header="Status" body={statusBodyTemplate}></Column>
+                <Column header="PRJ Health" body={statusBodyTemplate}></Column>
                 <Column header="Action" body={actionBody}></Column>
 
             </DataTable>
