@@ -52,7 +52,7 @@ input:focus{
 }
 
 .h2heading{
-    @apply text-center  font-semibold px-20 text-blue-900  text-3xl text-indigo-700
+    @apply text-center  font-semibold px-20 text-blue-900  text-3xl ftext-indigo-700
   }
 
 .inputFieldText{

@@ -173,8 +173,8 @@ for (const item of projectManager) {
     <Form className="formGrid
     " autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
-      <div>
-        
+
+      <div>  
       <FormikControl
         control='input'
         type='text'

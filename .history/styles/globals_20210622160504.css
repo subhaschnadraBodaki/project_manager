@@ -52,7 +52,7 @@ input:focus{
 }
 
 .h2heading{
-    @apply text-center  font-semibold px-20 text-blue-900  text-3xl text-indigo-700
+    @apply text-2xl text-center  font-semibold px-20 text-blue-900 
   }
 
 .inputFieldText{
@@ -62,7 +62,5 @@ input:focus{
  .inputField {
      @apply  block  col-span-3   md:mb-0  text-gray-700 border border-gray-300   ring-1 ring-black ring-opacity-5 w-full rounded-sm py-2 px-4 mb-3 leading-tight focus:outline-none bg-white focus:border-blue-800
  }   
- .btn{
-    @apply bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm
-}
+
 }
