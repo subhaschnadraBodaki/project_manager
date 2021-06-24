@@ -20,6 +20,7 @@ export default function Section1({ projectsData }) {
 
     return (
       <div >
+      
         <div>
           <h3 className="text-lg">Basic Details</h3>
         </div>

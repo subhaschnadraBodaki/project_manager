@@ -20,10 +20,10 @@ export default function ProjectListTable({ actionBody ,data }) {
     const statusBodyTemplate = (data) => {
         if (data.project_status == null) {
 
-            return <span className={"text-black" + " rounded-lg" + " bg-cover" + " p-1"} >{data.project_status}</span>;
+            return <span className={"text-black rounded-lg   bg-cover  p-1"} >{data.project_status}</span>;
 
         } else {
-            return <span className={"text-" + data.project_status.toLowerCase() + "-500" + " bg-" + data.project_status.toLowerCase() + "-100" + " rounded-lg" + " bg-cover" + " p-1"} >{data.project_status}</span>;
+            return <span className={`text-${data.project_status.toLowerCase()}-500 bg-${data.project_status.toLowerCase()}-100 rounded-lg bg-cover p-1`} >{data.project_status}</span>;
         }
     }
 
