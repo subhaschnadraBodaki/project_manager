@@ -14,7 +14,7 @@ function EditProject ({projectCode,projectId,currencydata,accountdata,projectMan
   // --------------------------------------initial Values---------------------
   const initialValues = {
       name: '',
-      project_code:'',
+      project_code:{projectCode},
       description: '',
       planned_hours: '',
       planned_revenue:'',
@@ -105,7 +105,7 @@ for (const item of projectManager) {
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient()
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${projectId}`
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.projectId`
 
   const editproject = (data)=>{
     // return axios.post(url,data);
@@ -201,7 +201,14 @@ for (const item of projectManager) {
       </div>
      
 
-      
+      <div > 
+       <FormikControl
+        control='select'
+        label='Project Type'
+        name='project_type'
+        options={dropdownOptionsProjectType}
+      />
+      </div>
 
       <div > 
        <FormikControl
@@ -270,16 +277,6 @@ for (const item of projectManager) {
       />
       </div>
 
-      
-      <div > 
-       <FormikControl
-        control='select'
-        label='Project Type'
-        name='project_type'
-        options={dropdownOptionsProjectType}
-      />
-      </div>
-       
       <div>
          <FormikControl
         control='select'

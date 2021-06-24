@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from 'react-query';
 
  import {useState} from 'react'
 
-function AddTask ({projectId}) {
+function AddTask () {
 
   
   // --------------------------------------initial Values---------------------
@@ -19,7 +19,7 @@ function AddTask ({projectId}) {
       description: '',
       sucecssor_task:'',
       parent_task:'',
-      project_id:{projectId},
+      project_id:'',
       story_id:'',
       planned_end_date:null,
       planned_start_date: null,
@@ -126,7 +126,14 @@ function AddTask ({projectId}) {
      md:gap-y-4 py-6   md:ml-0" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
-    
+      <div>
+      <FormikControl
+        control='input'
+        type='number'
+        label='Project Id'
+        name='project_id'
+      />
+      </div>
        
       <div>
       <FormikControl

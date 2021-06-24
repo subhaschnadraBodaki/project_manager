@@ -1,5 +1,5 @@
 import React from 'react'
-import TabsRender from '../../components/Edit-projects/Tabs/TabsRender';
+import TabsRender from '../../components/Project-overview/Tabs/TabsRender';
 import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
 import Modal from 'react-modal'

@@ -8,21 +8,25 @@ import { useMutation, useQueryClient } from 'react-query';
 
  import {useState} from 'react'
 
-function AddTask ({projectId}) {
+function AddTask () {
 
   
   // --------------------------------------initial Values---------------------
   const initialValues = {
+     actual_effort_in_hours: '',
      estimated_effort_in_hours:'',
       name:'',
       associated_milestone:'',
       description: '',
       sucecssor_task:'',
       parent_task:'',
-      project_id:{projectId},
+      created_by:'',
+      project_id:'',
       story_id:'',
-      planned_end_date:null,
-      planned_start_date: null,
+      planned_hours: '',
+      planned_revenue:'',
+      actual_start_date:null,
+      actual_end_date: null,
       owner:'',
       time_recording_allowed: false,
   }
@@ -32,11 +36,11 @@ function AddTask ({projectId}) {
 
 
 
-  // const dropdownOptionsProjectType = [
-  //   { key: 'Project Type', value: '' },
-  //   { key: 'Customer Project', value: 'Customer_Project' },
-  //   { key: 'Internal Project', value: 'Internal_Project' }
-  // ]
+  const dropdownOptionsProjectType = [
+    { key: 'Project Type', value: '' },
+    { key: 'Customer Project', value: 'Customer_Project' },
+    { key: 'Internal Project', value: 'Internal_Project' }
+  ]
 
  
 
@@ -122,18 +126,16 @@ function AddTask ({projectId}) {
     </div>
    
 
-    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-     md:gap-y-4 py-6   md:ml-0" autoComplete="off">
+    <Form className="formGrid
+    " autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
-    
-       
-      <div>
+      <div>  
       <FormikControl
         control='input'
-        type='text'
-        label='Task Name'
-        name='name'
+        type='number'
+        label='Actual Effort in hours'
+        name='actual_effort_in_hours'
       />
       </div>
 
@@ -155,7 +157,14 @@ function AddTask ({projectId}) {
       />
       </div>
        
-      
+      <div>
+      <FormikControl
+        control='input'
+        type='text'
+        label='Task Name'
+        name='name'
+      />
+      </div>
 
       <div>
       <FormikControl
@@ -165,7 +174,24 @@ function AddTask ({projectId}) {
         name='story_id'
       />
       </div>
-    
+
+      <div>
+      <FormikControl
+        control='input'
+        type='text'
+        label='Created By'
+        name='created_by'
+      />
+      </div>
+
+      <div>
+      <FormikControl
+        control='input'
+        type='number'
+        label='Project Id'
+        name='project_id'
+      />
+      </div>
 
       <div>
       <FormikControl
@@ -176,20 +202,36 @@ function AddTask ({projectId}) {
       />
       </div>
 
-      {/* <div > 
+      <div > 
        <FormikControl
         control='select'
         label='Project Type'
         name='project_type'
         options={dropdownOptionsProjectType}
       />
-      </div> */}
+      </div>
 
       
 
-     
+       
+      {/* <div>
+      <FormikControl
+        control='select'
+        label='Project manager'
+        name='project_manager_id'
+        options={dropdownProjectManager}
+      />
+      </div> */}
 
-   
+      {/* <div > 
+       <FormikControl
+        control='select'
+        label='Account'
+        name='account_id'
+        options={dropdownOptionsAccountId}
+      />
+      </div>
+       */}
     
        
 
@@ -204,7 +246,15 @@ function AddTask ({projectId}) {
       />
       </div>
 
-      
+       {/* <div>
+      <FormikControl
+        control='select'
+        label='Currency'
+        name='currency_code'
+        options={dropdownOptionsCurrency}
+      />
+      </div> */}
+
      
 
      
@@ -224,7 +274,7 @@ function AddTask ({projectId}) {
         control='input'
         type='number'
         label='Parent Task'
-        name='parent_task'
+        name='  parent_task'
       />
       </div>
 
@@ -240,29 +290,46 @@ function AddTask ({projectId}) {
      
       
 
-     
+     <h2 className="h2Form">Effort and Budget</h2> 
+     <div>
+      <FormikControl
+        control='input'
+        type='number'
+        label='Planned hours'
+        name='planned_hours'
+      />
+      </div>
+      <div>
+      <FormikControl
+        control='input'
+        type='number'
+        label='Planned revenue'
+        name='planned_revenue'
+        placeholder='Amount'
+      />
+      </div>
       
 
       <h2 className="h2Form">Dates</h2> 
       <div className="ml-3">
              <FormikControl
               control='date'
-              label='Planned Start Date'
-              name='planned_start_date'
+              label='Actual Start Date'
+              name='actual_start_date'
             />
     </div>
 
     <div className="ml-3">
              <FormikControl
               control='date'
-              label='Planned End Date'
-              name='planned_end_date'
+              label='Actual End Date'
+              name='actual_end_date'
             />
     </div>
 
    
     <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
+     <button type="submit" class="btn" disabled={!formik.isValid}>Submit</button>
     </div>
    
     </Form>

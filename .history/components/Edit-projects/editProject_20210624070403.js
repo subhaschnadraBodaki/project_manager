@@ -105,7 +105,7 @@ for (const item of projectManager) {
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient()
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${projectId}`
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.projectId`
 
   const editproject = (data)=>{
     // return axios.post(url,data);
@@ -146,7 +146,6 @@ for (const item of projectManager) {
         //   (value) => value > 0
         // ),
       // project_manager_id: Yup.string().required('Required'),
-     
       planned_revenue: Yup.string().max(14,'Must be 14 digits or less').test(
         'Is positive?', 
         ' Amount must be greater than 0!', 
@@ -199,9 +198,29 @@ for (const item of projectManager) {
         name='name'
       />
       </div>
-     
-
+       
       
+
+      <div>
+      <FormikControl
+        control='input'
+        type='number'
+        label='Project code'
+        name='project_code'
+        placeholder={projectCode}
+      />
+      </div>
+       
+        
+
+      <div > 
+       <FormikControl
+        control='select'
+        label='Project Type'
+        name='project_type'
+        options={dropdownOptionsProjectType}
+      />
+      </div>
 
       <div > 
        <FormikControl
@@ -270,16 +289,6 @@ for (const item of projectManager) {
       />
       </div>
 
-      
-      <div > 
-       <FormikControl
-        control='select'
-        label='Project Type'
-        name='project_type'
-        options={dropdownOptionsProjectType}
-      />
-      </div>
-       
       <div>
          <FormikControl
         control='select'
@@ -353,7 +362,7 @@ for (const item of projectManager) {
 
    
     <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Add</button>
+     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
     </div>
    
     </Form>

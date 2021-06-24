@@ -1,5 +1,5 @@
 import React from 'react'
-import TabsRender from '../../components/Edit-projects/Tabs/TabsRender';
+import TabsRender from '../../components/Project-overview/Tabs/TabsRender';
 import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
 import Modal from 'react-modal'
@@ -109,8 +109,7 @@ const projectId = projectsData[0].id
 
 
                {/* ----------------------------------- */}
-               <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Code : {projectCode}</h2></div>
+ 
        <div className="text-right">       
 <div className="relative inline-block text-left ">
   <div>
@@ -130,7 +129,6 @@ const projectId = projectsData[0].id
   </div>
 </div>
 </div>
-</div>  
 {/* ------------------------------------ */}
             <div className="pt-2">
             

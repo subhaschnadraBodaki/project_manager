@@ -1,12 +1,12 @@
 import React from 'react'
-import TabsRender from '../../components/Edit-projects/Tabs/TabsRender';
+import TabsRender from '../../components/Project-overview/Tabs/TabsRender';
 import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
 import Modal from 'react-modal'
 import AddTask from '../../components/Edit-projects/AddTask'
 import {useState} from 'react'
 import EditProject from '../../components/Edit-projects/EditProject'
-import { Button } from 'primereact/button';
+
 export default function editproject({projectsData,currencydata,accountdata,projectManager }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
@@ -16,15 +16,14 @@ export default function editproject({projectsData,currencydata,accountdata,proje
      const[risksIsopen, setRisksIsOpen] = useState(false)
     const { keycloak } = useKeycloak()
 
-const projectCode = projectsData[0].project_code
-const projectId = projectsData[0].id
+
     const customStyles = {
         content: {
           top: '50%',
           left: '50%',
           right: 'auto',
           bottom: 'auto',
-          width: '800px', 
+          width: '700px', 
           height: '500px', 
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
@@ -40,17 +39,8 @@ const projectId = projectsData[0].id
             onRequestClose={()=> setTaskIsOpen(false)}
             style={customStyles}
             ariaHideApp={false}
-            shouldCloseOnOverlayClick={false}
             >   
-            
-            <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
-                <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setTaskIsOpen(false)} />
-                </div>
-            </div>
-
-            <AddTask projectId={projectId} />
+            <AddTask />
           </Modal>
 
           <Modal 
@@ -58,61 +48,32 @@ const projectId = projectsData[0].id
             onRequestClose={()=> setRisksIsOpen(false)}
             style={customStyles}
             ariaHideApp={false}
-            shouldCloseOnOverlayClick={false}
             >
-               <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
-                <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setRisksIsOpen(false)} />
-                </div>
-            </div>
-
              <h2>Add Risk</h2>
           </Modal>
 
           <Modal 
             isOpen={issuesIsopen}
             onRequestClose={()=> setIssuesIsOpen(false)}
-            style={customStyles}
             ariaHideApp={false}
-            shouldCloseOnOverlayClick={false}
+            style={customStyles}
             >
-                
-                <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
-                <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setIssuesIsOpen(false)} />
-                </div>
-            </div>
-
              <h2>Add Issues</h2>
           </Modal>
 
           <Modal 
             isOpen={deliverIsopen}
             onRequestClose={()=> setDeliverIsOpen(false)}
-            style={customStyles}
             ariaHideApp={false}
-            shouldCloseOnOverlayClick={false}
+            style={customStyles}
             >
-               <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
-                <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setDeliverIsOpen(false)} />
-                </div>
-            </div>
-                  
              <h2>Deliverable</h2>
           </Modal>
-
-            
-
-
+            <h2 className="h2heading" >Edit Project</h2>
                {/* ----------------------------------- */}
-               <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Code : {projectCode}</h2></div>
-       <div className="text-right">       
-<div className="relative inline-block text-left ">
+ 
+       <div class="text-right">       
+<div class="relative inline-block text-left ">
   <div>
     <button type="button" className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="menu-button" aria-expanded="true" aria-haspopup="true"   >
       +
@@ -120,8 +81,8 @@ const projectId = projectsData[0].id
   </div>
 
 
-  <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-    <div className="py-1" role="none">
+  <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+    <div class="py-1" role="none">
        <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setTaskIsOpen(true)}> Add Task </button> 
        <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setRisksIsOpen(true)}> Add Risk </button> 
        <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setIssuesIsOpen(true)}> Add Issues </button> 
@@ -130,7 +91,6 @@ const projectId = projectsData[0].id
   </div>
 </div>
 </div>
-</div>  
 {/* ------------------------------------ */}
             <div className="pt-2">
             
@@ -139,17 +99,12 @@ const projectId = projectsData[0].id
            
             </div>   
             <div>
-              <EditProject projectCode={projectCode} projectId= {projectId} currencydata={currencydata} accountdata={accountdata} projectManager={projectManager}/>
+              <EditProject  currencydata={currencydata} accountdata={accountdata} projectManager={projectManager}/>
             </div>     
         
         <div className="my-5 px-2">
             <TabsRender projectsData={projectsData} />
         </div>
-        <form>
-        <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
-    </div>
-    </form>
 
     </>
     ) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>

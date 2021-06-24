@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from 'react-query';
 
  import {useState} from 'react'
 
-function AddTask ({projectId}) {
+function AddTask () {
 
   
   // --------------------------------------initial Values---------------------
@@ -19,7 +19,8 @@ function AddTask ({projectId}) {
       description: '',
       sucecssor_task:'',
       parent_task:'',
-      project_id:{projectId},
+      created_by:'',
+      project_id:'',
       story_id:'',
       planned_end_date:null,
       planned_start_date: null,
@@ -32,11 +33,11 @@ function AddTask ({projectId}) {
 
 
 
-  // const dropdownOptionsProjectType = [
-  //   { key: 'Project Type', value: '' },
-  //   { key: 'Customer Project', value: 'Customer_Project' },
-  //   { key: 'Internal Project', value: 'Internal_Project' }
-  // ]
+  const dropdownOptionsProjectType = [
+    { key: 'Project Type', value: '' },
+    { key: 'Customer Project', value: 'Customer_Project' },
+    { key: 'Internal Project', value: 'Internal_Project' }
+  ]
 
  
 
@@ -126,14 +127,12 @@ function AddTask ({projectId}) {
      md:gap-y-4 py-6   md:ml-0" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
-    
-       
       <div>
       <FormikControl
         control='input'
-        type='text'
-        label='Task Name'
-        name='name'
+        type='number'
+        label='Project Id'
+        name='project_id'
       />
       </div>
 
@@ -155,7 +154,14 @@ function AddTask ({projectId}) {
       />
       </div>
        
-      
+      <div>
+      <FormikControl
+        control='input'
+        type='text'
+        label='Task Name'
+        name='name'
+      />
+      </div>
 
       <div>
       <FormikControl
@@ -165,6 +171,16 @@ function AddTask ({projectId}) {
         name='story_id'
       />
       </div>
+
+      <div>
+      <FormikControl
+        control='input'
+        type='text'
+        label='Created By'
+        name='created_by'
+      />
+      </div>
+
     
 
       <div>
@@ -176,14 +192,14 @@ function AddTask ({projectId}) {
       />
       </div>
 
-      {/* <div > 
+      <div > 
        <FormikControl
         control='select'
         label='Project Type'
         name='project_type'
         options={dropdownOptionsProjectType}
       />
-      </div> */}
+      </div>
 
       
 
@@ -224,7 +240,7 @@ function AddTask ({projectId}) {
         control='input'
         type='number'
         label='Parent Task'
-        name='parent_task'
+        name='  parent_task'
       />
       </div>
 
@@ -262,7 +278,7 @@ function AddTask ({projectId}) {
 
    
     <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
+     <button type="submit" class="btn" disabled={!formik.isValid}>Submit</button>
     </div>
    
     </Form>
