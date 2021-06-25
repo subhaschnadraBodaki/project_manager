@@ -1,6 +1,7 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import TableToolbar from '../TableToolbar'
 export default function ChangeRequestsData() {
     
     const data = [{ projectId: '##', Name: '##', Status: '##', projectManager: '##' }]
@@ -15,6 +16,9 @@ const dynamicColumns = columns.map((col)=> {
 })
     return (
         <div>
+               <div>
+                <TableToolbar/>
+            </div>
         <DataTable value={data} resizableColumns columnResizeMode="expand">
                      {dynamicColumns}
                  </DataTable> 

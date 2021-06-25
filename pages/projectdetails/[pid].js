@@ -46,7 +46,7 @@ export async function getServerSideProps(context){
     
         const response =await axios({
             method :'GET',
-            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*)`,
+            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*),project_risks(*),project_issues(*),project_deliverables(*),project_change_request(*)`,
             headers:{
                 apikey:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
             }
@@ -68,3 +68,5 @@ return{
 
 
 // border-2 rounded-lg border-gray-600 border-double divide-solid m-px
+
+// https://cthpociewycattzfdtep.supabase.co/rest/v1/projects?id=eq.2&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*),project_risks(*),project_issues(*),project_deliverables(*),project_change_request(*)

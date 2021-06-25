@@ -1,7 +1,7 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-
+import TableToolbar from '../TableToolbar'
 export default function TeamsData({ projectsData }) {
     if (projectsData[0] == null || projectsData[0] === undefined || projectsData[0].project_team_member[0] == null || projectsData[0].project_team_member[0] === undefined) {
         return <div>No Data Found</div>
@@ -22,6 +22,9 @@ const teamsData =projectsData[0].project_team_member
 
         return (
             <div>
+                   <div>
+                <TableToolbar/>
+            </div>
                 <DataTable value={teamsData} resizableColumns columnResizeMode="expand">
                     {dynamicColumns}
                 </DataTable>

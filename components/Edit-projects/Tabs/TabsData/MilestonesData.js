@@ -1,6 +1,7 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import TableToolbar from '../TableToolbar'
 
 export default function MilestonesData({ projectsData }) {
 
@@ -21,6 +22,9 @@ const milestoneData =projectsData[0].project_milestones
         })
         return (
             <div>
+                   <div>
+                <TableToolbar/>
+            </div>
                 <DataTable value={milestoneData} resizableColumns columnResizeMode="expand">
                     {dynamicColumns}
                 </DataTable>

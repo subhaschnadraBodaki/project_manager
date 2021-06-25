@@ -1,9 +1,12 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-export default function ChangeRequestsData() {
-    
-    const data = [{ projectId: '##', Name: '##', Status: '##', projectManager: '##' }]
+export default function ChangeRequestsData({projectsData}) {
+    if (projectsData[0] == null || projectsData[0] === undefined || projectsData[0].project_change_request[0] == null || projectsData[0].project_change_request[0] === undefined) {
+
+        return <div>No Data Found</div>
+    }else{
+    const changeRequestsData = projectsData[0].project_change_request[0]
     const columns = [
         {field:"projectId" , header:"T1"},
         {field:"Name" , header:"T2"},
@@ -15,9 +18,10 @@ const dynamicColumns = columns.map((col)=> {
 })
     return (
         <div>
-        <DataTable value={data} resizableColumns columnResizeMode="expand">
+        <DataTable value={changeRequestsData} resizableColumns columnResizeMode="expand">
                      {dynamicColumns}
                  </DataTable> 
      </div>
     )
+}
 }

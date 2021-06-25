@@ -2,6 +2,7 @@ import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import formatDate from '../../../FormatDate';
+import TableToolbar from '../TableToolbar'
 
 export default function StatusReportsData({projectsData}) {
 
@@ -28,6 +29,9 @@ const dynamicColumns = columns.map((col)=> {
 })
     return (
         <div>
+               <div>
+                <TableToolbar/>
+            </div>
               <DataTable value={statusReportData} resizableColumns columnResizeMode="expand">
               <Column header="Reporting Date" body={reportingDate}></Column>
                         {dynamicColumns}

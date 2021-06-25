@@ -4,9 +4,11 @@ import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
 import Modal from 'react-modal'
 import AddTask from '../../components/Edit-projects/AddTask'
+import AddIssues from '../../components/Edit-projects/AddIssues'
 import {useState} from 'react'
 import EditProject from '../../components/Edit-projects/EditProject'
 import { Button } from 'primereact/button';
+import EditIssues from '../../components/Edit-projects/EditIssues';
 export default function editproject({projectsData,currencydata,accountdata,projectManager }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
@@ -67,7 +69,7 @@ const projectId = projectsData[0].id
                 </div>
             </div>
 
-             <h2>Add Risk</h2>
+             <h2>Add Risks</h2>
           </Modal>
 
           <Modal 
@@ -85,7 +87,7 @@ const projectId = projectsData[0].id
                 </div>
             </div>
 
-             <h2>Add Issues</h2>
+             <h2><AddIssues projectId={projectId}/></h2>
           </Modal>
 
           <Modal 
@@ -102,7 +104,7 @@ const projectId = projectsData[0].id
                 </div>
             </div>
                   
-             <h2>Deliverable</h2>
+             <h2><EditIssues projectId={projectId}/></h2>
           </Modal>
 
             
