@@ -11,7 +11,6 @@ function AddRisks({ projectId }) {
     estimated_cost: "",
     currency: "",
     risk_rank: "",
-    project_id:{projectId},
     risk_value: "",
     show_on_project_status_report: false,
     description: "",
