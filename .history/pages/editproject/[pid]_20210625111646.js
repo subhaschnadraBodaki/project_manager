@@ -9,7 +9,6 @@ import EditProject from '../../components/Edit-projects/EditProject'
 import { Button } from 'primereact/button';
 import AddDeliverables from '../../components/Edit-projects/AddDeliverables'
 import AddIssues from '../../components/Edit-projects/AddIssues'
-import AddRisks from '../../components/Edit-projects/AddRisks'
 
 export default function editproject({projectsData,currencydata,accountdata,projectManager }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
@@ -70,7 +69,8 @@ const projectId = projectsData[0].id
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setRisksIsOpen(false)} />
                 </div>
             </div>
-             <AddRisks projectId={projectId}/>
+
+             <h2>Add Risk</h2>
           </Modal>
 
           <Modal 
@@ -87,7 +87,7 @@ const projectId = projectsData[0].id
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setIssuesIsOpen(false)} />
                 </div>
             </div>
-             <AddIssues projectId={projectId}/>
+             <AddIssues/>
              
           </Modal>
 
@@ -105,7 +105,7 @@ const projectId = projectsData[0].id
                 </div>
             </div>
                   
-             <AddDeliverables projectId={projectId}/>
+             <AddDeliverables/>
           </Modal>
 
             

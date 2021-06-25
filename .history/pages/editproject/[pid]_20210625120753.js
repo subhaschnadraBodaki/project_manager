@@ -70,7 +70,7 @@ const projectId = projectsData[0].id
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setRisksIsOpen(false)} />
                 </div>
             </div>
-             <AddRisks projectId={projectId}/>
+             <AddRisks/>
           </Modal>
 
           <Modal 
@@ -87,7 +87,7 @@ const projectId = projectsData[0].id
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setIssuesIsOpen(false)} />
                 </div>
             </div>
-             <AddIssues projectId={projectId}/>
+             <AddIssues/>
              
           </Modal>
 
@@ -105,7 +105,7 @@ const projectId = projectsData[0].id
                 </div>
             </div>
                   
-             <AddDeliverables projectId={projectId}/>
+             <AddDeliverables/>
           </Modal>
 
             
