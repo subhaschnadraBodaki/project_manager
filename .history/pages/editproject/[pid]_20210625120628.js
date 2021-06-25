@@ -1,15 +1,15 @@
 import React from 'react'
-import TabsRender from '../../../components/Projects/Edit-projects/Tabs/TabsRender';
-// import { useKeycloak } from '@react-keycloak/ssr';
+import TabsRender from '../../components/Edit-projects/Tabs/TabsRender';
+import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
 import Modal from 'react-modal'
-import AddTask from '../../../components/Projects/Edit-projects/AddTask'
-import AddRisks from '../../../components/Projects/Edit-projects/AddRisks';
+import AddTask from '../../components/Edit-projects/AddTask'
 import {useState} from 'react'
-import EditProject from '../../../components/Projects/Edit-projects/EditProject'
+import EditProject from '../../components/Edit-projects/EditProject'
 import { Button } from 'primereact/button';
-import AddDeliverables from '../../../components/Projects/Edit-projects/AddDeliverables'
-import AddIssues from '../../../components/Projects/Edit-projects/AddIssues'
+import AddDeliverables from '../../components/Edit-projects/AddDeliverables'
+import AddIssues from '../../components/Edit-projects/AddIssues'
+import AddRisks from '../../components/Edit-projects/AddRisks'
 
 export default function editproject({projectsData,currencydata,accountdata,projectManager }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
@@ -18,7 +18,7 @@ export default function editproject({projectsData,currencydata,accountdata,proje
     const[deliverIsopen, setDeliverIsOpen] = useState(false)
      const[issuesIsopen, setIssuesIsOpen] = useState(false)
      const[risksIsopen, setRisksIsOpen] = useState(false)
-    // const { keycloak } = useKeycloak()
+    const { keycloak } = useKeycloak()
 
 const projectCode = projectsData[0].project_code
 const projectId = projectsData[0].id
@@ -35,8 +35,8 @@ const projectId = projectsData[0].id
         },
       };
 
-      const authentication = true
-    const editprojectDetails = authentication ? (<>
+    
+    const editprojectDetails = keycloak.authenticated ? (<>
           
 
           <Modal 
@@ -70,8 +70,7 @@ const projectId = projectsData[0].id
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setRisksIsOpen(false)} />
                 </div>
             </div>
-
-<AddRisks projectId={projectId}/>
+             <AddIssues/>
           </Modal>
 
           <Modal 
@@ -88,7 +87,7 @@ const projectId = projectsData[0].id
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setIssuesIsOpen(false)} />
                 </div>
             </div>
-             <AddIssues projectId={projectId}/>
+             <AddIssues/>
              
           </Modal>
 
@@ -106,7 +105,7 @@ const projectId = projectsData[0].id
                 </div>
             </div>
                   
-             <AddDeliverables projectId={projectId}/>
+             <AddDeliverables/>
           </Modal>
 
             

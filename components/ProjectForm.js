@@ -101,10 +101,16 @@ for (const item of projectManager) {
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient()
-  const url = "https://cthpociewycattzfdtep.supabase.co/rest/v1/projects?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMjg2MDk5MSwiZXhwIjoxOTM4NDM2OTkxfQ.ZmeqDJqHN5Bjtzn6tA8hK5_ZB_L-s16LDdkL4IF5rEg"
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects`
 
   const addproject = (data)=>{
-    return axios.post(url,data);
+    return axios.post(url,data,{
+      headers: {
+          "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+         
+      }
+    });
     };
 
   const mutation = useMutation(addproject,{
