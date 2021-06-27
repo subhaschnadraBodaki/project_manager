@@ -1,5 +1,5 @@
 import React ,{useState} from 'react'
-import formatDate from '../../FormatDate'
+import formatDate from '../../utils/FormatDate'
 import Link from 'next/link'
 import PercentageCompletionTeamplate from './PercentageCompletionTeamplate';
 
@@ -15,7 +15,7 @@ export default function Section2({ projectsData }) {
     else {
         const columns = ['Start Date', 'End Date', 'Budgeted Effort', 'Percentage Completion', 'Budgeted Revenue', 'Billed Amount']
 
-        const { actual_start_date, actual_end_date, planned_start_date, planned_end_date, currency, percentage_of_completion } = projectsData[0]
+        const { actual_start_date, actual_end_date, planned_start_date, planned_end_date,  percentage_of_completion ,budgeted_effort , budgeted_revenue , billed_amount} = projectsData[0]
 
         function startDate() {
             if (actual_start_date === null) {
@@ -45,7 +45,7 @@ export default function Section2({ projectsData }) {
     <PercentageCompletionTeamplate percentageCompletion={percentage_of_completion} />
 
 
-const values = [sDate, eDate, '30 hr', percentage_completion, '$500', currency]
+const values = [sDate, eDate, budgeted_effort, percentage_completion, budgeted_revenue, billed_amount]
 
         const linkName = MoreDetails ? 'Less Details' : 'More Details '
         const extraContent =
@@ -82,7 +82,7 @@ const values = [sDate, eDate, '30 hr', percentage_completion, '$500', currency]
                 {MoreDetails && extraContent}
                 <Link href=''  >
                     <div>
-                        <a className="cursor-pointer text-blue-500" onClick={() => { setMoreDetails(!MoreDetails) }}>{linkName}</a>
+                        <a className="cursor-pointer text-blue-900" onClick={() => { setMoreDetails(!MoreDetails) }}>{linkName}</a>
                     </div>
                 </Link>
                 

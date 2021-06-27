@@ -1,6 +1,7 @@
 import React from 'react'
 import TabsRender from '../../../components/Projects/Edit-projects/Tabs/TabsRender';
 // import { useKeycloak } from '@react-keycloak/ssr';
+
 import axios from 'axios';
 import Modal from 'react-modal'
 import AddTask from '../../../components/Projects/Edit-projects/AddTask'
@@ -22,7 +23,9 @@ export default function editproject({projectsData,currencydata,accountdata,proje
 
 const projectCode = projectsData[0].project_code
 const projectId = projectsData[0].id
-// console.log(projectsData)
+
+
+
     const customStyles = {
         content: {
           top: '50%',
@@ -39,7 +42,7 @@ const projectId = projectsData[0].id
       const authentication = true
     const editprojectDetails = authentication ? (<>
           
-
+     
           <Modal 
             isOpen={taskIsOpen}
             onRequestClose={()=> setTaskIsOpen(false)}
@@ -56,6 +59,7 @@ const projectId = projectsData[0].id
             </div>
 
             <AddTask projectId={projectId} />
+
           </Modal>
 
           <Modal 
@@ -152,7 +156,7 @@ const projectId = projectsData[0].id
         </div>
         <form>
         <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
+     <button type="submit" className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
     </div>
     </form>
 
@@ -233,4 +237,3 @@ return{
 }
 
 }
-

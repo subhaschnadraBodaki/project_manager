@@ -10,14 +10,13 @@ function AddIssues ({projectId}) {
   
   // --------------------------------------initial Values---------------------
   const initialValues = {
-     issue_number:'',
-      estimated_cost:'',
+     issue_number:null,
+      estimated_cost:null,
       assigned_to:'',
-      project_id:{projectId},
+      project_id:projectId,
       description:'',
-      text: '',
-      actual_cost:'',
-      currency:'',
+      notes:'',
+      currency:null,
       show_on_project_status_report:false
   }
 
@@ -53,35 +52,41 @@ const checkboxOptionsStatus =  [
    
     // -----------------------------Post Data--------------------------------
 
-  const queryClient = useQueryClient()
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?apikey=${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
-
-  const addproject = (data)=>{
-    return axios.post(url,data);
-    };
-
-  const mutation = useMutation(addproject,{
-    onMutate: variables => {
-           console.log('onmutate',variables)
-     },
-    onError: (error) => {
-      console.log(error)
+    const queryClient = useQueryClient()
+    const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues`
+  
+    const addIssues = (data)=>{
+      return axios.post(url,data,{
+        headers: {
+            "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+            "Content-Type": "application/json",
+           
+        }
+      });
+      };
+  
+    const mutation = useMutation(addIssues,{
+      onMutate: variables => {
+             console.log('onmutate',variables)
+       },
+      onError: (error) => {
+        console.log(error)
+      },
+      onSuccess: (data, variables, context) => {
+         console.log('onSuccess',variables,data)
+      },
+      onSettled: (data, error) => {
+      console.log('onSettled',data,error)
     },
-    onSuccess: (data, variables, context) => {
-       console.log('onSuccess',variables,data)
-    },
-    onSettled: (data, error) => {
-    console.log('onSettled',data,error)
-  },
-  })
+    })
 
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
     issue_number: Yup.string().required('Required'),
-    description: Yup.string().required('Required'),
-    notes: Yup.string().required('Required'),
-    state: Yup.string().required('Required'),
+    assigned_to: Yup.string().required('Required'),
+    // notes: Yup.string().required('Required'),
+    // state: Yup.string().required('Required'),
       
   })
 
@@ -197,6 +202,14 @@ const checkboxOptionsStatus =  [
         name='notes'
       />
       </div>
+        <div>
+      <FormikControl
+        control='input'
+        type='text'
+        label='Assigned To'
+        name='assigned_to'
+      />
+      </div>
 
       
     
@@ -204,7 +217,7 @@ const checkboxOptionsStatus =  [
 
    
     <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
+    <button type="submit" class="btn" >Add</button>
     </div>
    
     </Form>

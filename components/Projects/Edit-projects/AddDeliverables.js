@@ -16,28 +16,28 @@ function AddDeliverables ({projectId}) {
      
      name:'',
      owner:'',
-     parent_deliverables:'',
-      associated_milestone: '',
-      project_id:{projectId},
+     parent_deliverables:null,
+      
+      project_id:projectId,
       description: '',
       planned_start_date: null,
       planned_end_date: null,
+<<<<<<< HEAD
       predecessor_deliverables: '',
       sucecssor_deliverables: '',
       estimated_effort_in_hours: '',
       task_id: '',
       story_id:'',
+=======
+      predecessor_deliverables: null,
+      sucecssor_deliverables : null,
+      estimated_effort_in_hours:null,
+      task_id: null,
+      story_id:null,
+>>>>>>> 63f080638e0f1a636fffb1296517f27ef780b41b
       time_recording_allowed: false
       
   }
-
-
-  const dropdownOptionsMilestone = [
-    { key: 'Associated Milestone', value: '' },
-    { key: 'Task', value: 'Task' },
-    { key: 'Milestone', value: 'Milestone' }
-  ]
-
 
 
 
@@ -45,37 +45,42 @@ function AddDeliverables ({projectId}) {
     { key: 'Time Recording', value: true},
     ]
    
- 
 
 
   // -----------------------------Post Data--------------------------------
 
-  // const queryClient = useQueryClient()
-  // const url = "https://cthpociewycattzfdtep.supabase.co/rest/v1/deliverables?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMjg2MDk5MSwiZXhwIjoxOTM4NDM2OTkxfQ.ZmeqDJqHN5Bjtzn6tA8hK5_ZB_L-s16LDdkL4IF5rEg"
+  const queryClient = useQueryClient()
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/deliverables`
 
-  // const addproject = (data)=>{
-  //   return axios.post(url,data);
-  //   };
+  const addDeliverables = (data)=>{
+    return axios.post(url,data,{
+      headers: {
+          "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+         
+      }
+    });
+    };
 
-  // const mutation = useMutation(addproject,{
-  //   onMutate: variables => {
-  //          console.log('onmutate',variables)
-  //    },
-  //   onError: (error) => {
-  //     console.log(error)
-  //   },
-  //   onSuccess: (data, variables, context) => {
-  //      console.log('onSuccess',variables,data)
-  //   },
-  //   onSettled: (data, error) => {
-  //   console.log('onSettled',data,error)
-  // },
-  // })
-
+  const mutation = useMutation(addDeliverables,{
+    onMutate: variables => {
+           console.log('onmutate',variables)
+     },
+    onError: (error) => {
+      console.log(error)
+    },
+    onSuccess: (data, variables, context) => {
+       console.log('onSuccess',variables,data)
+    },
+    onSettled: (data, error) => {
+    console.log('onSettled',data,error)
+  },
+  })
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
       name: Yup.string().required('Required'),
+      owner: Yup.string().required('Required'),
    
       estimated_effort_in_hours: Yup.string().test(
         'Is positive?', 
@@ -170,22 +175,6 @@ function AddDeliverables ({projectId}) {
       />
       </div>
 
-     
-
-      <div>
-      <FormikControl
-        control='select'
-        
-        label='Associated Milestone'
-        name='associated_milestone'
-        options={dropdownOptionsMilestone}
-      />
-      </div>
-
-     
-      
-
-
       <div > 
        <FormikControl
         control='input'
@@ -200,7 +189,7 @@ function AddDeliverables ({projectId}) {
       <FormikControl
       control='input'
       type='number'
-      label='Seccessor Deliverables'
+      label='Successor Deliverables'
       name='sucecssor_deliverables'
      
       />
@@ -218,21 +207,7 @@ function AddDeliverables ({projectId}) {
         />
         </div>
 
-        {/* <div>
-      <FormikControl
-        control='text'
-        type='number'
-        label='Status'
-        name='  status'
-      />
-      </div> */}
-
-      
-
-     
-     
-
- 
+        
     <div >
              <FormikControl
               control='checkbox'
@@ -261,7 +236,7 @@ function AddDeliverables ({projectId}) {
       </div>
    
     <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" disabled={!formik.isValid}>Add</button>
+    <button type="submit" class="btn" >Add</button>
     </div>
    
     </Form>

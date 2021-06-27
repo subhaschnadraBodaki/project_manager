@@ -31,10 +31,10 @@ const Tabs = ({ color, projectsData }) => {
                 <li key={index} className="text-center  flex-auto mr-2">
                   <a
                     className={ 
-                      "text-xs  font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                      "text-xs  font-bold uppercase px-5 py-2 shadow-lg rounded block leading-normal " +
                       (openTab === index+1
-                        ? "text-white bg-" + color + "-500"
-                        : "text-" + color + "-500 bg-white")
+                        ? "text-white bg-" + color + "-900"
+                        : "text-" + color + "-900 bg-white")
                     }
                     onClick={e => {
                       e.preventDefault();
@@ -53,7 +53,7 @@ const Tabs = ({ color, projectsData }) => {
           </ul>
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
             <div className="px-4 py-5 flex-auto">
-              <div className="tab-content tab-space">
+              <div >
             
             {TabsContent.map((content , index)=>{
               return (

@@ -4,7 +4,7 @@ import TableToolbar from './TableToolbar'
 import { EyeIcon, PencilIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 
-export default function ProjectTable({data}) {
+export default function ProjectTable({data,employeeData}) {
     const router = useRouter()
     
     const ActionOnClick = async (rowData) => {
@@ -31,12 +31,12 @@ export default function ProjectTable({data}) {
     }
     
     return (
-        <div className="card">
+        <div className="card px-2 mx-5">
 
-            <h1 className='my-5 text-black text-2xl flex align-item justify-center'>List Of Projects</h1>
+            <h1 className='my-5 text-blue-900 text-2xl flex align-item justify-center'>List Of Projects</h1>
             <TableToolbar />
 
-            <ProjectListTable actionBody={ActionButton} data={data}/>
+            <ProjectListTable actionBody={ActionButton} data={data} employeeData={employeeData} />
 
         </div>
     )

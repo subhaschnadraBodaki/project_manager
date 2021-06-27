@@ -1,5 +1,5 @@
 import React from 'react'
-import StatusTemplate from '../../StatusTemplate'
+import StatusTemplate from '../../utils/StatusTemplate'
 
 export default function Section1({ projectsData }) {
 
@@ -12,11 +12,11 @@ export default function Section1({ projectsData }) {
   
   else {
     
-    const columns = ['Project Code', 'Name', 'PRJ Health', 'Project Manager', 'State', 'Customer Name']
+    const columns = ['Project Code', 'Name', 'Project Health', 'Project Manager', 'State', 'Customer Name']
 
-    const { project_code, name, project_status, project_manager } = projectsData[0]
+    const { project_code, name, project_status, project_manager ,state,customer_name} = projectsData[0]
 
-    const values = [project_code, name, <StatusTemplate status={project_status} />, project_manager, 'something', 'Venerate']
+    const values = [project_code, name, <StatusTemplate status={project_status} />, project_manager, state, customer_name]
 
     return (
       <div >
