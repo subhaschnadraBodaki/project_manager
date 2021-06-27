@@ -156,7 +156,7 @@ const projectId = projectsData[0].id
         </div>
         <form>
         <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
+     <button type="submit" className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
     </div>
     </form>
 
