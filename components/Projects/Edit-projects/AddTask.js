@@ -86,12 +86,8 @@ function AddTask ({projectId}) {
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
-<<<<<<< HEAD
     console.log(data)
     mutation.mutate(data);
-=======
-  console.log(data)
->>>>>>> 9d2c6c1dd45cea98192b2411697c1f6dc575d97b
   //  tasksData.push(data)
   // props.onUpdatedtaskData(tasksData);
  
