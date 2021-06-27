@@ -201,7 +201,10 @@ for (const item of projectManager) {
       </div>
      
 
-      
+      <div className="md:w-full grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5  mb-6 md:mb-0">
+       <h2 className="label">Project-Code :</h2>
+       <h2 className="md:col-start-3 md:col-span-1 md:ml-2 text-left  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1">{projectCode}</h2>
+      </div>
 
       <div > 
        <FormikControl

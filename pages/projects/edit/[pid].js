@@ -32,7 +32,7 @@ const projectId = projectsData[0].id
           left: '50%',
           right: 'auto',
           bottom: 'auto',
-          width: '800px', 
+          width: '900px', 
           height: '500px', 
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
@@ -119,7 +119,7 @@ const projectId = projectsData[0].id
 
                {/* ----------------------------------- */}
                <div className="grid grid-cols-2">
-               <div><h2 className="h2Form ml-2">Project-Code : {projectCode}</h2></div>
+               <div><h2 className="h2Form ml-2">Project-Id : {projectId}</h2></div>
        <div className="text-right">       
 <div className="relative inline-block text-left ">
   <div>
@@ -129,7 +129,7 @@ const projectId = projectsData[0].id
   </div>
 
 
-  <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+  <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
     <div className="py-1" role="none">
        <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setTaskIsOpen(true)}> Add Task </button> 
        <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setRisksIsOpen(true)}> Add Risk </button> 
@@ -177,7 +177,7 @@ export async function getServerSideProps(context){
     
         const response3 = axios({
             method :'GET',
-            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*),project_issues(*)`,
+            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*),project_risks(*),project_issues(*),project_deliverables(*),project_change_request(*)`,
             headers:{
                 apikey:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
             }
