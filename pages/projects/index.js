@@ -3,12 +3,12 @@ import ProjectTable from '../../components/Projects/List-of-projects/ProjectTabl
 // import { useKeycloak } from '@react-keycloak/ssr'
 import axios from 'axios'
 
-export default function projects({data}) {
+export default function projects({data ,employeeData}) {
     // const { keycloak } = useKeycloak()
     const authentication = true
     // keycloak.authenticated
     const listOfProjects = authentication ? (<div>
-        <ProjectTable data={data}/>
+        <ProjectTable data={data} employeeData={employeeData} />
     </div>) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>
         Login
     </button></>)
@@ -23,7 +23,7 @@ export default function projects({data}) {
 }
 
 export async function getStaticProps (){
-    const response =await axios({
+    const projData = axios({
         method:'get',
         url:    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?select=*` ,
         headers:{
@@ -32,13 +32,31 @@ export async function getStaticProps (){
         }
         
     })
-    if (response.status!=200) throw new Error(response.statusText)
+    const empData = axios({
+        method:'get',
+        url:    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?select=first_name,middle_name,last_name,user_id` ,
+        headers:{
+            "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+            "Content-Type": "application/json"
+        }
+        
+    })
+
+
+    const response =await axios.all([projData,empData])
     
-    const data =await response.data
+    if (response[0].status!=200) throw new Error(response[0].statusText)
+    const data =response[0].data
+
+    if (response[1].status!=200) throw new Error(response[1].statusText)
+    const employeeData = response[1].data
+
     
+    // console.log(a )
     return {
         props:{
         data,
+        employeeData
         },
         revalidate: 60
     }

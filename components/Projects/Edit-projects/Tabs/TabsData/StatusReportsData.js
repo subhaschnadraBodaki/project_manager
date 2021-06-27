@@ -1,7 +1,7 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import formatDate from '../../../../FormatDate';
+import formatDate from '../../../../utils/FormatDate';
 import TableToolbar from '../TableToolbar'
 
 export default function StatusReportsData({projectsData}) {

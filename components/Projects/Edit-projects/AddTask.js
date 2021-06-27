@@ -12,14 +12,14 @@ function AddTask ({projectId,tasksData},props) {
   
   // --------------------------------------initial Values---------------------
   const initialValues = {
-     estimated_effort_in_hours:'',
+    estimated_effort_in_hours:null,
       name:'',
       // associated_milestone:'',
       description: '',
-      sucecssor_task:'',
-      parent_task:'',
-      project_id:{projectId},
-      story_id:'',
+      sucecssor_task:null,
+      parent_task:null,
+      project_id:projectId,
+      story_id:null,
       planned_end_date:null,
       planned_start_date: null,
       owner:'',
@@ -44,27 +44,33 @@ function AddTask ({projectId,tasksData},props) {
 
   // -----------------------------Post Data--------------------------------
 
-  // const queryClient = useQueryClient()
-  // const url = "https://cthpociewycattzfdtep.supabase.co/rest/v1/tasks?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMjg2MDk5MSwiZXhwIjoxOTM4NDM2OTkxfQ.ZmeqDJqHN5Bjtzn6tA8hK5_ZB_L-s16LDdkL4IF5rEg"
+  const queryClient = useQueryClient()
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks`
 
-  // const addproject = (data)=>{
-  //   return axios.post(url,data);
-  //   };
+  const addproject = (data)=>{
+    return axios.post(url,data,{
+      headers: {
+          "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+         
+      }
+    });
+    };
 
-  // const mutation = useMutation(addproject,{
-  //   onMutate: variables => {
-  //          console.log('onmutate',variables)
-  //    },
-  //   onError: (error) => {
-  //     console.log(error)
-  //   },
-  //   onSuccess: (data, variables, context) => {
-  //      console.log('onSuccess',variables,data)
-  //   },
-  //   onSettled: (data, error) => {
-  //   console.log('onSettled',data,error)
-  // },
-  // })
+  const mutation = useMutation(addproject,{
+    onMutate: variables => {
+           console.log('onmutate',variables)
+     },
+    onError: (error) => {
+      console.log(error)
+    },
+    onSuccess: (data, variables, context) => {
+       console.log('onSuccess',variables,data)
+    },
+    onSettled: (data, error) => {
+    console.log('onSettled',data,error)
+  },
+  })
 
   // -------------------------------Validation Schema------------------------
 
@@ -80,9 +86,10 @@ function AddTask ({projectId,tasksData},props) {
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
-  
-   tasksData.push(data)
-  props.onUpdatedtaskData(tasksData);
+    console.log(data)
+    mutation.mutate(data);
+  //  tasksData.push(data)
+  // props.onUpdatedtaskData(tasksData);
  
     };
 

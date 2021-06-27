@@ -8,10 +8,10 @@ import * as Yup from "yup";
 function AddRisks({ projectId }) {
   // --------------------------------------initial Values---------------------
   const initialValues = {
-    estimated_cost: "",
-    currency: "",
-    risk_rank: "",
-    risk_value: "",
+    estimated_cost: null,
+    currency: null,
+    risk_rank: null,
+    risk_value: null,
     show_on_project_status_report: false,
     description: "",
     notes: "",
