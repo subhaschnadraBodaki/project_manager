@@ -23,13 +23,9 @@ export default function editproject({projectsData,currencydata,accountdata,proje
 
 const projectCode = projectsData[0].project_code
 const projectId = projectsData[0].id
-<<<<<<< HEAD
 
 
 
-=======
-// console.log(projectsData)
->>>>>>> 9d2c6c1dd45cea98192b2411697c1f6dc575d97b
     const customStyles = {
         content: {
           top: '50%',
@@ -160,7 +156,7 @@ const projectId = projectsData[0].id
         </div>
         <form>
         <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
+     <button type="submit" className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
     </div>
     </form>
 
@@ -241,4 +237,3 @@ return{
 }
 
 }
-

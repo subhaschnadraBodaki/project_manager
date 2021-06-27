@@ -8,9 +8,11 @@ import * as Yup from "yup";
 function AddRisks({ projectId }) {
   // --------------------------------------initial Values---------------------
   const initialValues = {
+    project_id : projectId,
     estimated_cost: null,
     currency: null,
     risk_rank: null,
+    assigned_to : '',
     risk_value: null,
     show_on_project_status_report: false,
     description: "",
@@ -42,31 +44,38 @@ function AddRisks({ projectId }) {
   const dropdownProbability = [
     { key: "Probability", value: "" },
     { key: "Low", value: "Low" },
-    { key: "Medium", value: "Medium" },
-    { key: "Urgent", value: "Urgent" },
-    { key: "Immediate", value: "Immediate" },
+    { key: "Moderate", value: "Moderate" },
+    { key: "High", value: "High" },
+    { key: "Absolute", value: "Absolute" },
   ];
 
   const dropdownImpact = [
-    { key: "1", value: "1" },
-    { key: "2", value: "2" },
-    { key: "3", value: "3" },
-    { key: "4", value: "4" },
-    { key: "5", value: "5" },
+    { key: 1, value: 1 },
+    { key: 2, value: 2 },
+    { key: 3, value: 3 },
+    { key: 4, value: 4 },
+    { key: 5, value: 5 },
   ];
 
-  const checkboxOptionsStatus = [{ key: "Status Report", value: true }];
+  const checkboxOptionsStatus = [
+    { key: "Status Report", value: true }
+  ];
 
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/risks?apikey=${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/risks`;
 
-  const addproject = (data) => {
-    return axios.post(url, data);
+  const addRisk = (data) => {
+    return axios.post(url, data, {
+      headers: {
+        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        "Content-Type": "application/json",
+      },
+    });
   };
 
-  const mutation = useMutation(addproject, {
+  const mutation = useMutation(addRisk, {
     onMutate: (variables) => {
       console.log("onmutate", variables);
     },
@@ -158,7 +167,7 @@ function AddRisks({ projectId }) {
                     control="input"
                     type="number"
                     label="Estimated Cost"
-                    name=" estimated_cost"
+                    name="estimated_cost"
                   />
                 </div>
 
@@ -187,6 +196,15 @@ function AddRisks({ projectId }) {
                     type="number"
                     label="Risk Value"
                     name="risk_value"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Assigned To"
+                    name="assigned_to"
                   />
                 </div>
 

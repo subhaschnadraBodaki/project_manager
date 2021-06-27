@@ -1,95 +1,77 @@
-import React from 'react'
-import { Formik, Form } from 'formik'
-import * as Yup from 'yup'
-import FormikControl from '../../FormComponents/FormikControl'
-import { useMutation, useQueryClient } from 'react-query';
-import axios from 'axios';
-import {useQuery} from 'react-query'
-import {useState} from 'react'
+import React from "react";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import FormikControl from "../../FormComponents/FormikControl";
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { useState } from "react";
 
-function AddTask ({projectId}) {
-
-  
+function AddTask({ projectId, tasksData }, props) {
   // --------------------------------------initial Values---------------------
   const initialValues = {
-    estimated_effort_in_hours:null,
-      name:'',
-      // associated_milestone:'',
-      description: '',
-      sucecssor_task:null,
-      parent_task:null,
-      project_id:projectId,
-      story_id:null,
-      planned_end_date:null,
-      planned_start_date: null,
-      owner:'',
-      time_recording_allowed: false,
-  }
+    estimated_effort_in_hours: null,
+    name: '',
+    // associated_milestone:'',
+    description: '',
+    sucecssor_task: null,
+    parent_task: null,
+    project_id: projectId,
+    story_id: null,
+    planned_end_date: null,
+    planned_start_date: null,
+    owner: '',
+    time_recording_allowed: false,
+  };
 
-
-
-
-
- 
-
- 
-
-
-  const checkboxOptionsTimeRecord =  [
-    { key: 'Time Recording', value: true},
-    ]
-   
-  
-  
+  const checkboxOptionsTimeRecord = [{ key: "Time Recording", value: true }];
 
   // -----------------------------Post Data--------------------------------
 
-  const queryClient = useQueryClient()
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks`
+  const queryClient = useQueryClient();
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks`;
 
-  const addproject = (data)=>{
-    return axios.post(url,data,{
+  const addTask = (data) => {
+    return axios.post(url, data, {
       headers: {
-          "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-          "Content-Type": "application/json",
-         
-      }
+        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        "Content-Type": "application/json",
+      },
     });
-    };
+  };
 
-  const mutation = useMutation(addproject,{
-    onMutate: variables => {
-           console.log('onmutate',variables)
-     },
+  const mutation = useMutation(addTask, {
+    onMutate: (variables) => {
+      console.log("onmutate", variables);
+    },
     onError: (error) => {
-      console.log(error)
+      console.log(error);
     },
     onSuccess: (data, variables, context) => {
-       console.log('onSuccess',variables,data)
+      console.log("onSuccess", variables, data);
     },
     onSettled: (data, error) => {
-    console.log('onSettled',data,error)
-  },
-  })
+      console.log("onSettled", data, error);
+    },
+  });
 
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
-      name: Yup.string().required('Required'),
-      
-      planned_start_date: Yup.date(),
-        planned_end_date: Yup.date().min(
-            Yup.ref('planned_start_date'),
-            "end date can't be before start date"
-          )
-  })
+    name: Yup.string().required("Required"),
+
+    planned_start_date: Yup.date(),
+    planned_end_date: Yup.date().min(
+      Yup.ref("planned_start_date"),
+      "end date can't be before start date"
+    ),
+  });
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-  //  tasksData.push(data)
-  // props.onUpdatedtaskData(tasksData);
+
  
     };
 
@@ -163,7 +145,7 @@ function AddTask ({projectId}) {
       />
       </div> */}
 
-      {/* <div > 
+                {/* <div > 
        <FormikControl
         control='select'
         label='Project Type'
@@ -172,96 +154,70 @@ function AddTask ({projectId}) {
       />
       </div> */}
 
-      
+                <div className=" mt-3">
+                  <FormikControl
+                    control="checkbox"
+                    label="Time Recording"
+                    name="time_recording_allowed"
+                    options={checkboxOptionsTimeRecord}
+                  />
+                </div>
 
-     
+                <div className=" col-span-2">
+                  <FormikControl
+                    control="textarea"
+                    label="Description"
+                    name="description"
+                  />
+                </div>
 
-   
-    
-       
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="number"
+                    label="Parent Task"
+                    name="parent_task"
+                  />
+                </div>
 
-      
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="number"
+                    label="Sucecssor Task"
+                    name="sucecssor_task"
+                  />
+                </div>
 
-      <div className=' mt-3'>
-      <FormikControl
-      control='checkbox'
-      label='Time Recording'
-      name='time_recording_allowed'
-      options={checkboxOptionsTimeRecord} 
-      />
-      </div>
+                <h2 className="h2Form">Dates</h2>
+                <div className="ml-3">
+                  <FormikControl
+                    control="date"
+                    label="Planned Start Date"
+                    name="planned_start_date"
+                  />
+                </div>
 
-      
-     
+                <div className="ml-3">
+                  <FormikControl
+                    control="date"
+                    label="Planned End Date"
+                    name="planned_end_date"
+                  />
+                </div>
 
-     
-
-     
-      
-      <div className=" col-span-2">
-         <FormikControl
-        control='textarea'
-        label='Description'
-        name='description'
-        />
-        </div>
-        
-        <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Parent Task'
-        name='parent_task'
-      />
-      </div>
-
-        <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Sucecssor Task'
-        name='sucecssor_task'
-      />
-      </div>
-    
-     
-      
-
-     
-      
-
-      <h2 className="h2Form">Dates</h2> 
-      <div className="ml-3">
-             <FormikControl
-              control='date'
-              label='Planned Start Date'
-              name='planned_start_date'
-            />
-    </div>
-
-    <div className="ml-3">
-             <FormikControl
-              control='date'
-              label='Planned End Date'
-              name='planned_end_date'
-            />
-    </div>
-
-   
-    <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="btn" >Add</button>
-    </div>
-   
-    </Form>
-    </div>
-  
-  )
-}}
-</Formik>
-
-</>
-
-  )
+                <div className="text-right mt-5  col-span-2 mr-20 ">
+                  <button type="submit" class="btn">
+                    Add
+                  </button>
+                </div>
+              </Form>
+            </div>
+          );
+        }}
+      </Formik>
+    </>
+  );
 }
 
 export default AddTask;
