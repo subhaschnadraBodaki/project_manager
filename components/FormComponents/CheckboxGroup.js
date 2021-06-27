@@ -14,7 +14,7 @@ function CheckboxGroup (props) {
             return (
               <React.Fragment key={option.key}>
                  <label className= "label col-start-1 col-span-2  " htmlFor={option.value}>{option.key}</label>
-                <input className="h-4 w-4 border col-start-3 col-span-3  border-gray-400 mt-1  "
+                <input className="h-4 w-4 border col-start-3 col-span-3 md:ml-2 border-gray-400 mt-1  "
                   type='checkbox'
                   id={option.value}
                   {...field}

@@ -25,7 +25,6 @@ function AddDeliverables ({projectId}) {
       predecessor_deliverables: '',
       sucecssor_deliverables: '',
       estimated_effort_in_hours: '',
-      inserted_at: '',
       task_id: '',
       story_id:'',
       time_recording_allowed: false
@@ -116,9 +115,13 @@ function AddDeliverables ({projectId}) {
     <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
      md:gap-y-4 py-6   md:ml-0
     " autoComplete="off">
-      <h2 className="h2Form">Basic Details</h2>
-
+      <h2 className="h2FormModal">Basic Details</h2>
       
+     <div className="md:w-full grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5  mb-6 md:mb-0">
+       <h2 className="label">Project-Id :</h2>
+       <h2 className="md:col-start-3 md:col-span-1 md:ml-2 text-left  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1">{projectId}</h2>
+      </div>
+
       <div>  
       <FormikControl
         control='input'

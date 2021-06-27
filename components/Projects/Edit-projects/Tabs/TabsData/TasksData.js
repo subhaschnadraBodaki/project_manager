@@ -17,14 +17,14 @@ export default function TasksData({projectsData}) {
        
     const projectId = projectsData[0].id
     const[EdittaskIsOpen, setEditTaskIsOpen] = useState(false)
-    console.log(projectsData)
+    // console.log(projectsData)
     const customStyles = {
         content: {
           top: '50%',
           left: '50%',
           right: 'auto',
           bottom: 'auto',
-          width: '800px', 
+          width: '900px', 
           height: '500px', 
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
@@ -32,16 +32,17 @@ export default function TasksData({projectsData}) {
       };
     
     if(projectsData[0]==null || projectsData[0] === undefined || projectsData[0].project_tasks[0]==null || projectsData[0].project_tasks[0]===undefined ){
-return <div>
-      <TableToolbar projectId={projectId} label='Add Task'/>
+return ( 
+    <div>
+      <TableToolbar projectId={projectId} label='Add Task' formType='AddTask'/>
       <div>No Data Found</div>
       </div>
+)
     }
     else{
     
     const tasksData = projectsData[0].project_tasks
-  
-    // console.log(tasksData)  
+    
   
     // const router = useRouter()
     
@@ -72,7 +73,7 @@ return <div>
             
         // })
 
-
+// -----------------------------------------------------------------
 
     const ActionButton = (rowData) => {
         return (
@@ -104,7 +105,7 @@ return <div>
             </React.Fragment>
         );
     }
-
+// ---------------------------------------------------------------
     
     const columns = [
         {field:"name" , header:"Task Name"},
@@ -115,16 +116,6 @@ return <div>
    const dynamicColumns = columns.map((col)=> {
     return <Column key={col.field} field = {col.field} header={col.header}/>  
    })
-
-
-//----------------------header buttons------------------
-
-// ----------------------Add Button------------------
-
-
- 
-// -------------------------------Save Button----------------------
-
 
 // ------------------------------------------------------------------
     return ( 
