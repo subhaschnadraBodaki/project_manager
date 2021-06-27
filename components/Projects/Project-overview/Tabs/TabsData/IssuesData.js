@@ -8,7 +8,7 @@ export default function IssuesData({projectsData}) {
 
         return <div>No Data Found</div>
     }else{
-    const issuesData =projectsData[0].project_issues[0]
+    const issuesData =projectsData[0].project_issues
     const columns = [
         {field:"issue_number" , header:"Issue Number"},
         {field:"issue_priority" , header:"Issue Priority"},

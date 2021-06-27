@@ -6,13 +6,14 @@ export default function DeliverablesData({projectsData}) {
 
         return <div>No Data Found</div>
     }else{
-    // const data = [{ projectId: '##', Name: '##', Status: '##', projectManager: '##' }]
-    const deliverablesData =projectsData[0].project_deliverables[0]
+    
+    const deliverablesData =projectsData[0].project_deliverables
     const columns = [
-        {field:"projectId" , header:"T1"},
-        {field:"Name" , header:"T2"},
-        {field:"Status" , header:"T3"},
-        {field:"projectManager"  , header:"T4"}
+        {field:"name" , header:"Name"},
+        {field:"parent_deliverables" , header:"Parent Deliverables"},
+        {field:"predecessor_deliverables" , header:"Predecessor Deliverables"},
+        {field:"sucecssor_deliverables"  , header:"Sucecssor Deliverables"},
+        {field:"estimated_effort_in_hours"  , header:"Est. Effort (Hr)"},
     ]
 const dynamicColumns = columns.map((col)=> {
     return <Column key={col.field} field = {col.field} header={col.header}/>

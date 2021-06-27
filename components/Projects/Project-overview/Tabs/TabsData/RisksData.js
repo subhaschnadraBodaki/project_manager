@@ -10,7 +10,7 @@ export default function RisksData({projectsData}) {
     }else{
 
     // const data = [{ projectId: '##', Name: '##', Status: '##', projectManager: '##' }]
-    const risksData = projectsData[0].project_risks[0]
+    const risksData = projectsData[0].project_risks
     const columns = [
         {field:"risk_rank" , header:"Risk Rank"},
         {field:"risk_value" , header:"Risk Value"},
