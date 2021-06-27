@@ -1,7 +1,6 @@
 import React from 'react'
 import TabsRender from '../../../components/Projects/Edit-projects/Tabs/TabsRender';
 // import { useKeycloak } from '@react-keycloak/ssr';
-
 import axios from 'axios';
 import Modal from 'react-modal'
 import AddTask from '../../../components/Projects/Edit-projects/AddTask'
@@ -23,13 +22,7 @@ export default function editproject({projectsData,currencydata,accountdata,proje
 
 const projectCode = projectsData[0].project_code
 const projectId = projectsData[0].id
-<<<<<<< HEAD
-
-
-
-=======
 // console.log(projectsData)
->>>>>>> 9d2c6c1dd45cea98192b2411697c1f6dc575d97b
     const customStyles = {
         content: {
           top: '50%',
@@ -46,7 +39,7 @@ const projectId = projectsData[0].id
       const authentication = true
     const editprojectDetails = authentication ? (<>
           
-     
+
           <Modal 
             isOpen={taskIsOpen}
             onRequestClose={()=> setTaskIsOpen(false)}
@@ -63,7 +56,6 @@ const projectId = projectsData[0].id
             </div>
 
             <AddTask projectId={projectId} />
-
           </Modal>
 
           <Modal 
@@ -181,7 +173,7 @@ export async function getServerSideProps(context){
     
         const response3 = axios({
             method :'GET',
-            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*),project_issues(*)`,
+            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*)`,
             headers:{
                 apikey:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
             }

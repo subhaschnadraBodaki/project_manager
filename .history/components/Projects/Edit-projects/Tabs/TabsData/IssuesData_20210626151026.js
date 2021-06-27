@@ -8,10 +8,10 @@ export default function IssuesData({projectsData}) {
 
     const data = [{ projectId: '##', Name: '##', Status: '##', projectManager: '##' }]
     const columns = [
-        {field:"projectId" , header:"Project Id"},
-        {field:"Name" , header:"Name"},
-        {field:"Status" , header:"Status"},
-        {field:"projectManager"  , header:"Project Manager"}
+        {field:"projectId" , header:"D1"},
+        {field:"Name" , header:"D2"},
+        {field:"Status" , header:"D3"},
+        {field:"projectManager"  , header:"D4"}
     ]
 const dynamicColumns = columns.map((col)=> {
     return <Column key={col.field} field = {col.field} header={col.header}/>
@@ -19,7 +19,7 @@ const dynamicColumns = columns.map((col)=> {
     return (
         <div>
             <div>
-               <TableToolbar projectId={projectId} label='Add Issues' formType='AddIssues'/>
+               <TableToolbar projectId={projectId} label='Add Risk'/>
             </div>
             <DataTable value={data} resizableColumns columnResizeMode="expand">
                 

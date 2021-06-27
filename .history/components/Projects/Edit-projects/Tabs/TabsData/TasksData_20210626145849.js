@@ -17,7 +17,8 @@ export default function TasksData({projectsData}) {
        
     const projectId = projectsData[0].id
     const[EdittaskIsOpen, setEditTaskIsOpen] = useState(false)
-    console.log(projectsData)
+    
+
     const customStyles = {
         content: {
           top: '50%',
@@ -33,7 +34,7 @@ export default function TasksData({projectsData}) {
     
     if(projectsData[0]==null || projectsData[0] === undefined || projectsData[0].project_tasks[0]==null || projectsData[0].project_tasks[0]===undefined ){
 return <div>
-      <TableToolbar projectId={projectId} label='Add Task'/>
+      <TableToolbar projectId={projectId}/>
       <div>No Data Found</div>
       </div>
     }
@@ -130,7 +131,7 @@ return <div>
     return ( 
         <div>
             <div>
-              <TableToolbar projectId={projectId} label='Add Task' formType='AddTask'  />
+              <TableToolbar projectId={projectId}/>
             </div>
               <DataTable value={tasksData} resizableColumns columnResizeMode="expand">
                         {dynamicColumns}
