@@ -129,7 +129,7 @@ const projectId = projectsData[0].id
   </div>
 
 
-  <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+  <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
     <div className="py-1" role="none">
        <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setTaskIsOpen(true)}> Add Task </button> 
        <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setRisksIsOpen(true)}> Add Risk </button> 
