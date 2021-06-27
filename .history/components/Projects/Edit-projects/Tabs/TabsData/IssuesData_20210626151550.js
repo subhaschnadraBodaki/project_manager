@@ -19,7 +19,7 @@ const dynamicColumns = columns.map((col)=> {
     return (
         <div>
             <div>
-               <TableToolbar projectId={projectId} label='Add Issues' formType='AddIssues'/>
+               <TableToolbar projectId={projectId} label='Add Issues'/>
             </div>
             <DataTable value={data} resizableColumns columnResizeMode="expand">
                 

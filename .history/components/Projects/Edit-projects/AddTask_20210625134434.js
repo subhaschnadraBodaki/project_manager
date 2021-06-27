@@ -7,7 +7,7 @@ import axios from 'axios';
 import {useQuery} from 'react-query'
 import {useState} from 'react'
 
-function AddTask ({projectId}) {
+function AddTask ({projectId,tasksData},props) {
 
   
   // --------------------------------------initial Values---------------------
@@ -80,9 +80,9 @@ function AddTask ({projectId}) {
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
-  console.log(data)
-  //  tasksData.push(data)
-  // props.onUpdatedtaskData(tasksData);
+  
+   tasksData.push(data)
+  props.onUpdatedtaskData(tasksData);
  
     };
 

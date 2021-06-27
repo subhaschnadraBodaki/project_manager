@@ -173,7 +173,7 @@ export async function getServerSideProps(context){
     
         const response3 = axios({
             method :'GET',
-            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*),project_issues(*)`,
+            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*)`,
             headers:{
                 apikey:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
             }

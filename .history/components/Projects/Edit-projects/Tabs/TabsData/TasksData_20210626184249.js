@@ -130,7 +130,7 @@ return <div>
     return ( 
         <div>
             <div>
-              <TableToolbar projectId={projectId} label='Add Task' formType='AddTask'  />
+              <TableToolbar projectId={projectId} label='Add Task'  />
             </div>
               <DataTable value={tasksData} resizableColumns columnResizeMode="expand">
                         {dynamicColumns}
