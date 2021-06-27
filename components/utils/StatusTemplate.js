@@ -7,7 +7,7 @@ export default function StatusTemplate ({status}) {
 
     } else 
     {
-        return <span key={100} className={`text-${status.toLowerCase()}-500 bg-${status.toLowerCase()}-100 rounded-lg bg-cover p-1`} >{status}</span>;
+        return <span key={100} className={`text-sm text-${status.toLowerCase()}-500 bg-${status.toLowerCase()}-100 rounded-sm bg-cover p-1`} >{status}</span>;
     }
     
 }
