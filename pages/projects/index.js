@@ -2,6 +2,7 @@ import React from 'react'
 import ProjectTable from '../../components/Projects/List-of-projects/ProjectTable'
 // import { useKeycloak } from '@react-keycloak/ssr'
 import axios from 'axios'
+import { RenderOnAuthenticated } from '../../components/utils/supabase/renderOnAuthenticated'
 
 export default function projects({data ,employeeData}) {
     // const { keycloak } = useKeycloak()
@@ -14,11 +15,13 @@ export default function projects({data ,employeeData}) {
     </button></>)
 
     return (
+        <RenderOnAuthenticated>
         <React.Fragment>
             {listOfProjects}
 
 
         </React.Fragment>
+        </RenderOnAuthenticated>
     )
 }
 
