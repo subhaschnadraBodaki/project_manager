@@ -23,7 +23,7 @@ export default function TableToolbar({projectId,label,formType}) {
           left: '50%',
           right: 'auto',
           bottom: 'auto',
-          width: '800px', 
+          width: '900px', 
           height: '500px', 
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
