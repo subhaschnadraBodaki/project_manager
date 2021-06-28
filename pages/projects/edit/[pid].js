@@ -43,37 +43,16 @@ const projectId = projectsData[0].id
     const editprojectDetails = authentication ? (<>
           
      
-         
-<<<<<<< HEAD
-=======
-
-               {/* ----------------------------------- */}
-               <div className="grid grid-cols-2">
-               <div><h2 className="h2Form ml-2">Project-Id : {projectId}</h2></div>
-       <div className="text-right">       
-<div className="relative inline-block text-left ">
-  <div>
-    <button type="button" className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="menu-button" aria-expanded="true" aria-haspopup="true"   >
-      +
-    </button>
-  </div>
 
 
-  <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
-    <div className="py-1" role="none">
-       <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setTaskIsOpen(true)}> Add Task </button> 
-       <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setRisksIsOpen(true)}> Add Risk </button> 
-       <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setIssuesIsOpen(true)}> Add Issues </button> 
-       <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setDeliverIsOpen(true)}> Deliverable </button> 
-    </div>
-  </div>
-</div>
+ <div><h2 className="h2Form ml-2">Project-Id : {projectId}</h2></div>
+             
+              
+    
 
-</div>
-</div>  
-{/* ------------------------------------ */}
+
             <div className="pt-2">
->>>>>>> d2781c162b15f410ab0044f46a4aa628a825d6e8
+
             
      <div><h2 className="h2Form ml-2">Project-Id : {projectId}</h2></div>
              
