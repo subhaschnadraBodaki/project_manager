@@ -45,21 +45,5 @@ export default function Home() {
     </RenderOnAuthenticated>
   );
 
-  // const { user } = Auth.useUser()
-
-  // if(!user) {
-  //   return (
-  //     <div>
-  //       <Space direction="vertical" size={8}>
-  //         <Card>
-  //           <Auth supabaseClient={supabase} />
-  //         </Card>
-  //       </Space>
-  //     </div>
-  //   )
-  // }
-
-  // return (
-  //   <h1>Welcome to supabase Auth</h1>
-  // )
+ 
 }
