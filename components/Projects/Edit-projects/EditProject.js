@@ -8,22 +8,22 @@ import { useMutation, useQueryClient } from 'react-query';
 
  import {useState} from 'react'
 
-function EditProject ({projectCode,projectId,currencydata,accountdata,projectManager}) {
+function EditProject ({projectsData,currencydata,accountdata,projectManager}) {
   
-  
+  const projectCode = projectsData[0].project_code
+  const projectId = projectsData[0].id
   // --------------------------------------initial Values---------------------
   const initialValues = {
-      name: '',
-      project_code:'',
-      description: '',
-      planned_hours: '',
-      planned_revenue:'',
+      name: projectsData[0].name,
+      // project_code:'',
+      description: projectsData[0].description,
+      planned_hours: projectsData[0].planned_hours,
+      planned_revenue:projectsData[0].planned_revenue,
       actual_start_date: null,
       actual_end_date: null,
       billable: false,
       active: false,
-      region:'',
-      project_notes:''
+      project_notes:projectsData[0].project_notes
   }
 // -----------------------------Dynamic Select Options-----------------------
 
@@ -140,13 +140,6 @@ for (const item of projectManager) {
 
   const validationSchema = Yup.object({
       name: Yup.string().required('Required'),
-        // project_code: Yup.string().required('Required').test(
-        //   'Is positive?', 
-        //   ' The Project Code must be greater than 0!', 
-        //   (value) => value > 0
-        // ),
-      // project_manager_id: Yup.string().required('Required'),
-     
       planned_revenue: Yup.string().max(14,'Must be 14 digits or less').test(
         'Is positive?', 
         ' Amount must be greater than 0!', 
@@ -306,6 +299,7 @@ for (const item of projectManager) {
         control='textarea'
         label='Description'
         name='description'
+      
         />
         </div>
       

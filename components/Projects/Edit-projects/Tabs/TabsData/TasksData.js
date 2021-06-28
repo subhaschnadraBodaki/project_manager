@@ -6,17 +6,18 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import TableToolbar from '../TableToolbar'
 import Modal from 'react-modal'
-import {useState} from 'react'
+import {useState}   from 'react'
+import {useRef} from 'react'
 import { Button } from 'primereact/button';
 import EditTask from '../../EditTask'
-
+import { Toast } from 'primereact/toast';
 
 
 
 export default function TasksData({projectsData}) {
-       
+      const toast = useRef(null);  
     const projectId = projectsData[0].id
-    const[EdittaskIsOpen, setEditTaskIsOpen] = useState(false)
+    const[modalIsOpen, setModalIsOpen] = useState(false)
     // console.log(projectsData)
     const customStyles = {
         content: {
@@ -41,29 +42,15 @@ return (
     }
     else{
     
-    const tasksData = projectsData[0].project_tasks
+    const [tasksData,setTasksData] = useState(projectsData[0].project_tasks)
     
-  
-    // const router = useRouter()
-    
-    // const ActionOnClick = async (rowData) => {
-    //     await router.push(`/projectdetails/${rowData.id}`)
-
-    // }
-    // const EditOnClick = async (rowData) => {
-    //     await router.push(`/editproject/${rowData.id}`)
-
-    // }
-   
-    // deleteRow(id, e){  
-    //     axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)  
-    //       .then(res => {  
-    //         console.log(res);  
-    //         console.log(res.data);  
-    //       })
-    //     }
-
-        // const deleteRow= axios.delete({
+   const deleteProduct = (rowData) => {
+        let  _tasksData = tasksData.filter(val => val.id !== rowData.id);
+        setTasksData(_tasksData)
+        console.log(_tasksData)
+        // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Deleted', life: 3000 });
+// ---------------------------------------------------------------
+        //    axios.delete({
             
         //     url:  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?id=eq.${rowData.id}` ,
         //     headers:{
@@ -73,14 +60,20 @@ return (
             
         // })
 
-// -----------------------------------------------------------------
+
+    }
+       
+        
+
 
     const ActionButton = (rowData) => {
-        return (
+         return (
+
             <React.Fragment>
+            <Toast ref={toast} />
                      <Modal 
-            isOpen={EdittaskIsOpen}
-            onRequestClose={()=> setEditTaskIsOpen(false)}
+            isOpen={modalIsOpen}
+            onRequestClose={()=> setModalIsOpen(false)}
             style={customStyles}
             ariaHideApp={false}
             shouldCloseOnOverlayClick={false}
@@ -89,17 +82,17 @@ return (
             <div className="grid grid-cols-2">
                 <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
                 <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setEditTaskIsOpen(false)} />
+                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setModalIsOpen(false)} />
                 </div>
             </div>
 
             <EditTask projectId={projectId} rowID={rowData.id} />
           </Modal>
-
-                <button onClick={() => setEditTaskIsOpen(true) }>
+               
+                <button onClick={() => setModalIsOpen(true) }>
                     <PencilIcon className="h-5 w-5 mr-4" />
                 </button>
-                <button onClick={() => console.log(rowData)}>
+                <button onClick={() => deleteProduct(rowData)}>
                     <TrashIcon className="h-5 w-5 " />
                 </button>
             </React.Fragment>

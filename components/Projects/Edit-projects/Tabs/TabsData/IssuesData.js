@@ -39,7 +39,13 @@ export default function IssuesData({projectsData}) {
     
     else{
 
-    const issuesData =projectsData[0].project_issues
+    const [issuesData,setIssuesData] =useState(projectsData[0].project_issues)
+
+       const deleteProduct = (rowData) => {
+         let  _issuesData = issuesData.filter(val => val.id !== rowData.id);
+         setIssuesData(_issuesData)
+         console.log(_issuesData)
+          }
 
   const ActionButton = (rowData) => {
         return (
@@ -65,7 +71,7 @@ export default function IssuesData({projectsData}) {
                 <button onClick={() => setModalIsOpen(true) }>
                     <PencilIcon className="h-5 w-5 mr-4" />
                 </button>
-                <button onClick={() => console.log(rowData)}>
+                <button onClick={() => deleteProduct(rowData)}>
                     <TrashIcon className="h-5 w-5 " />
                 </button>
             </React.Fragment>

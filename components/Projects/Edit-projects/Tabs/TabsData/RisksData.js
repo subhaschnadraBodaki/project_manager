@@ -38,7 +38,13 @@ export default function RisksData({projectsData}) {
     }
     
     else{
-       const riskData = projectsData[0].project_risks
+       const [riskData,setRiskData] = useState(projectsData[0].project_risks)
+         
+          const deleteProduct = (rowData) => {
+         let  _riskData = riskData.filter(val => val.id !== rowData.id);
+         setRiskData(_riskData)
+         console.log(_riskData)
+          }
       
           const ActionButton = (rowData) => {
         return (
@@ -64,7 +70,7 @@ export default function RisksData({projectsData}) {
                 <button onClick={() => setModalIsOpen(true) }>
                     <PencilIcon className="h-5 w-5 mr-4" />
                 </button>
-                <button onClick={() => console.log(rowData)}>
+                <button onClick={() => deleteProduct(rowData)}>
                     <TrashIcon className="h-5 w-5 " />
                 </button>
             </React.Fragment>
