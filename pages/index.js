@@ -1,12 +1,13 @@
-import React from 'react'
-import { useKeycloak } from '@react-keycloak/ssr'
+import styles from "../styles/Home.module.css";
+import { useKeycloak } from "@react-keycloak/ssr";
+import { RenderOnAuthenticated } from "../components/utils/supabase/renderOnAuthenticated";
+
+import { Auth, Button, Icon, Card, Space } from "@supabase/ui";
+import { supabase } from "../components/utils/supabase/initSupabase";
 
 export default function Home() {
-
   // const { keycloak, initialized } = useKeycloak()
-
   return (
-
     // <div>
     //   <div>
     //     <h1>Welcome to keycloak-nextauth authentication  </h1>
@@ -30,8 +31,19 @@ export default function Home() {
     //   </div>
     // </div>
 
-    <>
-      
-    </>
-  )
+    <RenderOnAuthenticated>
+      <div className={styles.container}>
+        <h1>Welcome To project Management</h1>
+        <Button
+          icon={<Icon type="LogOut" />}
+          type="outline"
+          onClick={() => supabase.auth.signOut()}
+        >
+          Logout
+        </Button>
+      </div>
+    </RenderOnAuthenticated>
+  );
+
+ 
 }

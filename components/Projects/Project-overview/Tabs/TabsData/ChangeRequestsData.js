@@ -6,7 +6,7 @@ export default function ChangeRequestsData({projectsData}) {
 
         return <div>No Data Found</div>
     }else{
-    const changeRequestsData = projectsData[0].project_change_request[0]
+    const changeRequestsData = projectsData[0].project_change_request
     const columns = [
         {field:"projectId" , header:"T1"},
         {field:"Name" , header:"T2"},
