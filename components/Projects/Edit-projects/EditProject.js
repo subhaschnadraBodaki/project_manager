@@ -12,7 +12,7 @@ function EditProject ({projectCode,projectId,currencydata,accountdata,projectMan
   
   
   // --------------------------------------initial Values---------------------
-  const initialValues = {
+  const initialValues = { 
       name: '',
       project_code:'',
       description: '',
