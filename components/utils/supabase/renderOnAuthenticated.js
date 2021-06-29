@@ -50,16 +50,14 @@ export const RenderOnAuthenticated = ({ children }) => {
       </div>
     );
 
-
   return (
     <>
-    
       {authView === "forgotten_password" && (
         <Card>
-        <Auth.UpdatePassword supabaseClient={supabase} />
+          <Auth.UpdatePassword supabaseClient={supabase} />
         </Card>
       )}
-    
+
       {user && <>{children}</>}
     </>
   );

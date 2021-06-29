@@ -1,17 +1,18 @@
 import React from "react";
-import ProjectListTable from "./ProjectListTable";
-import TableToolbar from "./TableToolbar";
-import { EyeIcon, PencilIcon } from "@heroicons/react/solid";
+import AccountsListTable from "./AccountsListTable";
+import TableToolbar from './TableToolbar'
+import { PencilIcon, EyeIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 
-export default function ProjectTable({ data, employeeData }) {
+export default function AccountsTable({ accountsData }) {
   const router = useRouter();
 
   const ActionOnClick = async (rowData) => {
-    await router.push(`/projects/overview/${rowData.id}`);
+    await router.push(`/accounts/overview/${rowData.id}`);
   };
+
   const EditOnClick = async (rowData) => {
-    await router.push(`/projects/edit/${rowData.id}`);
+    await router.push(`/accounts/edit/${rowData.id}`);
   };
 
   const ActionButton = (rowData) => {
@@ -27,19 +28,17 @@ export default function ProjectTable({ data, employeeData }) {
       </React.Fragment>
     );
   };
-
   return (
     <div className="card px-2 mx-5">
       <h1 className="my-5 text-blue-900 text-2xl flex align-item justify-center">
-        List Of Projects
+        Accounts
       </h1>
-      <TableToolbar />
+      <TableToolbar/>
 
-      <ProjectListTable
+      <AccountsListTable
         actionBody={ActionButton}
-        data={data}
-        employeeData={employeeData}
-      />
+        accountsData={accountsData}
+      ></AccountsListTable>
     </div>
   );
 }
