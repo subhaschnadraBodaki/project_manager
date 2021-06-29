@@ -15,7 +15,7 @@ function EditProject ({projectsData,currencydata,accountdata,projectManager}) {
   // --------------------------------------initial Values---------------------
   const initialValues = {
       name: projectsData[0].name,
-      // project_code:'',
+      project_code: projectCode,
       description: projectsData[0].description,
       planned_hours: projectsData[0].planned_hours,
       planned_revenue:projectsData[0].planned_revenue,
@@ -347,11 +347,9 @@ for (const item of projectManager) {
               name='actual_end_date'
             />
     </div>
-
-   
-    {/* <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Add</button>
-    </div> */}
+    <div className="text-right mt-5  col-span-2 mr-20 ">
+      <button type="submit" class="btn" >Save</button>
+      </div> 
    
     </Form>
     </div>

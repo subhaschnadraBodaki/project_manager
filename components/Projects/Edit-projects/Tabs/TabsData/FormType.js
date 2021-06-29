@@ -9,7 +9,7 @@ export default function formTypeFxn({formType,projectId})
        switch(formType)
        {
          case 'AddTask':
-         return <AddTask projectId={projectId}/>
+         return <AddTask projectId={projectId} />
          case 'AddIssues':
          return <AddIssues projectId={projectId}/>
          case 'AddDeliverables':

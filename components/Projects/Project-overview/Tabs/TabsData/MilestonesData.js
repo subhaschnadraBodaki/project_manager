@@ -21,7 +21,7 @@ const milestoneData =projectsData[0].project_milestones
         })
         return (
             <div>
-                <DataTable value={milestoneData} resizableColumns columnResizeMode="expand">
+                <DataTable value={milestoneData}  className="p-datatable-sm" resizableColumns columnResizeMode="expand">
                     {dynamicColumns}
                 </DataTable>
             </div>

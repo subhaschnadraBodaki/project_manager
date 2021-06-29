@@ -15,10 +15,7 @@ import AddIssues from '../../../components/Projects/Edit-projects/AddIssues'
 export default function editproject({projectsData,currencydata,accountdata,projectManager }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
-    const[taskIsOpen, setTaskIsOpen] = useState(false)
-    const[deliverIsopen, setDeliverIsOpen] = useState(false)
-     const[issuesIsopen, setIssuesIsOpen] = useState(false)
-     const[risksIsopen, setRisksIsOpen] = useState(false)
+   
     // const { keycloak } = useKeycloak()
 
 const projectCode = projectsData[0].project_code
@@ -26,33 +23,11 @@ const projectId = projectsData[0].id
 
 
 
-    const customStyles = {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          width: '900px', 
-          height: '500px', 
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-        },
-      };
-
+   
       const authentication = true
     const editprojectDetails = authentication ? (<>
           
      
-
-
- <div><h2 className="h2Form ml-2">Project-Id : {projectId}</h2></div>
-             
-              
-    
-
-
-            <div className="pt-2">
-
             
      <div><h2 className="h2Form ml-2">Project-Id : {projectId}</h2></div>
              
@@ -63,11 +38,7 @@ const projectId = projectsData[0].id
         <div className="my-5 px-2">
             <TabsRender projectsData={projectsData} />
         </div>
-        <form>
-        <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
-    </div>
-    </form>
+      
 
     </>
     ) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>

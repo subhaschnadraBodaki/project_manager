@@ -5,12 +5,13 @@ import FormikControl from '../../FormComponents/FormikControl'
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
  import {useQuery} from 'react-query'
-
  import {useState} from 'react'
+ import { Toast } from 'primereact/toast';
+import {useRef} from 'react'
 
 function AddDeliverables ({projectId}) {
 
-  
+  const toast = useRef(null); 
   // --------------------------------------initial Values---------------------
   const initialValues = {
      
@@ -18,7 +19,7 @@ function AddDeliverables ({projectId}) {
      owner:'',
      parent_deliverables:null,
       
-      project_id:projectId,
+      project_id: projectId,
       description: '',
       planned_start_date: null,
       planned_end_date: null,
@@ -89,13 +90,16 @@ function AddDeliverables ({projectId}) {
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
   console.log(data)
-      
-       mutation.mutate(data);
+      mutation.mutate(data);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Deliverable Added', life: 3000 });
+         document.form.reset();
     };
 
     // -------------------------------Form----------------------------
  return (
+  
    <>
+    <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
        validationSchema={validationSchema}
@@ -103,13 +107,11 @@ function AddDeliverables ({projectId}) {
     >
       {formik => {
         return (
-    <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
-    <div className=" shadow-sm py-6 text-blue-900 ">
-    <h2 className="text-2xl text-center  font-semibold px-20">Add Deliverables</h2>
-    </div>
+    <div className="  justify-items-center container w-full mx-auto   ">
+    
    
 
-    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+    <Form name="form" id="a-form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
      md:gap-y-4 py-6   md:ml-0
     " autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
@@ -124,11 +126,8 @@ function AddDeliverables ({projectId}) {
       />
       </div>
 
-       <div className="md:w-full grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5  mb-6 md:mb-0">
-       <h2 className="label">Project-Id :</h2>
-       <h2 className="md:col-start-3 md:col-span-1 md:ml-2 text-left  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1">{projectId}</h2>
-      </div>
-      
+       
+
     <div className="ml-3">
              <FormikControl
               control='input'
@@ -228,9 +227,9 @@ function AddDeliverables ({projectId}) {
       />
       </div>
    
-    <div className="text-right mt-5  col-span-2 mr-20 ">
-    <button type="submit" class="btn" >Add</button>
-    </div>
+    {/* <div className="text-right mt-5  col-span-2 mr-10 ">
+    <button type="submit" class="btn" >Save and Continue</button>
+    </div> */}
    
     </Form>
     </div>

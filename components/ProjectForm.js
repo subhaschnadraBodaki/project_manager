@@ -5,8 +5,11 @@ import FormikControl from "./FormComponents/FormikControl";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { useQuery } from "react-query";
+import { Toast } from 'primereact/toast';
+import {useRef} from 'react'
 
 function ProjectForm({ currencydata, accountdata, projectManager }) {
+    const toast = useRef(null);  
   // --------------------------------------initial Values---------------------
   const initialValues = {
     name: "",
@@ -156,10 +159,14 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
     console.log(data);
 
     mutation.mutate(data);
+       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Added', life: 3000 });
+       document.form.reset();
   };
 
   // -------------------------------Form----------------------------
   return (
+    <>
+     <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -176,7 +183,7 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
 
             <Form
               className="formGrid
-    "
+    "           name="form"
               autoComplete="off"
             >
               <h2 className="h2Form">Basic Details</h2>
@@ -355,6 +362,7 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
         );
       }}
     </Formik>
+    </>
   );
 }
 

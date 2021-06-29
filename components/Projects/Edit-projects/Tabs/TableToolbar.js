@@ -9,7 +9,7 @@ import AddTask from '../AddTask'
 import FormType from './TabsData/FormType'
 
 
-export default function TableToolbar({projectId,label,formType}) {
+export default function TableToolbar({projectId,projectName,label,formType}) {
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
 
@@ -34,12 +34,7 @@ export default function TableToolbar({projectId,label,formType}) {
 
 
     const leftToolbarTemplate = () => {
-    //     const updatedtaskDataHandler = (enteredtaskData) =>{
-    //         const tasksData = {
-    //             ...enteredtaskData
-    //         };
-    //         console.log(tasksData)
-    // };
+  
         return (<>
                 <Modal 
                 isOpen={modalIsOpen}
@@ -49,15 +44,28 @@ export default function TableToolbar({projectId,label,formType}) {
                 shouldCloseOnOverlayClick={false}
                 >   
                 
-                <div className="grid grid-cols-2">
-                    <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
+                <div className="grid grid-cols-3">
+
+                    <div><h2 className="h2Form">{projectName} ({projectId})</h2></div>
+
+                    <div className=" shadow-sm py-6 text-blue-900 ">
+                    <h2 className="text-2xl text-center  font-semibold px-20">{label}</h2>
+                     </div>
+
                     <div className="text-right">
                     <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setModalIsOpen(false)} />
                     </div>
-                </div>
-                <div> 
-                <FormType  projectId={projectId} formType={formType} /> 
-                 </div>
+                       </div>
+                      <div>
+                     <FormType  projectId={projectId} formType={formType} /> 
+                     </div>
+
+                     <div className="text-right mr-10 ">
+                     <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
+                    <button className="btn ml-3" type="submit" form="a-form" >Save 
+                    </button>
+                    </div>
+             
               </Modal>
     
             
