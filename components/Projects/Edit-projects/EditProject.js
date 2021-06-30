@@ -348,7 +348,7 @@ for (const item of projectManager) {
             />
     </div>
     <div className="text-right mt-5  col-span-2 mr-20 ">
-      <button type="submit" class="btn" >Save</button>
+      <button type="submit" className="btn" >Save</button>
       </div> 
    
     </Form>
