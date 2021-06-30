@@ -4,26 +4,25 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 
+import EmployeesData from "./EmployeesData";
 
-export default function AccountsListTable({ accountsData, actionBody }) {
+export default function EmployeesListTable({ actionBody }) {
   const columns = [
-    { field: "id", header: "Id" },
-    { field: "account_name", header: "Name" },
-    { field: "type", header: "Account Type" },
-    { field: "number_of_employees", header: "No Of Employees" },
-    { field: "annual_revenue", header: "Annual Revenue"}
+    { field: "employee_id", header: "Employee_id" },
+    { field: "first_name", header: "Name" },
+    { field: "work_email", header: "Email" },
+    { field: "job_title", header: "Job_title" },
   ];
 
-  // const { status, data, error } = useQuery("products", AccountsData);
+  const { status, data, error } = useQuery("products", EmployeesData);
 
-  // console.log(data);
-  // if (status === "loading") {
-  //   return <div>loading...</div>; // loading state
-  // }
+  if (status === "loading") {
+    return <div>loading...</div>; // loading state
+  }
 
-  // if (status === "error") {
-  //   return <div>{error.message}</div>; // error state
-  // }
+  if (status === "error") {
+    return <div>{error.message}</div>; // error state
+  }
 
   const dynamicColumns = columns.map((col) => {
     return <Column key={col.field} field={col.field} header={col.header} />;
@@ -38,7 +37,7 @@ export default function AccountsListTable({ accountsData, actionBody }) {
   return (
     <div>
       <DataTable
-        value={accountsData}
+        value={data}
         resizableColumns
         columnResizeMode="expand"
         paginator
@@ -48,6 +47,8 @@ export default function AccountsListTable({ accountsData, actionBody }) {
         rowsPerPageOptions={[5, 10, 15]}
         paginatorLeft={paginatorLeft}
         paginatorRight={paginatorRight}
+        className="p-datatable-responsive-demo"
+        header="Responsive"
       >
         {dynamicColumns}
 

@@ -1,4 +1,4 @@
-import { Formik, Form, FieldArray, Field, validateYupSchema } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 import { Rating } from "primereact/rating";
 import * as Yup from "yup";
 import FormikControl from "../FormComponents/FormikControl";
@@ -22,6 +22,7 @@ const AccountForm = ({ countries }) => {
       address_line_2: "",
     },
     phone: "",
+    // phone_numbers:"",
     email: "",
     website: "",
 
@@ -215,7 +216,7 @@ const AccountForm = ({ countries }) => {
                 <FormikControl
                   control="input"
                   type="text"
-                  label=" Address Line 1"
+                  label="Address Line 1"
                   name="address.address_line_1"
                 />
               </div>
@@ -224,21 +225,21 @@ const AccountForm = ({ countries }) => {
                 <FormikControl
                   control="input"
                   type="text"
-                  label=" Address Line 2"
+                  label="Address Line 2"
                   name="address.address_line_2"
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <FormikControl
                   control="input"
                   type="text"
                   label="Phone"
                   name="phone"
                 />
-              </div>
+              </div> */}
 
-              {/* <label>List of phone numbers</label>
+              {/* <label className="label">List of phone numbers</label>
                 <FieldArray name="phone_numbers">
                   {(fieldArrayProps) => {
                     const { push, remove, form } = fieldArrayProps;
@@ -297,7 +298,7 @@ const AccountForm = ({ countries }) => {
                 <label className="label mx-5" >Rating</label>
                 <Rating className="flex"
                   value={rate}
-                  name={initialValues.Rating}
+                  name="rating"
                   cancel={false}
                   onChange={(e) => setRate(e.value)}
                 />
