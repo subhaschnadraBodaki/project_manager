@@ -32,7 +32,7 @@ const dynamicColumns = columns.map((col)=> {
                <div>
                 <TableToolbar/>
             </div>
-              <DataTable value={statusReportData} resizableColumns columnResizeMode="expand">
+              <DataTable value={statusReportData} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
               <Column header="Reporting Date" body={reportingDate}></Column>
                         {dynamicColumns}
                     </DataTable> 
