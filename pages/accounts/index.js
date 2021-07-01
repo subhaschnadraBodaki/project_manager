@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-
-import Accounts from '../../components/Accounts/Accounts'
-// import { useKeycloak } from '@react-keycloak/ssr'
-export default function accounts() {
-    
-    return (
-        <div>
-        <Accounts/>
-=======
 import axios from 'axios';
 import AccountsTable from '../../components/Accounts/ListOfAccounts/AccountsTable'
 import { useKeycloak } from '@react-keycloak/ssr'
@@ -17,7 +6,6 @@ export default function accounts({accountsData}) {
     return (
         <div>
             <AccountsTable accountsData={accountsData}/>
->>>>>>> 1171a90035ef814333b47163da73247195e1fa84
         </div>
     )
 }
