@@ -16,10 +16,7 @@ import AddIssues from '../../../components/Projects/Edit-projects/AddIssues'
 export default function editproject({projectsData,currencydata,accountdata,projectManager }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
-    const[taskIsOpen, setTaskIsOpen] = useState(false)
-    const[deliverIsopen, setDeliverIsOpen] = useState(false)
-     const[issuesIsopen, setIssuesIsOpen] = useState(false)
-     const[risksIsopen, setRisksIsOpen] = useState(false)
+   
     // const { keycloak } = useKeycloak()
 
 const projectCode = projectsData[0].project_code
@@ -27,140 +24,22 @@ const projectId = projectsData[0].id
 
 
 
-    const customStyles = {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          width: '900px', 
-          height: '500px', 
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-        },
-      };
-
+   
       const authentication = true
     const editprojectDetails = authentication ? (<>
           
      
-          <Modal 
-            isOpen={taskIsOpen}
-            onRequestClose={()=> setTaskIsOpen(false)}
-            style={customStyles}
-            ariaHideApp={false}
-            shouldCloseOnOverlayClick={false}
-            >   
             
-            <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
-                <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setTaskIsOpen(false)} />
-                </div>
-            </div>
-
-            <AddTask projectId={projectId} />
-
-          </Modal>
-
-          <Modal 
-            isOpen={risksIsopen}
-            onRequestClose={()=> setRisksIsOpen(false)}
-            style={customStyles}
-            ariaHideApp={false}
-            shouldCloseOnOverlayClick={false}
-            >
-               <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
-                <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setRisksIsOpen(false)} />
-                </div>
-            </div>
-
-<AddRisks projectId={projectId}/>
-          </Modal>
-
-          <Modal 
-            isOpen={issuesIsopen}
-            onRequestClose={()=> setIssuesIsOpen(false)}
-            style={customStyles}
-            ariaHideApp={false}
-            shouldCloseOnOverlayClick={false}
-            >
-                
-                <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
-                <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setIssuesIsOpen(false)} />
-                </div>
-            </div>
-             <AddIssues projectId={projectId}/>
+     <div><h2 className="h2Form ml-2">Project-Id : {projectId}</h2></div>
              
-          </Modal>
-
-          <Modal 
-            isOpen={deliverIsopen}
-            onRequestClose={()=> setDeliverIsOpen(false)}
-            style={customStyles}
-            ariaHideApp={false}
-            shouldCloseOnOverlayClick={false}
-            >
-               <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
-                <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setDeliverIsOpen(false)} />
-                </div>
-            </div>
-                  
-             <AddDeliverables projectId={projectId}/>
-          </Modal>
-
-            
-         
-
-               {/* ----------------------------------- */}
-               <div className="grid grid-cols-2">
-               <div><h2 className="h2Form ml-2">Project-Id : {projectId}</h2></div>
-       <div className="text-right">       
-<div className="relative inline-block text-left ">
-  <div>
-    <button type="button" className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="menu-button" aria-expanded="true" aria-haspopup="true"   >
-      +
-    </button>
-  </div>
-
-
-  <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
-    <div className="py-1" role="none">
-       <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setTaskIsOpen(true)}> Add Task </button> 
-       <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setRisksIsOpen(true)}> Add Risk </button> 
-       <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setIssuesIsOpen(true)}> Add Issues </button> 
-       <button className="text-gray-700 block w-full text-left px-4 py-2 text-sm" onClick={()=> setDeliverIsOpen(true)}> Deliverable </button> 
-    </div>
-  </div>
-</div>
-
-</div>
-</div>  
-{/* ------------------------------------ */}
-            <div className="pt-2">
-            
-
-           
-           
-            </div>   
             <div>
-              <EditProject projectCode={projectCode} projectId= {projectId} currencydata={currencydata} accountdata={accountdata} projectManager={projectManager}/>
+              <EditProject projectsData={projectsData} currencydata={currencydata} accountdata={accountdata} projectManager={projectManager}/>
             </div>     
         
         <div className="my-5 px-2">
             <TabsRender projectsData={projectsData} />
         </div>
-        <form>
-        <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" >Submit</button>
-    </div>
-    </form>
+      
 
     </>
     ) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>

@@ -28,7 +28,11 @@ const dynamicColumns = columns.map((col)=> {
 })
     return (
         <div>
+<<<<<<< HEAD
               <DataTable value={statusReportData} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
+=======
+              <DataTable value={statusReportData}  className="p-datatable-sm" resizableColumns columnResizeMode="expand">
+>>>>>>> 1171a90035ef814333b47163da73247195e1fa84
               <Column header="Reporting Date" body={reportingDate}></Column>
                         {dynamicColumns}
                     </DataTable> 

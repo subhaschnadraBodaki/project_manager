@@ -4,8 +4,11 @@ import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import FormikControl from "../../FormComponents/FormikControl";
 import * as Yup from "yup";
+import { Toast } from 'primereact/toast';
+import {useRef} from 'react'
 
 function AddRisks({ projectId }) {
+  const toast = useRef(null); 
   // --------------------------------------initial Values---------------------
   const initialValues = {
     project_id : projectId,
@@ -99,13 +102,16 @@ function AddRisks({ projectId }) {
   // ----------------------------------onSubmit-------------------------
   const onSubmit = (data) => {
     console.log(data);
-
     mutation.mutate(data);
+     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Risk Added', life: 3000 });
+    
+     document.form.reset();
   };
 
   // -------------------------------Form----------------------------
   return (
     <>
+     <Toast ref={toast} />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -113,24 +119,17 @@ function AddRisks({ projectId }) {
       >
         {(formik) => {
           return (
-            <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
-              <div className=" shadow-sm py-6 text-blue-900 ">
-                <h2 className="text-2xl text-center  font-semibold px-20">
-                  Add Risks
-                </h2>
-              </div>
+            <div className="  justify-items-center container w-full mx-auto   ">
+             
 
-              <Form
+              <Form name="form" id="a-form"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-     md:gap-y-4 py-6   md:ml-0"
+                  md:gap-y-4 py-6   md:ml-0"
                 autoComplete="off"
               >
                 <h2 className="h2FormModal">Basic Details</h2>
 
-                 <div className="md:w-full grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5  mb-6 md:mb-0">
-       <h2 className="label">Project-Id :</h2>
-       <h2 className="md:col-start-3 md:col-span-1 md:ml-2 text-left  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1">{projectId}</h2>
-      </div>
+             
 
                 <div>
                   <FormikControl
@@ -239,11 +238,11 @@ function AddRisks({ projectId }) {
                   />
                 </div>
 
-                <div className="text-right mt-5  col-span-2 mr-20 ">
+                {/* <div className="text-right mt-5  col-span-2 mr-10 ">
                   <button type="submit" class="btn" disabled={!formik.isValid}>
-                    Add
+                    Save And Continue
                   </button>
-                </div>
+                </div> */}
               </Form>
             </div>
           );

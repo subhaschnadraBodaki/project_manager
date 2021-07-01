@@ -6,12 +6,10 @@ import Modal from 'react-modal'
 import {useState} from 'react'
 import { Button } from 'primereact/button';
 import AddTask from '../AddTask'
-import AddRisks from '../AddRisks'
-import AddIssues from '../AddIssues'
-import AddDeliverables from '../AddDeliverables'
 import FormType from './TabsData/FormType'
 
-export default function TableToolbar({projectId,label,formType}) {
+
+export default function TableToolbar({projectId,projectName,label,formType}) {
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
 
@@ -36,12 +34,7 @@ export default function TableToolbar({projectId,label,formType}) {
 
 
     const leftToolbarTemplate = () => {
-    //     const updatedtaskDataHandler = (enteredtaskData) =>{
-    //         const tasksData = {
-    //             ...enteredtaskData
-    //         };
-    //         console.log(tasksData)
-    // };
+  
         return (<>
                 <Modal 
                 isOpen={modalIsOpen}
@@ -51,27 +44,33 @@ export default function TableToolbar({projectId,label,formType}) {
                 shouldCloseOnOverlayClick={false}
                 >   
                 
-                <div className="grid grid-cols-2">
-                    <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
+                <div className="grid grid-cols-3">
+
+                    <div><h2 className="h2Form">{projectName} ({projectId})</h2></div>
+
+                    <div className=" shadow-sm py-6 text-blue-900 ">
+                    <h2 className="text-2xl text-center  font-semibold px-20">{label}</h2>
+                     </div>
+
                     <div className="text-right">
                     <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setModalIsOpen(false)} />
                     </div>
-                </div>
-                <div>
-                   
-                <FormType  projectId={projectId} formType={formType} />
-                    
-                   
-                 </div>
-                 {/* <AddTask projectId={projectId}/>
-                 <AddIssues projectId={projectId} />
-                 <AddDeliverables projectId={projectId} />  */}
-                 {/* tasksData={tasksData}  onUpdatedtaskData={updatedtaskDataHandler} */}
+                       </div>
+                      <div>
+                     <FormType  projectId={projectId} formType={formType} /> 
+                     </div>
+
+                     <div className="text-right mr-10 ">
+                     <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
+                    <button className="btn ml-3" type="submit" form="a-form" >Save 
+                    </button>
+                    </div>
+             
               </Modal>
     
             
             <React.Fragment>
-                <button className="bg-blue-900 px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg  flex"  onClick={()=>setModalIsOpen(true) }  ><PlusIcon className="h-5  w-5" /> {label}</button>
+                <button className="headerBtn"  onClick={()=>setModalIsOpen(true) }  ><PlusIcon className="h-5  w-5" /> {label}</button>
             </React.Fragment>
         </>
         )
@@ -82,8 +81,8 @@ export default function TableToolbar({projectId,label,formType}) {
       const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-                     <button className="bg-blue-900 px-5 py-3 text-sm shadow-sm font-medium tracking-wider border text-white rounded-md hover:shadow-lg  flex "><SaveIcon className="h-5 w-5 mr-2"  /> Save</button>
-               
+                     <button className="headerBtn"><SaveIcon className="h-5 w-5 mr-2"  /> Save</button>
+                     
             </React.Fragment>
         )
     }

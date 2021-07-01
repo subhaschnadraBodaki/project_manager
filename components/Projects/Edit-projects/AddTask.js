@@ -6,11 +6,15 @@ import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useState } from "react";
+import { Toast } from 'primereact/toast';
+import {useRef} from 'react'
 
-function AddTask({ projectId, tasksData }, props) {
+function AddTask({ projectId, tasksData}) {
+
+   const toast = useRef(null); 
   // --------------------------------------initial Values---------------------
   const initialValues = {
-    estimated_effort_in_hours: null,
+    estimated_effort_in_hours: '',
     name: '',
     // associated_milestone:'',
     description: '',
@@ -36,6 +40,7 @@ function AddTask({ projectId, tasksData }, props) {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
         "Content-Type": "application/json",
+      
       },
     });
   };
@@ -71,13 +76,15 @@ function AddTask({ projectId, tasksData }, props) {
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-
+     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Added', life: 3000 });
+       document.form.reset();
  
     };
 
     // -------------------------------Form----------------------------
  return (
    <>
+    
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -85,20 +92,17 @@ function AddTask({ projectId, tasksData }, props) {
     >
       {formik => {
         return (
-    <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
-    <div className=" shadow-sm py-6 text-blue-900 ">
-    <h2 className="text-2xl text-center  font-semibold px-20">Add Task</h2>
-    </div>
+
+           
+    <div className=" justify-items-center container w-full mx-auto   ">
+    
    
 
-    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-     md:gap-y-4 py-6   md:ml-0" autoComplete="off">
+    <Form name="form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+     md:gap-y-4 py-6   md:ml-0" id="a-form" autoComplete="off">
        <h2 className="h2FormModal">Basic Details</h2> 
       
-     <div className="md:w-full grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5  mb-6 md:mb-0">
-       <h2 className="label">Project-Id :</h2>
-       <h2 className="md:col-start-3 md:col-span-1 md:ml-2 text-left  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1">{projectId}</h2>
-      </div>
+    
        
       <div>
       <FormikControl
@@ -208,12 +212,12 @@ function AddTask({ projectId, tasksData }, props) {
                     name="planned_end_date"
                   />
                 </div>
-
-                <div className="text-right mt-5  col-span-2 mr-20 ">
+                <Toast ref={toast} />
+                {/* <div className="text-right mt-5  col-span-2 mr-10 ">
                   <button type="submit" class="btn">
-                    Add
+                    Save and Continue
                   </button>
-                </div>
+                </div> */}
               </Form>
             </div>
           );

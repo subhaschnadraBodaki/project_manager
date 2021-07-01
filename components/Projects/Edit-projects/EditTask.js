@@ -116,6 +116,7 @@ function EditTask ({projectId,rowID}) {
   console.log(data)
       
        mutation.mutate(data);
+        document.form.reset();
     };
 
     // -------------------------------Form----------------------------
@@ -129,12 +130,10 @@ function EditTask ({projectId,rowID}) {
       {formik => {
         return (
     <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
-    <div className=" shadow-sm py-6 text-blue-900 ">
-    <h2 className="text-2xl text-center  font-semibold px-20">Edit Task</h2>
-    </div>
+   
    
 
-    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+    <Form id="editForm" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
      md:gap-y-4 py-6   md:ml-0" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
@@ -260,9 +259,9 @@ function EditTask ({projectId,rowID}) {
     </div>
 
    
-    <div className="text-right mt-5  col-span-2 mr-20 ">
+    {/* <div className="text-right mt-5  col-span-2 mr-20 ">
      <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
-    </div>
+    </div> */}
    
     </Form>
     </div>
