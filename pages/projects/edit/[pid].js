@@ -12,6 +12,7 @@ import { Button } from 'primereact/button';
 import AddDeliverables from '../../../components/Projects/Edit-projects/AddDeliverables'
 import AddIssues from '../../../components/Projects/Edit-projects/AddIssues'
 
+
 export default function editproject({projectsData,currencydata,accountdata,projectManager }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 

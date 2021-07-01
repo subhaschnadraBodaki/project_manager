@@ -22,7 +22,7 @@ const teamsData =projectsData[0].project_team_member
 
         return (
             <div>
-                <DataTable value={teamsData} resizableColumns columnResizeMode="expand">
+                <DataTable value={teamsData} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
                     {dynamicColumns}
                 </DataTable>
             </div>

@@ -2,26 +2,29 @@ import React from 'react'
 import ProjectTable from '../../components/Projects/List-of-projects/ProjectTable'
 // import { useKeycloak } from '@react-keycloak/ssr'
 import axios from 'axios'
-import { RenderOnAuthenticated } from '../../components/utils/supabase/renderOnAuthenticated'
-
+// import { RenderOnAuthenticated } from '../../components/utils/supabase/renderOnAuthenticated'
+// import KeycloakAuthentication from '../../components/KeycloakAuthentication'
 export default function projects({data ,employeeData}) {
     // const { keycloak } = useKeycloak()
-    const authentication = true
+    // const authentication = true
     // keycloak.authenticated
-    const listOfProjects = authentication ? (<div>
-        <ProjectTable data={data} employeeData={employeeData} />
-    </div>) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>
-        Login
-    </button></>)
+    // const listOfProjects = authentication ? (<div>
+    //     <ProjectTable data={data} employeeData={employeeData} />
+    // </div>) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>
+    //     Login
+    // </button></>)
 
     return (
-        <RenderOnAuthenticated>
+        // <KeycloakAuthentication>
+        
         <React.Fragment>
-            {listOfProjects}
+            {/* {listOfProjects} */}
+            <ProjectTable data={data} employeeData={employeeData} />
 
 
         </React.Fragment>
-        </RenderOnAuthenticated>
+        /* </KeycloakAuthentication> */
+        
     )
 }
 

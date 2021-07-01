@@ -21,7 +21,7 @@ const dynamicColumns = columns.map((col)=> {
 })
     return (
         <div>
-              <DataTable value={resourceRequestData} resizableColumns columnResizeMode="expand">
+              <DataTable value={resourceRequestData} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
                         {dynamicColumns}
                     </DataTable> 
         </div>
