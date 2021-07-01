@@ -48,26 +48,6 @@ export default function ProjectListTable({ actionBody, data, employeeData }) {
     }
   };
 
-<<<<<<< HEAD
-    const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
-    const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
-    return (
-        <div >
-            <DataTable   value={data} className="p-datatable-sm" resizableColumns columnResizeMode="expand"  paginator
-                paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5, 10, 15]}
-                paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} >
-                
-                {dynamicColumns}
-                {/* <Column  header="Project Manager" >{projectManager}</Column> */}
-                <Column header="Project Health" body={statusBodyTemplate}></Column>
-                <Column header="Action" body={actionBody}></Column>
-
-            </DataTable>
-            
-        </div>
-    )
-=======
   const paginatorLeft = (
     <Button type="button" icon="pi pi-refresh" className="p-button-text" />
   );
@@ -95,5 +75,4 @@ export default function ProjectListTable({ actionBody, data, employeeData }) {
       </DataTable>
     </div>
   );
->>>>>>> 1171a90035ef814333b47163da73247195e1fa84
 }
