@@ -5,64 +5,85 @@ import Section2 from '../../../components/Projects/Project-overview/Section2'
 import Heading from '../../../components/Projects/Project-overview/Heading'
 // import { useKeycloak } from '@react-keycloak/ssr';
 import axios from 'axios';
+import { RenderOnAuthenticated } from '../../../components/utils/supabase/renderOnAuthenticated'
 
-export default function projectOverview({projectsData }) {
+export default function projectOverview({ projectsData }) {
     const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
 
     // const { keycloak } = useKeycloak()
-    const authentication = true
-    const projectDetails = authentication ? (<>
-        <div className="mx-10 px-5">
+    // const authentication = true
+    // const projectDetails = authentication ? (<>
+    //     <div className="mx-10 px-5">
 
-            <Heading />
-        </div>
-        <div className="mx-1 px-2 ">
-        <div >
-            <Section1 projectsData={projectsData}  />
-        </div>
-        <div >
-            <Section2 projectsData={projectsData} />
-        </div>
-        </div>
-        
-        <div className="my-5 px-2">
-            <TabsRender projectsData={projectsData} />
-        </div>
+    //         <Heading />
+    //     </div>
+    //     <div className="mx-1 px-2 ">
+    //         <div >
+    //             <Section1 projectsData={projectsData} />
+    //         </div>
+    //         <div >
+    //             <Section2 projectsData={projectsData} />
+    //         </div>
+    //     </div>
 
-    </>
-    ) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>
-        Login
-    </button></>)
+    //     <div className="my-5 px-2">
+    //         <TabsRender projectsData={projectsData} />
+    //     </div>
+
+    // </>
+    // ) : (<> <span>You have been logged out click here to login again</span> <br /> < button type="button" onClick={() => keycloak.login()}>
+    //     Login
+    // </button></>)
 
     return (
         <>
-            {projectDetails}
-        </> 
+            {/* <RenderOnAuthenticated> */}
+                <div className="mx-10 px-5">
+
+                    <Heading />
+                </div>
+                <div className="mx-1 px-2 ">
+                    <div >
+                        <Section1 projectsData={projectsData} />
+                    </div>
+                    <div >
+                        <Section2 projectsData={projectsData} />
+                    </div>
+                </div>
+
+                <div className="my-5 px-2">
+                    <TabsRender projectsData={projectsData} />
+                </div>
+
+
+                {/* {projectDetails} */}
+            {/* </RenderOnAuthenticated> */}
+        </>
     )
 }
 
-export async function getServerSideProps(context){
-    const {pid}= context.query
-    
-        const response =await axios({
-            method :'GET',
-            url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*),project_risks(*),project_issues(*),project_deliverables(*),project_change_request(*)`,
-            headers:{
-                apikey:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-            }
-        })    
-        
-    if (response.status!=200) throw new Error(response.statusText)
-    
-    const projectsData=  response.data
-   
-return{
-    props:{
-        projectsData ,
-     
-       
+export async function getServerSideProps(context) {
+    const { pid } = context.query
+
+    const response = await axios({
+        method: 'GET',
+        url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/projects?id=eq.${pid}&select=*,project_stories(*),project_tasks(*),project_milestones(*),project_status_report(*),project_team_member(*),project_resource_requests(*),project_risks(*),project_issues(*),project_deliverables(*),project_change_request(*)`,
+        headers: {
+            apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+        }
+    })
+
+    if (response.status != 200) throw new Error(response.statusText)
+
+    const projectsData = response.data
+
+    return {
+        props: {
+            projectsData,
+
+
+        }
     }
-}
 
 }
 

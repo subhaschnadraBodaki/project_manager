@@ -64,7 +64,7 @@ export default function RisksData({projectsData}) {
          setRiskData(_riskData)
         setDeleteItemConfirm(false)
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Risk Deleted', life: 3000 });
-             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/risks?id=eq.${rowData.id}` 
+             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/risks?id=eq.${deleteData.id}` 
       axios.delete(url,
             {
             headers:{

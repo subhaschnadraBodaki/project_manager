@@ -1,42 +1,21 @@
 import React from "react";
-import TasksData from "./TabsData/TasksData";
-import TeamsData from "./TabsData/TeamsData";
-import ChangeRequestsData from "./TabsData/ChangeRequestsData";
-import DeliverablesData from "./TabsData/DeliverablesData";
-import FinancialsData from "./TabsData/FinancialsData";
-import IssuesData from "./TabsData/IssuesData";
-import MilestonesData from "./TabsData/MilestonesData";
-import ResourceRequestData from "./TabsData/ResourceRequestData";
-import RisksData from "./TabsData/RisksData";
-import StatusReportsData from "./TabsData/StatusReportsData";
+import WorkExperienceData from '../Tabs/TabsData/WorkExperienceData'
 
-const Tabs = ({ color, projectsData }) => {
+const Tabs = ({ color, employeeData, employmentType, designation }) => {
   const [openTab, setOpenTab] = React.useState(1);
 
-  const tabs = [
-    "Tasks",
-    "Milestones",
-    "Team",
-    "Risks",
-    "Deliverables",
-    "Issues",
-    "Change Req.",
-    "Resource Req.",
-    "Status ",
-    "Financials",
-  ];
+  const tabs = ["Education", "Communication", "Skills", "Work Exp", "Address"];
 
   const TabsContent = [
-    <TasksData projectsData={projectsData} />,
-    <MilestonesData projectsData={projectsData} />,
-    <TeamsData projectsData={projectsData} />,
-    <RisksData projectsData={projectsData} />,
-    <DeliverablesData projectsData={projectsData} />,
-    <IssuesData projectsData={projectsData} />,
-    <ChangeRequestsData projectsData={projectsData} />,
-    <ResourceRequestData projectsData={projectsData} />,
-    <StatusReportsData projectsData={projectsData} />,
-    <FinancialsData projectsData={projectsData} />,
+    'education',
+    'communication',
+    'skills',
+    <WorkExperienceData
+      employeeData={employeeData}
+      employmentType={employmentType}
+      designation={designation}
+    />,
+    'address'
   ];
 
   return (
@@ -72,6 +51,7 @@ const Tabs = ({ color, projectsData }) => {
               );
             })}
           </ul>
+
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
             <div className="px-4 py-5 flex-auto">
               <div className="tab-content tab-space">
@@ -96,5 +76,3 @@ const Tabs = ({ color, projectsData }) => {
 };
 
 export default Tabs;
-
-// -mb-px flex-grow h-10 w-10  mr-2 last:mr-0  flex-auto text-center

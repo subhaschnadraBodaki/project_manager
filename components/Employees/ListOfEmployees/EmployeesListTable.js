@@ -4,15 +4,14 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 
-
-export default function AccountsListTable({ accountsData, actionBody }) {
+export default function EmployeesListTable({ actionBody, employeesData }) {
   const columns = [
-    { field: "id", header: "Id" },
-    { field: "account_name", header: "Name" },
-    { field: "type", header: "Account Type" },
-    { field: "number_of_employees", header: "No Of Employees" },
-    { field: "annual_revenue", header: "Annual Revenue"}
+    { field: "employee_id", header: "Employee_id" },
+    { field: "first_name", header: "Name" },
+    { field: "work_email", header: "Email" },
+    { field: "job_title", header: "Job_title" },
   ];
+
 
   const dynamicColumns = columns.map((col) => {
     return <Column key={col.field} field={col.field} header={col.header} />;
@@ -27,7 +26,7 @@ export default function AccountsListTable({ accountsData, actionBody }) {
   return (
     <div>
       <DataTable
-        value={accountsData}
+        value={employeesData}
         resizableColumns
         columnResizeMode="expand"
         paginator
@@ -37,6 +36,8 @@ export default function AccountsListTable({ accountsData, actionBody }) {
         rowsPerPageOptions={[5, 10, 15]}
         paginatorLeft={paginatorLeft}
         paginatorRight={paginatorRight}
+        className="p-datatable-responsive-demo"
+        header="Responsive"
       >
         {dynamicColumns}
 

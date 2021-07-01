@@ -103,7 +103,7 @@ export async function getServerSideProps(context){
         const currencydata=data[1].data;
         const projectManager=data[2].data;
         const projectsData=  data[3].data
-  
+   
 return{
     props:{
         projectsData ,

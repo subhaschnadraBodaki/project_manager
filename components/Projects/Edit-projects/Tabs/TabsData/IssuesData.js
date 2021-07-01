@@ -65,7 +65,7 @@ export default function IssuesData({projectsData}) {
          setIssuesData(_issuesData)
          setDeleteItemConfirm(false)
              toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Issue Deleted', life: 3000 });
-             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?id=eq.${rowData.id}` 
+             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?id=eq.${deleteData.id}` 
       axios.delete(url,
             {
             headers:{
