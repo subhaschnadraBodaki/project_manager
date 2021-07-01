@@ -12,6 +12,7 @@ import { Button } from "primereact/button";
 import AddDeliverables from "../../../components/Projects/Edit-projects/AddDeliverables";
 import AddIssues from "../../../components/Projects/Edit-projects/AddIssues";
 
+<<<<<<< HEAD
 export default function editproject({
   projectsData,
   currencydata,
@@ -19,6 +20,11 @@ export default function editproject({
   projectManager,
 }) {
   const tabName = ["Teams", "Budget", "Risks", "Deliverables"];
+=======
+
+export default function editproject({projectsData,currencydata,accountdata,projectManager }) {
+    const tabName = ['Teams', 'Budget', 'Risks', 'Deliverables']
+>>>>>>> 7a5c73801e3c75c16d853973447ad67cc5b7106a
 
   // const { keycloak } = useKeycloak()
 
