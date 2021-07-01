@@ -183,7 +183,6 @@ function AddDeliverables ({projectId}) {
       type='number'
       label='Successor Deliverables'
       name='sucecssor_deliverables'
-     
       />
       </div>
 

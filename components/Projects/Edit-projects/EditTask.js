@@ -8,24 +8,26 @@ import { useMutation, useQueryClient } from 'react-query';
 
  import {useState} from 'react'
 
-function EditTask ({projectId,rowID}) {
+function EditTask ({projectId,editData}) {
 
   
   // --------------------------------------initial Values---------------------
-  console.log(rowID)
+  // console.log(editData.id)
+  console.log('edittask')
+
   const initialValues = {
-     actual_effort_in_hours:'',
-      name:'',
-      associated_milestone:'',
-      description: '',
-      sucecssor_task:'',
-      parent_task:'',
+     actual_effort_in_hours:null,
+      name: editData.name,
+      // associated_milestone:null,
+      description: editData.description,
+      sucecssor_task:editData.sucecssor_task,
+      parent_task:editData.parent_task,
       project_id:projectId,
-      story_id:'',
+      story_id:editData.story_id,
       actual_start_date: null,
       actual_end_date: null,
-      percentage_of_completion:'',
-      owner:'',
+      percentage_of_completion:null,
+      owner:editData.owner,
       time_recording_allowed: false,
   }
 
@@ -53,11 +55,11 @@ function EditTask ({projectId,rowID}) {
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient()
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?id=eq.${rowID}`
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?id=eq.${editData.id}`
 
   const editTaskData = (data)=>{
     // return axios.post(url,data);
-    return axios.post(url ,data,
+    return axios.patch(url ,data,
    {
       headers: {
           "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -133,7 +135,7 @@ function EditTask ({projectId,rowID}) {
    
    
 
-    <Form id="editForm" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+    <Form id="editTask" name="form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
      md:gap-y-4 py-6   md:ml-0" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
@@ -161,7 +163,7 @@ function EditTask ({projectId,rowID}) {
       <FormikControl
         control='input'
         type='number'
-        label='Actual Effort in hours'
+        label='Actual Eft. in Hrs'
         name='actual_effort_in_hours'
       />
       </div>
@@ -178,14 +180,14 @@ function EditTask ({projectId,rowID}) {
       </div>
     
 
-      <div>
+      {/* <div>
       <FormikControl
         control='input'
         type='number'
-        label='Associated Milestone'
+        label='Ass. Milestone'
         name='associated_milestone'
       />
-      </div>
+      </div> */}
 
       {/* <div > 
        <FormikControl
@@ -197,14 +199,7 @@ function EditTask ({projectId,rowID}) {
       </div> */}
 
 
-      <div className=' mt-3'>
-      <FormikControl
-      control='checkbox'
-      label='Time Recording'
-      name='time_recording_allowed'
-      options={checkboxOptionsTimeRecord} 
-      />
-      </div>
+     
 
       
       <div className=" col-span-2">
@@ -238,6 +233,15 @@ function EditTask ({projectId,rowID}) {
         type='number'
         label='%Complete'
         name='percentage_of_completion'
+      />
+      </div>
+
+       <div className=' mt-3'>
+      <FormikControl
+      control='checkbox'
+      label='Time Recording'
+      name='time_recording_allowed'
+      options={checkboxOptionsTimeRecord} 
       />
       </div>
      

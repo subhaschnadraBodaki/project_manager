@@ -58,7 +58,7 @@ const checkboxOptionsStatus =  [
   const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?apikey=${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
 
   const addproject = (data)=>{
-    return axios.post(url,data);
+    return axios.patch(url,data);
     };
 
   const mutation = useMutation(addproject,{
@@ -88,7 +88,7 @@ const checkboxOptionsStatus =  [
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
   console.log(data)
-      
+       document.form.reset();
        mutation.mutate(data);
     };
 
@@ -102,13 +102,11 @@ const checkboxOptionsStatus =  [
     >
       {formik => {
         return (
-    <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
-    <div className=" shadow-sm py-6 text-blue-900 ">
-    <h2 className="text-2xl text-center  font-semibold px-20">Edit Issues</h2>
-    </div>
+    <div className=" justify-items-center container w-full mx-auto   ">
+    
    
 
-    <Form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+    <Form  id="editForm" name="form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
      md:gap-y-4 py-6   md:ml-0" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
@@ -207,9 +205,9 @@ const checkboxOptionsStatus =  [
      
 
    
-    <div className="text-right mt-5  col-span-2 mr-20 ">
+    {/* <div className="text-right mt-5  col-span-2 mr-20 ">
      <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
-    </div>
+    </div> */}
    
     </Form>
     </div>

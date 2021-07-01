@@ -15,9 +15,12 @@ export default function RisksData({projectsData}) {
      const toast = useRef(null); 
      const projectName = projectsData[0].name
     const projectId = projectsData[0].id
- 
+
       const[ModalIsOpen, setModalIsOpen] = useState(false)
-        const [deleteItem,setDeleteItem]=useState(false)
+      const [deleteItemConfirm,setDeleteItemConfirm]=useState(false)
+    const[deleteData,setDeleteData]=useState(null)
+       const [editData,setEditData]=useState(null)
+
     const customStyles = {
         content: {
           top: '50%',
@@ -56,10 +59,10 @@ export default function RisksData({projectsData}) {
     else{
        const [riskData,setRiskData] = useState(projectsData[0].project_risks)
          
-          const deleteProduct = (rowData) => {
-         let  _riskData = riskData.filter(val => val.id !== rowData.id);
+          const deleteProduct = (deleteData) => {
+         let  _riskData = riskData.filter(val => val.id !== deleteData.id);
          setRiskData(_riskData)
-         console.log(_riskData)
+        setDeleteItemConfirm(false)
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Risk Deleted', life: 3000 });
              const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/risks?id=eq.${rowData.id}` 
       axios.delete(url,
@@ -71,32 +74,54 @@ export default function RisksData({projectsData}) {
             
         }
       )
-          }
-      
+}
+
+   const edit = (rData) => {
+          setEditData(rData)
+         setModalIsOpen(true)
+      }; 
+
+ const deleteFxn = (dData) => {
+        setDeleteData(dData)
+        setDeleteItemConfirm(true)
+   }
+
+
+
           const ActionButton = (rowData) => {
         return (
             <React.Fragment>
-                     <Modal 
-            isOpen={ModalIsOpen}
+                 <Modal            
+            isOpen={modalIsOpen}
             onRequestClose={()=> setModalIsOpen(false)}
             style={customStyles}
             ariaHideApp={false}
             shouldCloseOnOverlayClick={false}
             >   
             
-            <div className="grid grid-cols-2">
-                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
+            <div className="grid grid-cols-3">
+                <div><h2 className="h2Form">{projectName} ({projectId})</h2></div>
+                 <div className=" shadow-sm py-6 text-blue-900 ">
+                <h2 className="text-2xl text-center  font-semibold px-20">Edit Risk
+                </h2>
+                </div>
                 <div className="text-right">
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setModalIsOpen(false)} />
                 </div>
             </div>
-
-            <EditTask projectId={projectId} rowID={rowData.id} />
+             
+            <EditTask projectId={projectId} editData={editData} />
+                    <div className="text-right mr-10 ">
+                     <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
+                    <button className="btn ml-3" type="submit" form="editForm" >Save 
+                    </button>
+                    
+                    </div> 
           </Modal>
 
            <Modal
-          isOpen={deleteItem}
-            onRequestClose={()=> setDeleteItem(false)}
+          isOpen={deleteItemConfirm}
+            onRequestClose={()=> setDeleteItemConfirm(false)}
             style={customStylesDelete } 
             header="Confirm"
             ariaHideApp={false}
@@ -105,26 +130,26 @@ export default function RisksData({projectsData}) {
                   <div className="grid grid-cols-2">
                 <div><h2 className="h2FormModal">Confirm</h2></div>
                 <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setDeleteItem(false)} />
+                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setDeleteItemConfirm(false)} />
                 </div>
                </div>
 
                     <div className="DeleteFormModalAlert md:mt-3">
                   <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem'}} />
-                  <h2>Are you Sure you want to delete {rowData.name} ?</h2> 
+                  <h2>Are you Sure you want to delete ?</h2> 
                   </div>
                   <div className="text-right md:mt-2">        
                       
-                    <Button label="No" icon="pi pi-times" className="p-button-text" onClick={()=>setDeleteItem(false)}/>
-                    <Button label="Yes" icon="pi pi-check" className="p-button-text"  onClick={()=>deleteProduct(rowData)} />
+                    <Button label="No" icon="pi pi-times" className="p-button-text" onClick={()=>setDeleteItemConfirm(false)}/>
+                    <Button label="Yes" icon="pi pi-check" className="p-button-text"  onClick={()=>deleteProduct(deleteData)} />
             
                  </div>
           </Modal>
 
-                <button onClick={() => setModalIsOpen(true) }>
+                <button onClick={() =>  edit(rowData)}>
                     <PencilIcon className="h-5 w-5 mr-4" />
                 </button>
-                <button onClick={() =>setDeleteItem(true)}>
+                <button onClick={() =>deleteFxn(rowData)}>
                     <TrashIcon className="h-5 w-5 " />
                 </button>
             </React.Fragment>

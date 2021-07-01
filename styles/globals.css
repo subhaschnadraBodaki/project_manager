@@ -40,6 +40,14 @@ input:focus{
     justify-content: center;
 }
 
+ .logo-image{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: -6px;
+}
+
 @layer base{
 
 .formGrid{
@@ -90,5 +98,9 @@ input:focus{
 
 .headerBtn{
     @apply bg-blue-900 px-1 py-1  text-sm shadow-sm font-medium tracking-wider border text-blue-100 rounded-md hover:shadow-lg hover:bg-blue-800 flex
+}
+
+.navBtns{
+    @apply  text-gray-400 hover:bg-white  hover:text-blue-900  py-7  rounded-sm text-sm font-medium  border-b-2 border-blue-900 md:ml-5
 }
 }
