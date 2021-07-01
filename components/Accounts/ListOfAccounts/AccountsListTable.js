@@ -14,17 +14,6 @@ export default function AccountsListTable({ accountsData, actionBody }) {
     { field: "annual_revenue", header: "Annual Revenue"}
   ];
 
-  // const { status, data, error } = useQuery("products", AccountsData);
-
-  // console.log(data);
-  // if (status === "loading") {
-  //   return <div>loading...</div>; // loading state
-  // }
-
-  // if (status === "error") {
-  //   return <div>{error.message}</div>; // error state
-  // }
-
   const dynamicColumns = columns.map((col) => {
     return <Column key={col.field} field={col.field} header={col.header} />;
   });

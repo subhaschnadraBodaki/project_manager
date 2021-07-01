@@ -4,9 +4,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 
-import EmployeesData from "./EmployeesData";
-
-export default function EmployeesListTable({ actionBody }) {
+export default function EmployeesListTable({ actionBody, employeesData }) {
   const columns = [
     { field: "employee_id", header: "Employee_id" },
     { field: "first_name", header: "Name" },
@@ -14,15 +12,6 @@ export default function EmployeesListTable({ actionBody }) {
     { field: "job_title", header: "Job_title" },
   ];
 
-  const { status, data, error } = useQuery("products", EmployeesData);
-
-  if (status === "loading") {
-    return <div>loading...</div>; // loading state
-  }
-
-  if (status === "error") {
-    return <div>{error.message}</div>; // error state
-  }
 
   const dynamicColumns = columns.map((col) => {
     return <Column key={col.field} field={col.field} header={col.header} />;
@@ -37,7 +26,7 @@ export default function EmployeesListTable({ actionBody }) {
   return (
     <div>
       <DataTable
-        value={data}
+        value={employeesData}
         resizableColumns
         columnResizeMode="expand"
         paginator

@@ -1,5 +1,7 @@
+import { server } from "../../../config";
+import axios from "axios";
+import TabsRender from "../../../components/Employees/EditEmployee/Tabs/TabRender";
 import EditEmployee from "../../../components/Employees/EditEmployee/EditEmployee";
-import axios from 'axios';
 
 const editEmployee = ({
   education,
@@ -8,11 +10,11 @@ const editEmployee = ({
   countries,
   employees,
   employeeData,
+  employmentType, 
+  designation
 }) => {
-    
-
   return (
-    <div>
+    <>
       <EditEmployee
         education={education}
         employmentStatus={employmentStatus}
@@ -21,7 +23,15 @@ const editEmployee = ({
         employees={employees}
         employeeData={employeeData}
       />
-    </div>
+
+      <div className="my-5 px-2">
+        <TabsRender
+          employeeData={employeeData}
+          employmentType={employmentType}
+          designation={designation}
+        />
+      </div>
+    </>
   );
 };
 
@@ -30,7 +40,7 @@ export async function getServerSideProps(context) {
 
   const employee = axios({
     method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}`,
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*)`,
     headers: {
       apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "Content-Type": "application/json",
@@ -82,6 +92,22 @@ export async function getServerSideProps(context) {
     },
   });
 
+  const employmentTypeData = axios({
+    method: "get",
+    url: `${server}/api/enums/employment_type_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const designationData = axios({
+    method: "get",
+    url: `${server}/api/enums/resource_roles_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   const data = await axios.all([
     employee,
     educationdata,
@@ -89,6 +115,8 @@ export async function getServerSideProps(context) {
     jobTitlesData,
     countriesData,
     employeesData,
+    employmentTypeData,
+    designationData,
   ]);
 
   const employeeData = data[0].data;
@@ -97,7 +125,8 @@ export async function getServerSideProps(context) {
   const jobTitles = data[3].data;
   const countries = data[4].data;
   const employees = data[5].data;
-
+  const employmentType = data[6].data;
+  const designation = data[7].data;
 
   return {
     props: {
@@ -107,6 +136,8 @@ export async function getServerSideProps(context) {
       jobTitles,
       countries,
       employees,
+      employmentType,
+      designation,
     },
   };
 }
