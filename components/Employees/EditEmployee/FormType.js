@@ -1,4 +1,5 @@
 import AddWorkExperience from "./RelatedTables/Add/AddWorkExperience";
+import AddEmployeeIdentity from "./RelatedTables/Add/AddEmployeeIdentity";
 
 export default function FormType({
   formType,
@@ -6,6 +7,8 @@ export default function FormType({
   employeeName,
   employmentType,
   designation,
+  identityType,
+  countries
 }) {
   switch (formType) {
     case "AddWorkExperience":
@@ -16,6 +19,17 @@ export default function FormType({
           designation={designation}
           employeeName={employeeName}
         />
+      );
+
+    case "AddEmployeeIdentity":
+      return (
+      <AddEmployeeIdentity
+        employeeId={employeeId}
+        employmentType={employmentType}
+        designation={designation}
+        identityType={identityType}
+        countries={countries}
+      />
       );
     default:
       return <h1>Switch</h1>;

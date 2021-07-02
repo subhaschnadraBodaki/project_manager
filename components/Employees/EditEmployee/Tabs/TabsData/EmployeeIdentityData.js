@@ -1,248 +1,249 @@
-// import React, { useRef, useState } from "react";
-// import { Button } from "primereact/button";
-// import { Toast } from "primereact/toast";
-// import { DataTable } from "primereact/datatable";
-// import { Column } from "primereact/column";
-// import { TrashIcon, PencilIcon } from "@heroicons/react/solid";
-// import axios from "axios";
-// import Modal from "react-modal";
+import React, { useRef, useState } from "react";
+import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { TrashIcon, PencilIcon } from "@heroicons/react/solid";
+import axios from "axios";
+import Modal from "react-modal";
 
-// import TableToolbar from "../TableToolbar";
+import TableToolbar from "../TableToolbar";
+import EditEmployeeIdentity from "../../RelatedTables/Edit/EditEmployeeIdentity";
 
-// const EmployeeIdentityData = ({ employeeData, countries, identityType }) => {
-//   const toast = useRef(null);
-//   const employeeId = employeeData[0].employee_id;
-//   const employeeName = employeeData[0].first_name;
+const EmployeeIdentityData = ({ employeeData, countries, identityType }) => {
+    const toast = useRef(null);
+  const employeeId = employeeData[0].employee_id;
+  const employeeName = employeeData[0].first_name;
 
-//   const [modalIsOpen, setModalIsOpen] = useState(false);
-//   const [deleteItemConfirm, setDeleteItemConfirm] = useState(false);
-//   const [deleteData, setDeleteData] = useState(null);
-//   const [editIdentity, setEditIdentity] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [deleteItemConfirm, setDeleteItemConfirm] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
+  const [editIdentity, setEditIdentity] = useState(null);
 
-//   const customStyles = {
-//     content: {
-//       top: "50%",
-//       left: "50%",
-//       right: "auto",
-//       bottom: "auto",
-//       width: "900px",
-//       height: "500px",
-//       marginRight: "-50%",
-//       transform: "translate(-50%, -50%)",
-//     },
-//   };
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      width: "900px",
+      height: "500px",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
 
-//   const customStylesDelete = {
-//     content: {
-//       position: "absolute",
-//       top: "30%",
-//       left: "30%",
-//       right: "auto",
-//       bottom: "auto",
-//       width: "450px",
-//       height: "180px",
-//     },
-//   };
+  const customStylesDelete = {
+    content: {
+      position: "absolute",
+      top: "30%",
+      left: "30%",
+      right: "auto",
+      bottom: "auto",
+      width: "450px",
+      height: "180px",
+    },
+  };
 
-//   if (
-//     employeeData[0] == null ||
-//     employeeData[0] === undefined ||
-//     employeeData[0].employee_identity[0] == null ||
-//     employeeData[0].employee_identity[0] === undefined
-//   ) {
-//     return (
-//       <div>
-//         <TableToolbar
-//           employeeId={employeeId}
-//           employeeName={employeeName}
-//           label="Work Exp"
-//           formType="AddWorkExperience"
-//           identityType={identityType}
-//           countries={countries}
-//         />
-//         <div>No Data Found</div>
-//       </div>
-//     );
-//   } else {
-//     const [EmployeeIdentityData, setEmployeeIdentityData] = useState(
-//       employeeData[0].employee_identity
-//     );
+  if (
+    employeeData[0] == null ||
+    employeeData[0] === undefined ||
+    employeeData[0].employee_identity[0] == null ||
+    employeeData[0].employee_identity[0] === undefined
+  ) {
+    return (
+      <div>
+        <TableToolbar
+          employeeId={employeeId}
+          employeeName={employeeName}
+          label="Identity"
+          formType="AddEmployeeIdentity"
+          identityType={identityType}
+          countries={countries}
+        />
+        <div>No Data Found</div>
+      </div>
+    );
+  } else {
+    const [EmployeeIdentityData, setEmployeeIdentityData] = useState(
+      employeeData[0].employee_identity
+    );
 
-//     // ----------------------------delete work experience from database and table------
-//     const deleteEmployeeIdenetity = (deleteData) => {
-//       let _EmployeeIdentityData = EmployeeIdentityData.filter(
-//         (val) => val.id !== deleteData.id
-//       );
-//       setEmployeeIdentityData(_EmployeeIdentityData);
-//       setDeleteItemConfirm(false);
-//       // console.log(rowData)
-//       toast.current.show({
-//         severity: "success",
-//         summary: "Successful",
-//         detail: "work experience Deleted",
-//         life: 3000,
-//       });
+    // ----------------------------delete work experience from database and table------
+    const deleteEmployeeIdentity = (deleteData) => {
+      let _EmployeeIdentityData = EmployeeIdentityData.filter(
+        (val) => val.id !== deleteData.id
+      );
+      setEmployeeIdentityData(_EmployeeIdentityData);
+      setDeleteItemConfirm(false);
+      // console.log(rowData)
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Identity  Deleted",
+        life: 3000,
+      });
 
-//       const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employee_identity?id=eq.${deleteData.id}`;
-//       axios.delete(url, {
-//         headers: {
-//           apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-//           "Content-Type": "application/json",
-//         },
-//       });
-//     };
+      const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employee_identity?id=eq.${deleteData.id}`;
+      axios.delete(url, {
+        headers: {
+          apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+        },
+      });
+    };
 
-//     const edit = (rowData) => {
-//       setEditIdentity(rowData);
-//       setModalIsOpen(true);
-//     };
+    const edit = (rowData) => {
+      setEditIdentity(rowData);
+      setModalIsOpen(true);
+    };
 
-//     const deleteFxn = (dData) => {
-//       setDeleteData(dData);
-//       setDeleteItemConfirm(true);
-//     };
+    const deleteFxn = (dData) => {
+      setDeleteData(dData);
+      setDeleteItemConfirm(true);
+    };
 
-//     const ActionButton = (rowData) => {
-//       return (
-//         <React.Fragment>
-//           <Modal
-//             isOpen={modalIsOpen}
-//             onRequestClose={() => setModalIsOpen(false)}
-//             style={customStyles}
-//             ariaHideApp={false}
-//             shouldCloseOnOverlayClick={false}
-//           >
-//             <div className="grid grid-cols-3">
-//               <div>
-//                 <h2 className="h2Form">
-//                   {employeeName} ({employeeId})
-//                 </h2>
-//               </div>
-//               <div className=" shadow-sm py-6 text-blue-900 ">
-//                 <h2 className="text-2xl text-center  font-semibold px-20">
-//                   Edit Work Exp
-//                 </h2>
-//               </div>
-//               <div className="text-right">
-//                 <Button
-//                   icon="pi pi-times"
-//                   className="p-button-rounded p-button-danger p-button-outlined align-right"
-//                   onClick={() => setModalIsOpen(false)}
-//                 />
-//               </div>
-//             </div>
+    const ActionButton = (rowData) => {
+      return (
+        <React.Fragment>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={() => setModalIsOpen(false)}
+            style={customStyles}
+            ariaHideApp={false}
+            shouldCloseOnOverlayClick={false}
+          >
+            <div className="grid grid-cols-3">
+              <div>
+                <h2 className="h2Form">
+                  {employeeName} ({employeeId})
+                </h2>
+              </div>
+              <div className=" shadow-sm py-6 text-blue-900 ">
+                <h2 className="text-2xl text-center  font-semibold px-20">
+                  Edit Identity
+                </h2>
+              </div>
+              <div className="text-right">
+                <Button
+                  icon="pi pi-times"
+                  className="p-button-rounded p-button-danger p-button-outlined align-right"
+                  onClick={() => setModalIsOpen(false)}
+                />
+              </div>
+            </div>
 
-//             <EditWorkExperience
-//               employeeId={employeeId}
-//               editIdentity={editIdentity}
-//               countries={countries}
-//               identityType={identityType}
-//             />
+            <EditEmployeeIdentity
+              employeeId={employeeId}
+              editIdentity={editIdentity}
+              countries={countries}
+              identityType={identityType}
+            />
 
-//             <div className="text-right mr-10 ">
-//               <button className="btn " onClick={() => setModalIsOpen(false)}>
-//                 Close
-//               </button>
-//               <button
-//                 className="btn ml-3"
-//                 type="submit"
-//                 form="editIdentity"
-//               >
-//                 Save
-//               </button>
-//             </div>
-//           </Modal>
+            <div className="text-right mr-10 ">
+              <button className="btn " onClick={() => setModalIsOpen(false)}>
+                Close
+              </button>
+              <button
+                className="btn ml-3"
+                type="submit"
+                form="editIdentity"
+              >
+                Save
+              </button>
+            </div>
+          </Modal>
 
-//           <Modal
-//             isOpen={deleteItemConfirm}
-//             onRequestClose={() => setDeleteItemConfirm(false)}
-//             style={customStylesDelete}
-//             header="Confirm"
-//             ariaHideApp={false}
-//             shouldCloseOnOverlayClick={false}
-//           >
-//             <div className="grid grid-cols-2">
-//               <div>
-//                 <h2 className="h2FormModal">Confirm</h2>
-//               </div>
-//               <div className="text-right">
-//                 <Button
-//                   icon="pi pi-times"
-//                   className="p-button-rounded p-button-danger p-button-outlined align-right"
-//                   onClick={() => setDeleteItemConfirm(false)}
-//                 />
-//               </div>
-//             </div>
+          <Modal
+            isOpen={deleteItemConfirm}
+            onRequestClose={() => setDeleteItemConfirm(false)}
+            style={customStylesDelete}
+            header="Confirm"
+            ariaHideApp={false}
+            shouldCloseOnOverlayClick={false}
+          >
+            <div className="grid grid-cols-2">
+              <div>
+                <h2 className="h2FormModal">Confirm</h2>
+              </div>
+              <div className="text-right">
+                <Button
+                  icon="pi pi-times"
+                  className="p-button-rounded p-button-danger p-button-outlined align-right"
+                  onClick={() => setDeleteItemConfirm(false)}
+                />
+              </div>
+            </div>
 
-//             <div className="DeleteFormModalAlert md:mt-3">
-//               <i
-//                 className="pi pi-exclamation-triangle p-mr-3"
-//                 style={{ fontSize: "2rem" }}
-//               />
-//               <h2>Are you Sure you want to delete {rowData.name} ?</h2>
-//             </div>
-//             <div className="text-right md:mt-2">
-//               <Button
-//                 label="No"
-//                 icon="pi pi-times"
-//                 className="p-button-text"
-//                 onClick={() => setDeleteItemConfirm(false)}
-//               />
-//               <Button
-//                 label="Yes"
-//                 icon="pi pi-check"
-//                 className="p-button-text"
-//                 onClick={() => deleteWorkExperience(deleteData)}
-//               />
-//             </div>
-//           </Modal>
+            <div className="DeleteFormModalAlert md:mt-3">
+              <i
+                className="pi pi-exclamation-triangle p-mr-3"
+                style={{ fontSize: "2rem" }}
+              />
+              <h2>Are you Sure you want to delete {rowData.name} ?</h2>
+            </div>
+            <div className="text-right md:mt-2">
+              <Button
+                label="No"
+                icon="pi pi-times"
+                className="p-button-text"
+                onClick={() => setDeleteItemConfirm(false)}
+              />
+              <Button
+                label="Yes"
+                icon="pi pi-check"
+                className="p-button-text"
+                onClick={() => deleteEmployeeIdentity(deleteData)}
+              />
+            </div>
+          </Modal>
 
-//           <button onClick={() => edit(rowData)}>
-//             <PencilIcon className="h-5 w-5 mr-4" />
-//           </button>
-//           <button onClick={() => deleteFxn(rowData)}>
-//             <TrashIcon className="h-5 w-5 " />
-//           </button>
-//         </React.Fragment>
-//       );
-//     };
-//     // ---------------------------------------------------------------
+          <button onClick={() => edit(rowData)}>
+            <PencilIcon className="h-5 w-5 mr-4" />
+          </button>
+          <button onClick={() => deleteFxn(rowData)}>
+            <TrashIcon className="h-5 w-5 " />
+          </button>
+        </React.Fragment>
+      );
+    };
+    // ---------------------------------------------------------------
 
-//     const columns = [
-//       { field: "type", header: "Type" },
-//       { field: "idenity_no", header: "No Of Years" },
-//       { field: "employment_type", header: "Employment Type" },
-//       { field: "countries", header: "countries" },
-//     ];
-//     const dynamicColumns = columns.map((col) => {
-//       return <Column key={col.field} field={col.field} header={col.header} />;
-//     });
+    const columns = [
+      { field: "type", header: "Type" },
+      { field: "identity_no", header: "Identity NO" },
+      { field: "name", header: "Name" },
+      { field: "issuing_authority", header: "Issuing Authority" },
+    ];
+    const dynamicColumns = columns.map((col) => {
+      return <Column key={col.field} field={col.field} header={col.header} />;
+    });
 
-//     return (
-//       <div>
-//         <div>
-//           <Toast ref={toast} />
-//           <TableToolbar
-//             employeeId={employeeId}
-//             employeeName={employeeName}
-//             label="Work Exp"
-//             formType="AddWorkExperience"
-//             identityType={identityType}
-//             countries={countries}
-//           />
-//         </div>
-//         <DataTable
-//           value={EmployeeIdentityData}
-//           className="p-datatable-sm"
-//           resizableColumns
-//           columnResizeMode="expand"
-//         >
-//           {dynamicColumns}
-//           <Column header="Action" body={ActionButton}></Column>
-//         </DataTable>
-//       </div>
-//     );
-//   }
-// };
+    return (
+      <div>
+        <div>
+          <Toast ref={toast} />
+          <TableToolbar
+            employeeId={employeeId}
+            employeeName={employeeName}
+            label="Identity"
+            formType="AddEmployeeIdentity"
+            identityType={identityType}
+            countries={countries}
+          />
+        </div>
+        <DataTable
+          value={EmployeeIdentityData}
+          className="p-datatable-sm"
+          resizableColumns
+          columnResizeMode="expand"
+        >
+          {dynamicColumns}
+          <Column header="Action" body={ActionButton}></Column>
+        </DataTable>
+      </div>
+    );
+  }
+};
 
-// export default EmployeeIdentityData;
+export default EmployeeIdentityData;

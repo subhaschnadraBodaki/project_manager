@@ -55,7 +55,7 @@ export async function getServerSideProps(context) {
 
   const employee = axios({
     method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*)`,
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*),employee_identity(*)`,
     headers: {
       apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "Content-Type": "application/json",
