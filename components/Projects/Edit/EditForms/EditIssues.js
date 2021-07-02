@@ -2,22 +2,23 @@ import React from 'react'
 import { Formik, Form } from 'formik'
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import FormikControl from '../../FormComponents/FormikControl'
+import FormikControl from '../../../FormComponents/FormikControl'
 import * as Yup from 'yup'
-import { Toast } from 'primereact/toast';
-import {useRef} from 'react'
 
-function AddIssues ({projectId}) {
-  const toast = useRef(null); 
+
+function EditIssues ({projectId}) {
+  
   // --------------------------------------initial Values---------------------
   const initialValues = {
-     issue_number:null,
+     issue_number:'',
       estimated_cost:'',
-      project_id: projectId,
       assigned_to:'',
+      project_id:{projectId},
       description:'',
-      notes:'',
-      currency:null,
+      text: '',
+      actual_cost:'',
+      due_date:null,
+      currency:'',
       show_on_project_status_report:false
   }
 
@@ -53,57 +54,47 @@ const checkboxOptionsStatus =  [
    
     // -----------------------------Post Data--------------------------------
 
-    const queryClient = useQueryClient()
-    const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues`
-  
-    const addIssues = (data)=>{
-      return axios.post(url,data,{
-        headers: {
-            "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-            "Content-Type": "application/json",
-           
-        }
-      });
-      };
-  
-    const mutation = useMutation(addIssues,{
-      onMutate: variables => {
-             console.log('onmutate',variables)
-       },
-      onError: (error) => {
-        console.log(error)
-      },
-      onSuccess: (data, variables, context) => {
-         console.log('onSuccess',variables,data)
-      },
-      onSettled: (data, error) => {
-      console.log('onSettled',data,error)
+  const queryClient = useQueryClient()
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?apikey=${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
+
+  const addproject = (data)=>{
+    return axios.patch(url,data);
+    };
+
+  const mutation = useMutation(addproject,{
+    onMutate: variables => {
+           console.log('onmutate',variables)
+     },
+    onError: (error) => {
+      console.log(error)
     },
-    })
+    onSuccess: (data, variables, context) => {
+       console.log('onSuccess',variables,data)
+    },
+    onSettled: (data, error) => {
+    console.log('onSettled',data,error)
+  },
+  })
 
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
     issue_number: Yup.string().required('Required'),
-    assigned_to: Yup.string().required('Required'),
-    // notes: Yup.string().required('Required'),
-    // state: Yup.string().required('Required'),
+    state: Yup.string().required('Required'),
+    due_date: Yup.date(),
       
   })
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
   console.log(data)
-      
-       mutation.mutate(data);
-       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Issue Added', life: 3000 });
        document.form.reset();
+       mutation.mutate(data);
     };
 
     // -------------------------------Form----------------------------
  return (
    <>
-    <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
        validationSchema={validationSchema}
@@ -115,11 +106,11 @@ const checkboxOptionsStatus =  [
     
    
 
-    <Form name="form" id="a-form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+    <Form  id="editForm" name="form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
      md:gap-y-4 py-6   md:ml-0" autoComplete="off">
-      <h2 className="h2FormModal">Basic Details</h2>
+      <h2 className="h2Form">Basic Details</h2>
 
-     
+    
        
       <div>
       <FormikControl
@@ -172,8 +163,8 @@ const checkboxOptionsStatus =  [
       <FormikControl
         control='input'
         type='number'
-        label='Estimated Cost'
-        name='estimated_cost'
+        label='Actual Cost'
+        name='actual_cost'
       />
       </div>
       <div>
@@ -201,22 +192,21 @@ const checkboxOptionsStatus =  [
         name='notes'
       />
       </div>
-        <div>
-      <FormikControl
-        control='input'
-        type='text'
-        label='Assigned To'
-        name='assigned_to'
-      />
-      </div>
 
-      
+      <h2 className="h2Form">Dates</h2> 
+      <div >
+             <FormikControl
+              control='date'
+              label='Due Date'
+              name='due_date'
+            />
+    </div>
     
      
 
    
-    {/* <div className="text-right mt-5  col-span-2 mr-10 ">
-    <button type="submit" class="btn" >Save and Continue</button>
+    {/* <div className="text-right mt-5  col-span-2 mr-20 ">
+     <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
     </div> */}
    
     </Form>
@@ -231,4 +221,4 @@ const checkboxOptionsStatus =  [
   )
 }
 
-export default AddIssues;
+export default EditIssues;

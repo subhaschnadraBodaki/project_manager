@@ -1,12 +1,12 @@
 
 import React from 'react'
-import AddTask from '../../AddTask'
-import AddIssues from '../../AddIssues'
-import AddDeliverables from '../../AddDeliverables'
-import AddRisks from '../../AddRisks'
-import EditTask from '../../EditTask'
-import EditIssues from '../../EditIssues'
-import EditDeliverables from '../../EditDeliverables'
+import AddTask from '../../AddForms/AddTask'
+import AddIssues from '../../AddForms/AddIssues'
+import AddDeliverables from '../../AddForms/AddDeliverables'
+import AddRisks from '../../AddForms/AddRisks'
+import EditTask from '../../EditForms/EditTask'
+import EditIssues from '../../EditForms/EditIssues'
+import EditDeliverables from '../../EditForms/EditDeliverables'
 
 export default function formTypeFxn({formType,projectId,editData}) 
 {

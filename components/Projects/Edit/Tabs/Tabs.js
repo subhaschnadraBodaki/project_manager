@@ -1,14 +1,14 @@
 import React from "react";
-import TasksData from "./TabsData/TasksData";
-import TeamsData from "./TabsData/TeamsData";
-import ChangeRequestsData from "./TabsData/ChangeRequestsData";
-import DeliverablesData from "./TabsData/DeliverablesData";
-import FinancialsData from "./TabsData/FinancialsData";
-import IssuesData from "./TabsData/IssuesData";
-import MilestonesData from "./TabsData/MilestonesData";
-import ResourceRequestData from "./TabsData/ResourceRequestData";
-import RisksData from "./TabsData/RisksData";
-import StatusReportsData from "./TabsData/StatusReportsData";
+import TasksTable from "./RelatedTables/TasksTable";
+import TeamsTable from "./RelatedTables/TeamsTable";
+import ChangeRequestsTable from "./RelatedTables/ChangeRequestsTable";
+import DeliverablesTable from "./RelatedTables/DeliverablesTable";
+import FinancialsTable from "./RelatedTables/FinancialsTable";
+import IssuesTable from "./RelatedTables/IssuesTable";
+import MilestonesTable from "./RelatedTables/MilestonesTable";
+import ResourceRequestTable from "./RelatedTables/ResourceRequestTable";
+import RisksTable from "./RelatedTables/RisksTable";
+import StatusReportsTable from "./RelatedTables/StatusReportsTable";
 
 const Tabs = ({ color, projectsData }) => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -27,16 +27,16 @@ const Tabs = ({ color, projectsData }) => {
   ];
 
   const TabsContent = [
-    <TasksData projectsData={projectsData} />,
-    <MilestonesData projectsData={projectsData} />,
-    <TeamsData projectsData={projectsData} />,
-    <RisksData projectsData={projectsData} />,
-    <DeliverablesData projectsData={projectsData} />,
-    <IssuesData projectsData={projectsData} />,
-    <ChangeRequestsData projectsData={projectsData} />,
-    <ResourceRequestData projectsData={projectsData} />,
-    <StatusReportsData projectsData={projectsData} />,
-    <FinancialsData projectsData={projectsData} />,
+    <TasksTable projectsData={projectsData} />,
+    <MilestonesTable projectsData={projectsData} />,
+    <TeamsTable projectsData={projectsData} />,
+    <RisksTable projectsData={projectsData} />,
+    <DeliverablesTable projectsData={projectsData} />,
+    <IssuesTable projectsData={projectsData} />,
+    <ChangeRequestsTable projectsData={projectsData} />,
+    <ResourceRequestTable projectsData={projectsData} />,
+    <StatusReportsTable projectsData={projectsData} />,
+    <FinancialsTable projectsData={projectsData} />,
   ];
 
   return (

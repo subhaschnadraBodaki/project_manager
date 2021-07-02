@@ -1,16 +1,14 @@
-import React from "react";
-import TabsRender from "../../../components/Projects/Edit-projects/Tabs/TabsRender";
+
+import React from 'react'
+import TabsRender from '../../../components/Projects/Edit/Tabs/TabsRender';
 // import { useKeycloak } from '@react-keycloak/ssr';
 
-import axios from "axios";
-import Modal from "react-modal";
-import AddTask from "../../../components/Projects/Edit-projects/AddTask";
-import AddRisks from "../../../components/Projects/Edit-projects/AddRisks";
-import { useState } from "react";
-import EditProject from "../../../components/Projects/Edit-projects/EditProject";
-import { Button } from "primereact/button";
-import AddDeliverables from "../../../components/Projects/Edit-projects/AddDeliverables";
-import AddIssues from "../../../components/Projects/Edit-projects/AddIssues";
+import axios from 'axios';
+import Modal from 'react-modal'
+import {useState} from 'react'
+import EditProject from '../../../components/Projects/Edit/EditProject'
+import { Button } from 'primereact/button';
+
 
 export default function editproject({
   projectsData,

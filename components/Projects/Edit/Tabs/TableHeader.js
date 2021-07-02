@@ -5,10 +5,10 @@ import { useRouter } from "next/router";
 import Modal from "react-modal";
 import { useState } from "react";
 import { Button } from "primereact/button";
-import AddTask from "../AddTask";
-import FormType from "./TabsData/FormType";
 
-export default function TableToolbar({
+import FormType from "./RelatedTables/FormType";
+
+export default function TableHeader({
   projectId,
   projectName,
   label,
