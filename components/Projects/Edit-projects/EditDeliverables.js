@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import FormikControl from './FormComponents/FormikControl'
+import FormikControl from '../../FormComponents/FormikControl'
 import { useMutation, useQueryClient } from 'react-query';
  import axios from 'axios';
  import {useQuery} from 'react-query'
@@ -183,10 +183,8 @@ function EditDeliverables () {
     >
       {formik => {
         return (
-    <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
-    <div className=" shadow-sm py-6 text-blue-900 ">
-    <h2 className="text-2xl text-center  font-semibold px-20">Edit Deliverables</h2>
-    </div>
+    <div className="  justify-items-center container w-full mx-auto   ">
+   
    
 
     <Form className="formGrid
@@ -448,9 +446,9 @@ function EditDeliverables () {
     </div>
 
    
-    <div className="text-right mt-5  col-span-2 mr-20 ">
+    {/* <div className="text-right mt-5  col-span-2 mr-20 ">
      <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" disabled={!formik.isValid}>Submit</button>
-    </div>
+    </div> */}
    
     </Form>
     </div>

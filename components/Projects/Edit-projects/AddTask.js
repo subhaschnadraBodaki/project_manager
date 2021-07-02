@@ -64,7 +64,7 @@ function AddTask({ projectId, tasksData}) {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Required"),
-
+     owner: Yup.string().required("Required"),
     planned_start_date: Yup.date(),
     planned_end_date: Yup.date().min(
       Yup.ref("planned_start_date"),
@@ -84,7 +84,7 @@ function AddTask({ projectId, tasksData}) {
     // -------------------------------Form----------------------------
  return (
    <>
-    
+     <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -161,14 +161,7 @@ function AddTask({ projectId, tasksData}) {
       />
       </div> */}
 
-                <div className=" mt-3">
-                  <FormikControl
-                    control="checkbox"
-                    label="Time Recording"
-                    name="time_recording_allowed"
-                    options={checkboxOptionsTimeRecord}
-                  />
-                </div>
+                
 
                 <div className=" col-span-2">
                   <FormikControl
@@ -196,6 +189,15 @@ function AddTask({ projectId, tasksData}) {
                   />
                 </div>
 
+                <div className=" mt-3">
+                  <FormikControl
+                    control="checkbox"
+                    label="Time Recording"
+                    name="time_recording_allowed"
+                    options={checkboxOptionsTimeRecord}
+                  />
+                </div>
+
                 <h2 className="h2Form">Dates</h2>
                 <div className="ml-3">
                   <FormikControl
@@ -212,7 +214,7 @@ function AddTask({ projectId, tasksData}) {
                     name="planned_end_date"
                   />
                 </div>
-                <Toast ref={toast} />
+               
                 {/* <div className="text-right mt-5  col-span-2 mr-10 ">
                   <button type="submit" class="btn">
                     Save and Continue

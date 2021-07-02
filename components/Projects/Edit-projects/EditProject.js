@@ -5,11 +5,12 @@ import FormikControl from '../../FormComponents/FormikControl'
 import { useMutation, useQueryClient } from 'react-query';
  import axios from 'axios';
  import {useQuery} from 'react-query'
-
+import { Toast } from 'primereact/toast';
  import {useState} from 'react'
+import {useRef} from 'react'
 
 function EditProject ({projectsData,currencydata,accountdata,projectManager}) {
-  
+  const toast = useRef(null); 
   const projectCode = projectsData[0].project_code
   const projectId = projectsData[0].id
   // --------------------------------------initial Values---------------------
@@ -109,7 +110,7 @@ for (const item of projectManager) {
 
   const editproject = (data)=>{
     // return axios.post(url,data);
-    return axios.post(url ,data,
+    return axios.patch(url ,data,
    {
       headers: {
           "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -160,13 +161,14 @@ for (const item of projectManager) {
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
   console.log(data)
-      
+       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Details Updated', life: 3000 });
        mutation.mutate(data);
     };
 
     // -------------------------------Form----------------------------
  return (
    <>
+   <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
        validationSchema={validationSchema}

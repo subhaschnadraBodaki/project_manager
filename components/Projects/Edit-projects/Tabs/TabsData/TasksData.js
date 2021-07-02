@@ -20,7 +20,10 @@ export default function TasksData({projectsData}) {
     const projectName = projectsData[0].name
 
     const[modalIsOpen, setModalIsOpen] = useState(false)
-    const [deleteItem,setDeleteItem]=useState(false)
+    const [deleteItemConfirm,setDeleteItemConfirm]=useState(false)
+    const[deleteData,setDeleteData]=useState(null)
+    const [editData,setEditData]=useState(null)
+   
     // console.log(projectsData)
     const customStyles = {
         content: {
@@ -59,17 +62,19 @@ return (
     else{
     
     const [tasksData,setTasksData] = useState(projectsData[0].project_tasks)
-    
+    // ................................................
+
+     
 
     // ----------------------------delete task from database and table------
-   const deleteProduct = (rowData) => {
-        let  _tasksData = tasksData.filter(val => val.id !== rowData.id);
+   const deleteProduct = (deleteData) => {
+        let  _tasksData = tasksData.filter(val => val.id !== deleteData.id);
         setTasksData(_tasksData)
-        setDeleteItem(false)
-        // console.log(rowData)
+        setDeleteItemConfirm(false)
+        //  console.log(rowData)
          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Deleted', life: 3000 });
 
-        const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?id=eq.${rowData.id}` 
+        const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?id=eq.${deleteData.id}` 
       axios.delete(url,
             {
             headers:{
@@ -79,18 +84,26 @@ return (
             
         }
       )
-    }
-       
-        
+    };
 
+   const edit = (rData) => {
+          setEditData(rData)
+         setModalIsOpen(true)
+      }; 
+
+   const deleteFxn = (dData) => {
+        setDeleteData(dData)
+        setDeleteItemConfirm(true)
+   }
+  
+
+     
 
     const ActionButton = (rowData) => {
-        
-         return (
-
-            <React.Fragment>
             
-                     <Modal 
+         return (
+            <React.Fragment>
+            <Modal            
             isOpen={modalIsOpen}
             onRequestClose={()=> setModalIsOpen(false)}
             style={customStyles}
@@ -108,19 +121,20 @@ return (
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setModalIsOpen(false)} />
                 </div>
             </div>
-              
-            <EditTask projectId={projectId} rowID={rowData.id} />
+             
+            <EditTask projectId={projectId} editData={editData} />
                     <div className="text-right mr-10 ">
                      <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
-                    <button className="btn ml-3" type="submit" form="editForm" >Save 
+                    <button className="btn ml-3" type="submit" form="editTask" >Save 
                     </button>
-                    </div>
-            
+                    
+                    </div> 
           </Modal>
 
+          {/* --------------------------------------------- */}
           <Modal
-          isOpen={deleteItem}
-            onRequestClose={()=> setDeleteItem(false)}
+          isOpen={deleteItemConfirm}
+            onRequestClose={()=> setDeleteItemConfirm(false)}
             style={customStylesDelete } 
             header="Confirm"
             ariaHideApp={false}
@@ -129,26 +143,26 @@ return (
                   <div className="grid grid-cols-2">
                 <div><h2 className="h2FormModal">Confirm</h2></div>
                 <div className="text-right">
-                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setDeleteItem(false)} />
+                <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setDeleteItemConfirm(false)} />
                 </div>
                </div>
 
                     <div className="DeleteFormModalAlert md:mt-3">
                   <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem'}} />
-                  <h2>Are you Sure you want to delete {rowData.name} ?</h2> 
+                  <h2>Are you Sure you want to delete ?</h2> 
                   </div>
                   <div className="text-right md:mt-2">        
                       
-                    <Button label="No" icon="pi pi-times" className="p-button-text" onClick={()=>setDeleteItem(false)}/>
-                    <Button label="Yes" icon="pi pi-check" className="p-button-text"  onClick={()=>deleteProduct(rowData)} />
+                    <Button label="No" icon="pi pi-times" className="p-button-text" onClick={()=>setDeleteItemConfirm(false)}/>
+                    <Button label="Yes" icon="pi pi-check" className="p-button-text"  onClick={()=>deleteProduct(deleteData)} />
             
                  </div>
           </Modal>
                
-                <button onClick={() => setModalIsOpen(true) }>
+                <button onClick={()=> edit(rowData) }>
                     <PencilIcon className="h-5 w-5 mr-4" />
                 </button>
-                <button onClick={() => setDeleteItem(true)}>
+                <button onClick={() => deleteFxn(rowData)}>
                     <TrashIcon className="h-5 w-5 " />
                 </button>
             </React.Fragment>
@@ -169,6 +183,8 @@ return (
 // ------------------------------------------------------------------
     return ( 
         <div>
+
+        
             <div>
             <Toast ref={toast} />
               <TableToolbar projectId={projectId} projectName={projectName} label='Add Task' formType='AddTask'  />

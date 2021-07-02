@@ -4,6 +4,11 @@ import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css';
 
+
+import {Auth} from '@supabase/ui'
+import { supabase } from '../components/utils/supabase/initSupabase'
+import NavBar from '../components/NavBar'
+
 // import {Auth} from '@supabase/ui'
 // import { supabase } from '../components/utils/supabase/initSupabase'
 
@@ -36,7 +41,7 @@ function MyApp({ Component, pageProps ,cookies}) {
      /* <Auth.UserContextProvider supabaseClient={supabase} > */
 
     <QueryClientProvider client={queryClient}>
-    {/* <NavBar dashboard={navLinks[0]}  page1={navLinks[1]} page2={navLinks[2]}></NavBar> */}
+       <NavBar/>
       <Component {...pageProps} />
       </QueryClientProvider>
 
