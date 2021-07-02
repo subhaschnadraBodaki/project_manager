@@ -147,7 +147,7 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
               <button
                 className="btn ml-3"
                 type="submit"
-                form="editWorkExp"
+                form="EditWorkExp"
               >
                 Save
               </button>

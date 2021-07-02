@@ -1,21 +1,26 @@
 import React from "react";
-import WorkExperienceData from '../Tabs/TabsData/WorkExperienceData'
+import WorkExperienceData from "../Tabs/TabsData/WorkExperienceData";
+import EmployeeIdentityData from "./TabsData/EmployeeIdentityData";
 
-const Tabs = ({ color, employeeData, employmentType, designation }) => {
+const Tabs = ({ color, employeeData, employmentType, designation, identityType, countries }) => {
   const [openTab, setOpenTab] = React.useState(1);
 
-  const tabs = ["Education", "Communication", "Skills", "Work Exp", "Address"];
+  const tabs = ["Education", "Communication", "Skills", "Work Exp", "Identity","Address"];
 
   const TabsContent = [
-    'education',
-    'communication',
-    'skills',
+    "education",
+    "communication",
+    "skills",
     <WorkExperienceData
       employeeData={employeeData}
       employmentType={employmentType}
       designation={designation}
     />,
-    'address'
+    // <EmployeeIdentityData
+    //   identityType={identityType}
+    //   countries={countries}
+    // />,
+    "address",
   ];
 
   return (

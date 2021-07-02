@@ -12,11 +12,11 @@ const EditEmployee = ({
   jobTitles,
   countries,
   employees,
-  employeeData,
+  employeeDataForEdit,
 }) => {
-  const employeeId = employeeData[0].employee_id;
+  const employeeId = employeeDataForEdit[0].employee_id;
   // -------------------------Initaial Values----------------------------
-  const initialValues = employeeData[0];
+  const initialValues = employeeDataForEdit[0];
 
   // ---------------Options----------------------------
 
@@ -156,7 +156,7 @@ const EditEmployee = ({
           <div className="min-h-screen  justify-items-center container w-full mx-auto">
             <div className=" shadow-sm py-6 text-blue-900 ">
               <h2 className="text-2xl text-center  font-semibold px-20">
-                Add Employee Details
+                Edit Employee Details
               </h2>
             </div>
 
