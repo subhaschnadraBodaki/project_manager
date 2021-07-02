@@ -13,7 +13,7 @@ const EmployeeForm = ({
   countries,
   employees,
 }) => {
-  // -------------------------Initaial Values----------------------------
+  // -------------------------Initial Values----------------------------
   const initialValues = {
     first_name: "",
     middle_name: "",

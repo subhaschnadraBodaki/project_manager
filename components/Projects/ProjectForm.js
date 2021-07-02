@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -182,8 +183,8 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
             </div>
 
             <Form
-              className="formGrid
-    "           name="form"
+              className="formGrid"
+               name="form"
               autoComplete="off"
             >
               <h2 className="h2Form">Basic Details</h2>
@@ -366,4 +367,7 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
   );
 }
 
+
+
 export default ProjectForm;
+

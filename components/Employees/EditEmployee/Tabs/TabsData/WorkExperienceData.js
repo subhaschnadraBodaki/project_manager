@@ -4,7 +4,6 @@ import { Toast } from "primereact/toast";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { TrashIcon, PencilIcon } from "@heroicons/react/solid";
-import { useRouter } from "next/router";
 import axios from "axios";
 import Modal from "react-modal";
 
@@ -17,7 +16,9 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
   const employeeName = employeeData[0].first_name;
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [deleteItem, setDeleteItem] = useState(false);
+  const [deleteItemConfirm, setDeleteItemConfirm] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
+  const [editTask, setEditTask] = useState(null);
 
   const customStyles = {
     content: {
@@ -55,7 +56,7 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
         <TableToolbar
           employeeId={employeeId}
           employeeName={employeeName}
-          label="Add WorkExperience"
+          label="Work Exp"
           formType="AddWorkExperience"
           employmentType={employmentType}
           designation={designation}
@@ -68,28 +69,38 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
       employeeData[0].work_experience
     );
 
-    // ----------------------------delete task from database and table------
-    const deleteProduct = (rowData) => {
+    // ----------------------------delete work experience from database and table------
+    const deleteWorkExperience = (deleteData) => {
       let _workExperienceData = workExperienceData.filter(
-        (val) => val.id !== rowData.id
+        (val) => val.id !== deleteData.id
       );
       setWorkExperienceData(_workExperienceData);
-      setDeleteItem(false);
+      setDeleteItemConfirm(false);
       // console.log(rowData)
       toast.current.show({
         severity: "success",
         summary: "Successful",
-        detail: "Task Deleted",
+        detail: "work experience Deleted",
         life: 3000,
       });
 
-      const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/work_experience?id=eq.${rowData.id}`;
+      const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/work_experience?id=eq.${deleteData.id}`;
       axios.delete(url, {
         headers: {
           apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
           "Content-Type": "application/json",
         },
       });
+    };
+
+    const edit = (rowData) => {
+      setEditTask(rowData);
+      setModalIsOpen(true);
+    };
+
+    const deleteFxn = (dData) => {
+      setDeleteData(dData);
+      setDeleteItemConfirm(true);
     };
 
     const ActionButton = (rowData) => {
@@ -121,12 +132,10 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
                 />
               </div>
             </div>
-            
 
             <EditWorkExperience
               employeeId={employeeId}
-              rowID={rowData.id}
-              employeeData={employeeData}
+              editTask={editTask}
               designation={designation}
               employmentType={employmentType}
             />
@@ -135,15 +144,19 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
               <button className="btn " onClick={() => setModalIsOpen(false)}>
                 Close
               </button>
-              <button className="btn ml-3" type="submit" form="editForm">
+              <button
+                className="btn ml-3"
+                type="submit"
+                form="editWorkExp"
+              >
                 Save
               </button>
             </div>
           </Modal>
 
           <Modal
-            isOpen={deleteItem}
-            onRequestClose={() => setDeleteItem(false)}
+            isOpen={deleteItemConfirm}
+            onRequestClose={() => setDeleteItemConfirm(false)}
             style={customStylesDelete}
             header="Confirm"
             ariaHideApp={false}
@@ -157,7 +170,7 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
                 <Button
                   icon="pi pi-times"
                   className="p-button-rounded p-button-danger p-button-outlined align-right"
-                  onClick={() => setDeleteItem(false)}
+                  onClick={() => setDeleteItemConfirm(false)}
                 />
               </div>
             </div>
@@ -174,21 +187,21 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
                 label="No"
                 icon="pi pi-times"
                 className="p-button-text"
-                onClick={() => setDeleteItem(false)}
+                onClick={() => setDeleteItemConfirm(false)}
               />
               <Button
                 label="Yes"
                 icon="pi pi-check"
                 className="p-button-text"
-                onClick={() => deleteProduct(rowData)}
+                onClick={() => deleteWorkExperience(deleteData)}
               />
             </div>
           </Modal>
 
-          <button onClick={() => setModalIsOpen(true)}>
+          <button onClick={() => edit(rowData)}>
             <PencilIcon className="h-5 w-5 mr-4" />
           </button>
-          <button onClick={() => setDeleteItem(true)}>
+          <button onClick={() => deleteFxn(rowData)}>
             <TrashIcon className="h-5 w-5 " />
           </button>
         </React.Fragment>
@@ -213,7 +226,7 @@ const WorkExperienceData = ({ employeeData, employmentType, designation }) => {
           <TableToolbar
             employeeId={employeeId}
             employeeName={employeeName}
-            label="Add Work Exp"
+            label="Work Exp"
             formType="AddWorkExperience"
             employmentType={employmentType}
             designation={designation}

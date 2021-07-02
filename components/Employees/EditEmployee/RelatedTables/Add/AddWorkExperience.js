@@ -1,25 +1,26 @@
-import React,{useState} from "react";
+import React from "react";
 import { Formik, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
-import FormikControl from '../../../../FormComponents/FormikControl'
+import FormikControl from "../../../../FormComponents/FormikControl";
 
-
-const AddWorkExperience = ({employeeId, employmentType, designation}) => {
-  console.log(employeeId);
+const AddWorkExperience = ({
+  employeeId,
+  employeeName,
+  employmentType,
+  designation,
+}) => {
   // Initial Values
   const initialValues = {
-    employee_id: null,
+    employee_id: employeeId,
     organization: "",
     no_of_years: null,
     start_date: null,
     end_date: null,
-    employment_type: "",
     description: "",
     website: "",
-    designation: "",
   };
 
   // -----------------Options-----------------
@@ -41,7 +42,13 @@ const AddWorkExperience = ({employeeId, employmentType, designation}) => {
   });
 
   //   validation Schema
-  const validationSchema = Yup.object({});
+  const validationSchema = Yup.object({
+    start_date: Yup.date(),
+    end_date: Yup.date().min(
+      Yup.ref("planned_start_date"),
+      "end date can't be before start date"
+    ),
+  });
 
   // -----------Database-------------------
 
@@ -75,7 +82,8 @@ const AddWorkExperience = ({employeeId, employmentType, designation}) => {
   const onSubmit = (data, submitProps) => {
     mutation.mutate(data);
     submitProps.setSubmitting(false);
-    // submitProps.resetForm()
+    submitProps.resetForm();
+    // document.form.reset();
   };
 
   return (
@@ -85,97 +93,97 @@ const AddWorkExperience = ({employeeId, employmentType, designation}) => {
       onSubmit={onSubmit}
     >
       {(formik) => {
-        <div className="min-h-screen  justify-items-center container w-full mx-auto">
-          <div className=" shadow-sm py-6 text-blue-900 ">
-            <h2 className="text-2xl text-center  font-semibold px-20">
-              Add WorkExperience Details
-            </h2>
-          </div>
-          <Form className="formGrid" autoComplete="off">
-            <h2 className="h2Form">Basic Details</h2>
+        return (
+          <div className="justify-items-center container w-full mx-auto">
+            <Form
+              id="AddWorkExperience"
+              name="form"
+              className="formGridModal"
+              autoComplete="off"
+            >
+              {/* <h2 className="h2Form ml-8">Name : {employeeName}</h2>   */}
 
-            <div>
+              {/* <div>
               <FormikControl
                 control="input"
                 type="text"
                 label="Employee Id"
                 name="employee_id"
               />
-            </div>
+            </div> */}
+              <div>
+                <FormikControl
+                  control="input"
+                  type="text"
+                  label="Organization"
+                  name="organization"
+                />
+              </div>
 
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Organization"
-                name="organization"
-              />
-            </div>
+              <div>
+                <FormikControl
+                  control="input"
+                  type="number"
+                  label="No of Years"
+                  name="no_of_years"
+                />
+              </div>
 
-            <div>
-              <FormikControl
-                control="input"
-                type="number"
-                label="No of Years"
-                name="no_of_years"
-              />
-            </div>
+              <div>
+                <FormikControl
+                  control="input"
+                  type="date"
+                  label="Start Date"
+                  name="start_date"
+                />
+              </div>
 
-            <div>
-              <FormikControl
-                control="input"
-                type="date"
-                label="Start Date"
-                name="start_date"
-              />
-            </div>
+              <div>
+                <FormikControl
+                  control="input"
+                  type="date"
+                  label="End Date"
+                  name="end_date"
+                />
+              </div>
 
-            <div>
-              <FormikControl
-                control="input"
-                type="date"
-                label="End Date"
-                name="end_date"
-              />
-            </div>
+              <div>
+                <FormikControl
+                  control="select"
+                  label="Employ Type"
+                  name="employment_type"
+                  options={dropdownForEmploymentType}
+                />
+              </div>
 
-            <div>
-              <FormikControl
-                control="select"
-                label="Employment Type"
-                name="employment_type"
-                options={dropdownForEmploymentType}
-              />
-            </div>
+              <div>
+                <FormikControl
+                  control="input"
+                  type="text"
+                  label="Website"
+                  name="website"
+                />
+              </div>
 
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Website"
-                name="website"
-              />
-            </div>
+              <div>
+                <FormikControl
+                  control="select"
+                  label="Designation"
+                  name="designation"
+                  options={dropdownForDesignation}
+                />
+              </div>
 
-            <div>
-              <FormikControl
-                control="select"
-                label="Designation"
-                name="first_name"
-                options={dropdownForDesignation}
-              />
-            </div>
+              <div className="col-span-2">
+                <FormikControl
+                  control="textarea"
+                  type="text"
+                  label="Description"
+                  name="description"
+                />
+              </div>
 
-            <div>
-              <FormikControl
-                control="textarea"
-                type="text"
-                label="Description"
-                name="description"
-              />
-            </div>
-
-            <div className="text-right mt-5  col-span-2 mr-20 ">
+              {/* <div className="text-right mt-5  col-span-2 mr-20 ">
               <button
                 type="submit"
                 className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
@@ -183,9 +191,10 @@ const AddWorkExperience = ({employeeId, employmentType, designation}) => {
               >
                 Submit
               </button>
-            </div>
-          </Form>
-        </div>;
+            </div> */}
+            </Form>
+          </div>
+        );
       }}
     </Formik>
   );
