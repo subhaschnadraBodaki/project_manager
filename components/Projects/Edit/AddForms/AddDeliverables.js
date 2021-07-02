@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import FormikControl from '../../FormComponents/FormikControl'
+import FormikControl from '../../../FormComponents/FormikControl'
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
  import {useQuery} from 'react-query'

@@ -2,12 +2,12 @@ import React from "react";
 import { Formik, Form } from "formik";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
-import FormikControl from "../../FormComponents/FormikControl";
+import FormikControl from "../../../FormComponents/FormikControl";
 import * as Yup from "yup";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
 
-function AddRisks({ projectId }) {
+function EditRisks({ projectId }) {
   const toast = useRef(null); 
   // --------------------------------------initial Values---------------------
   const initialValues = {
@@ -252,4 +252,4 @@ function AddRisks({ projectId }) {
   );
 }
 
-export default AddRisks;
+export default EditRisks;

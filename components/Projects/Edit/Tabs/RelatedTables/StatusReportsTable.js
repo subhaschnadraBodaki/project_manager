@@ -2,12 +2,17 @@ import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import formatDate from '../../../../utils/FormatDate';
-import TableToolbar from '../TableToolbar'
+import TableHeader from '../TableHeader'
 
-export default function StatusReportsData({projectsData}) {
+export default function StatusReportsTable({projectsData}) {
 
     if(projectsData[0]==null || projectsData[0] === undefined || projectsData[0].project_status_report[0]==null || projectsData[0].project_status_report[0]===undefined ){
-        return <div>No Data Found</div>
+      return (
+        <div>
+         <TableHeader/>
+        <div>No Data Found</div>
+        </div>
+        )
             }
 else{
 const statusReportData = projectsData[0].project_status_report
@@ -30,7 +35,7 @@ const dynamicColumns = columns.map((col)=> {
     return (
         <div>
                <div>
-                <TableToolbar/>
+                <TableHeader/>
             </div>
               <DataTable value={statusReportData} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
               <Column header="Reporting Date" body={reportingDate}></Column>

@@ -1,9 +1,10 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import TableToolbar from '../TableToolbar'
+import TableHeader from '../TableHeader'
 
-export default function FinancialsData() {
+export default function ChangeRequestsTable() {
+    
     const data = [{ projectId: '##', Name: '##', Status: '##', projectManager: '##' }]
     const columns = [
         {field:"projectId" , header:"T1"},
@@ -17,11 +18,11 @@ const dynamicColumns = columns.map((col)=> {
     return (
         <div>
                <div>
-                <TableToolbar/>
+                <TableHeader/>
             </div>
-              <DataTable value={data} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
-                        {dynamicColumns}
-                    </DataTable> 
-        </div>
+        <DataTable value={data} className="p-datatable-sm"  resizableColumns columnResizeMode="expand">
+                     {dynamicColumns}
+                 </DataTable> 
+     </div>
     )
 }

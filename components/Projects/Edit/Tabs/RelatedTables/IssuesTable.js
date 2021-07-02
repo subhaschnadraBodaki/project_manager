@@ -1,30 +1,27 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import TableHeader from '../TableHeader'
 import { TrashIcon, PencilIcon } from '@heroicons/react/solid'
-import { useRouter } from 'next/router'
-import axios from 'axios'
-import TableToolbar from '../TableToolbar'
 import Modal from 'react-modal'
-import {useState}   from 'react'
-import {useRef} from 'react'
+import {useState} from 'react'
 import { Button } from 'primereact/button';
-import EditTask from '../../EditTask'
+import EditIssues from '../../EditForms/EditIssues'
+import {useRef} from 'react'
 import { Toast } from 'primereact/toast';
+import axios from 'axios'
 
-
-
-export default function TasksData({projectsData}) {
-      const toast = useRef(null);  
-    const projectId = projectsData[0].id
+export default function IssuesTable({projectsData}) {
+    const toast = useRef(null);  
     const projectName = projectsData[0].name
-
-    const[modalIsOpen, setModalIsOpen] = useState(false)
-    const [deleteItemConfirm,setDeleteItemConfirm]=useState(false)
+    const projectId = projectsData[0].id
+    
+  const[ModalIsOpen, setModalIsOpen] = useState(false)
+  const [deleteItemConfirm,setDeleteItemConfirm]=useState(false)
     const[deleteData,setDeleteData]=useState(null)
-    const [editData,setEditData]=useState(null)
-   
-    // console.log(projectsData)
+  const [editData,setEditData]=useState(null)
+ 
+
     const customStyles = {
         content: {
           top: '50%',
@@ -37,8 +34,7 @@ export default function TasksData({projectsData}) {
           transform: 'translate(-50%, -50%)',
         },
       };
-
-         const customStylesDelete = {
+            const customStylesDelete = {
         content: {
             position: 'absolute',
              top: '30%',
@@ -49,32 +45,27 @@ export default function TasksData({projectsData}) {
           height: '180px' , 
         },
       };
-    
-    
-    if(projectsData[0]==null || projectsData[0] === undefined || projectsData[0].project_tasks[0]==null || projectsData[0].project_tasks[0]===undefined ){
-return ( 
-    <div>
-      <TableToolbar projectId={projectId} projectName={projectName} label='Add Task' formType='AddTask'/>
-      <div>No Data Found</div>
-      </div>
-)
+
+     if (projectsData[0] == null || projectsData[0] === undefined || projectsData[0].project_issues[0] == null || projectsData[0].project_issues[0] === undefined) {
+
+        return  (
+         <div>
+        <div><TableHeader projectId={projectId} projectName={projectName} label='Add Issues' formType='AddIssues'/></div>
+        <div>No Data Found</div>
+        </div>
+        )
     }
-    else{
     
-    const [tasksData,setTasksData] = useState(projectsData[0].project_tasks)
-    // ................................................
+    else{
 
-     
+    const [issuesData,setIssuesData] =useState(projectsData[0].project_issues)
 
-    // ----------------------------delete task from database and table------
-   const deleteProduct = (deleteData) => {
-        let  _tasksData = tasksData.filter(val => val.id !== deleteData.id);
-        setTasksData(_tasksData)
-        setDeleteItemConfirm(false)
-        //  console.log(rowData)
-         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Deleted', life: 3000 });
-
-        const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?id=eq.${deleteData.id}` 
+       const deleteProduct = (deleteData) => {
+         let  _issuesData = issuesData.filter(val => val.id !== deleteData.id);
+         setIssuesData(_issuesData)
+         setDeleteItemConfirm(false)
+             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Issue Deleted', life: 3000 });
+             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?id=eq.${deleteData.id}` 
       axios.delete(url,
             {
             headers:{
@@ -84,27 +75,25 @@ return (
             
         }
       )
-    };
+}
 
-   const edit = (rData) => {
+
+  const edit = (rData) => {
           setEditData(rData)
-         setModalIsOpen(true)
+          setModalIsOpen(true)  
       }; 
 
    const deleteFxn = (dData) => {
         setDeleteData(dData)
         setDeleteItemConfirm(true)
    }
-  
+      
 
-     
-
-    const ActionButton = (rowData) => {
-            
-         return (
+  const ActionButton = (rowData) => {
+        return (
             <React.Fragment>
-            <Modal            
-            isOpen={modalIsOpen}
+                     <Modal 
+            isOpen={ModalIsOpen}
             onRequestClose={()=> setModalIsOpen(false)}
             style={customStyles}
             ariaHideApp={false}
@@ -112,30 +101,26 @@ return (
             >   
             
             <div className="grid grid-cols-3">
-                <div><h2 className="h2Form">{projectName} ({projectId})</h2></div>
+                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
                  <div className=" shadow-sm py-6 text-blue-900 ">
-                <h2 className="text-2xl text-center  font-semibold px-20">Edit Task
+                <h2 className="text-2xl text-center  font-semibold px-20">Edit Issue
                 </h2>
                 </div>
                 <div className="text-right">
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setModalIsOpen(false)} />
                 </div>
             </div>
-             <div>
-              <EditTask projectId={projectId} editData={editData} />
-             
 
-            </div>
-                    <div className="text-right mr-10 ">
-                     <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
-                    <button className="btn ml-3" type="submit" form="a-form" >Save 
+            <EditIssues projectId={projectId} editData={editData} />
+
+             <div className="text-right mr-10 ">
+                     <button className="btn " onClick={()=> setModalIsOpen(false)}  >Close</button>
+                    <button className="btn ml-3" type="submit"  form="editForm" >Save 
                     </button>
-                    
                     </div> 
           </Modal>
 
-          {/* --------------------------------------------- */}
-          <Modal
+           <Modal
           isOpen={deleteItemConfirm}
             onRequestClose={()=> setDeleteItemConfirm(false)}
             style={customStylesDelete } 
@@ -161,8 +146,8 @@ return (
             
                  </div>
           </Modal>
-               
-                <button onClick={()=> edit(rowData) }>
+
+                <button onClick={() => edit(rowData) }>
                     <PencilIcon className="h-5 w-5 mr-4" />
                 </button>
                 <button onClick={() => deleteFxn(rowData)}>
@@ -171,32 +156,31 @@ return (
             </React.Fragment>
         );
     }
-// ---------------------------------------------------------------
-    
+
+
     const columns = [
-        {field:"name" , header:"Task Name"},
-        {field:"parent_task" , header:"Parent Task"},
-        {field:"predecessor_task" , header:"Predecessor Task"},
-        {field:"description"  , header:"Task Description"}
+        {field:"issue_number" , header:"Issue Number"},
+        {field:"issue_priority" , header:"Issue Priority"},
+        {field:"state" , header:"State"},
+        {field:"description"  , header:"Description"},
+        {field:"notes"  , header:"Notes"},
     ]
-   const dynamicColumns = columns.map((col)=> {
-    return <Column key={col.field} field = {col.field} header={col.header}/>  
-   })
-
-// ------------------------------------------------------------------
-    return ( 
+  
+const dynamicColumns = columns.map((col)=> {
+    return <Column key={col.field} field = {col.field} header={col.header}/>
+})
+    return (
         <div>
-
-        
             <div>
             <Toast ref={toast} />
-              <TableToolbar projectId={projectId} projectName={projectName} label='Add Task' formType='AddTask'  />
+               <TableHeader projectId={projectId} projectName={projectName} label='Add Issues' formType='AddIssues'/>
             </div>
-              <DataTable value={tasksData}  className="p-datatable-sm" resizableColumns columnResizeMode="expand">
+            <DataTable value={ issuesData}  className="p-datatable-sm" resizableColumns columnResizeMode="expand">
+                
                         {dynamicColumns}
-                        <Column header="Action" body={ActionButton}></Column>
+                         <Column header="Action" body={ActionButton}></Column>
                     </DataTable> 
         </div>
     )
-    }
+}
 }

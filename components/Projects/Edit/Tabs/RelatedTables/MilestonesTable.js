@@ -1,12 +1,17 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import TableToolbar from '../TableToolbar'
+import TableHeader from '../TableHeader'
 
-export default function MilestonesData({ projectsData }) {
+export default function MilestonesTable({ projectsData }) {
 
     if (projectsData[0] == null || projectsData[0] === undefined || projectsData[0].project_milestones[0] == null || projectsData[0].project_milestones[0] === undefined) {
-        return <div>No Data Found</div>
+        return (
+        <div>
+         <TableHeader/>
+        <div>No Data Found</div>
+        </div>
+        )
     }
     else {
 const milestoneData =projectsData[0].project_milestones
@@ -23,7 +28,7 @@ const milestoneData =projectsData[0].project_milestones
         return (
             <div>
                    <div>
-                <TableToolbar/>
+                <TableHeader/>
             </div>
                 <DataTable value={milestoneData}  className="p-datatable-sm" resizableColumns columnResizeMode="expand">
                     {dynamicColumns}

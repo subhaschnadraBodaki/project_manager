@@ -1,27 +1,29 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import TableToolbar from '../TableToolbar'
+import TableHeader from '../TableHeader'
 import { TrashIcon, PencilIcon } from '@heroicons/react/solid'
 import Modal from 'react-modal'
 import {useState} from 'react'
 import { Button } from 'primereact/button';
-import EditTask from '../../EditTask'
+import EditIssues from '../../EditForms/EditIssues'
 import {useRef} from 'react'
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
 
-export default function RisksData({projectsData}) {
-     const toast = useRef(null); 
-     const projectName = projectsData[0].name
+
+export default function DeliverablesTable({projectsData}) {
+     
+      const toast = useRef(null); 
+      const projectName = projectsData[0].name
     const projectId = projectsData[0].id
 
-      const[ModalIsOpen, setModalIsOpen] = useState(false)
-      const [deleteItemConfirm,setDeleteItemConfirm]=useState(false)
+  const[ModalIsOpen, setModalIsOpen] = useState(false)
+  const [deleteItemConfirm,setDeleteItemConfirm]=useState(false)
     const[deleteData,setDeleteData]=useState(null)
-       const [editData,setEditData]=useState(null)
-
-    const customStyles = {
+   const [editData,setEditData]=useState(null)
+  
+     const customStyles = {
         content: {
           top: '50%',
           left: '50%',
@@ -45,26 +47,24 @@ export default function RisksData({projectsData}) {
           height: '180px' , 
         },
       };
-
-     if (projectsData[0] == null || projectsData[0] === undefined || projectsData[0].project_risks[0] == null || projectsData[0].project_risks[0] === undefined) {
+      if (projectsData[0] == null || projectsData[0] === undefined || projectsData[0].project_deliverables[0] == null || projectsData[0].project_deliverables[0] === undefined) {
 
         return (
-        <div>
-        <div><TableToolbar projectId={projectId} projectName={projectName} label='Add Risk' formType='AddRisks'/></div>
+         <div>
+        <div><TableHeader projectId={projectId} projectName={projectName} label='Add Deliverables' formType='AddDeliverables'/></div>
         <div>No Data Found</div>
         </div>
         )
     }
-    
     else{
-       const [riskData,setRiskData] = useState(projectsData[0].project_risks)
-         
-          const deleteProduct = (deleteData) => {
-         let  _riskData = riskData.filter(val => val.id !== deleteData.id);
-         setRiskData(_riskData)
-        setDeleteItemConfirm(false)
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Risk Deleted', life: 3000 });
-             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/risks?id=eq.${deleteData.id}` 
+   const [deliverablesData,setDeliverablesData] =useState(projectsData[0].project_deliverables)
+// ---------------------Delete Task----------
+    const deleteProduct = (deleteData) => {
+         let  _deliverablesData = deliverablesData.filter(val => val.id !== deleteData.id);
+         setDeliverablesData(_deliverablesData)
+           setDeleteItemConfirm(false)
+           toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Deliverable Deleted', life: 3000 });
+             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/deliverables?id=eq.${deleteData.id}` 
       axios.delete(url,
             {
             headers:{
@@ -74,25 +74,27 @@ export default function RisksData({projectsData}) {
             
         }
       )
-}
+ }
+   
 
-   const edit = (rData) => {
+      const edit = (rData) => {
           setEditData(rData)
          setModalIsOpen(true)
+        
       }; 
 
- const deleteFxn = (dData) => {
+        const deleteFxn = (dData) => {
         setDeleteData(dData)
         setDeleteItemConfirm(true)
    }
+      
+    
 
-
-
-          const ActionButton = (rowData) => {
+ const ActionButton = (rowData) => {
         return (
             <React.Fragment>
-                 <Modal            
-            isOpen={modalIsOpen}
+                     <Modal 
+            isOpen={ModalIsOpen}
             onRequestClose={()=> setModalIsOpen(false)}
             style={customStyles}
             ariaHideApp={false}
@@ -100,26 +102,26 @@ export default function RisksData({projectsData}) {
             >   
             
             <div className="grid grid-cols-3">
-                <div><h2 className="h2Form">{projectName} ({projectId})</h2></div>
+                <div><h2 className="h2Form">Project-Id : {projectId}</h2></div>
                  <div className=" shadow-sm py-6 text-blue-900 ">
-                <h2 className="text-2xl text-center  font-semibold px-20">Edit Risk
+                <h2 className="text-2xl text-center  font-semibold px-20">Edit Deliverable
                 </h2>
                 </div>
                 <div className="text-right">
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setModalIsOpen(false)} />
                 </div>
             </div>
-             
-            <EditTask projectId={projectId} editData={editData} />
-                    <div className="text-right mr-10 ">
-                     <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
-                    <button className="btn ml-3" type="submit" form="editForm" >Save 
+
+            <EditIssues projectId={projectId} editData={editData} />
+              
+              <div className="text-right mr-10 ">
+                     <button className="btn " onClick={()=> setModalIsOpen(false)}  >Close</button>
+                    <button className="btn ml-3" type="submit"  form="editForm" >Save 
                     </button>
-                    
                     </div> 
           </Modal>
 
-           <Modal
+            <Modal
           isOpen={deleteItemConfirm}
             onRequestClose={()=> setDeleteItemConfirm(false)}
             style={customStylesDelete } 
@@ -146,42 +148,42 @@ export default function RisksData({projectsData}) {
                  </div>
           </Modal>
 
-                <button onClick={() =>  edit(rowData)}>
+                <button onClick={() => edit(rowData) }>
                     <PencilIcon className="h-5 w-5 mr-4" />
                 </button>
-                <button onClick={() =>deleteFxn(rowData)}>
+                <button onClick={() => deleteFxn(rowData)}>
                     <TrashIcon className="h-5 w-5 " />
                 </button>
             </React.Fragment>
         );
     }
+    
 
-   
-  
     const columns = [
-        {field:"risk_rank" , header:"Risk Rank"},
-        {field:"risk_value" , header:"Risk Value"},
-        {field:"notes" , header:"Notes"},
-        {field:"state"  , header:"State"},
-        {field:"status"  , header:"Status"},
-        {field:"impact"  , header:"Impact"},
-        {field:"probability"  , header:"Probability"},
+        {field:"name" , header:"Name"},
+        {field:"project_id" , header:"Project ID"},
+        {field:"status" , header:"Status"},
+        {field:"parent_deliverables"  , header:"Parent Deliverables"}
     ]
-   
+
+
+
+
+
 const dynamicColumns = columns.map((col)=> {
     return <Column key={col.field} field = {col.field} header={col.header}/>
 })
     return (
         <div>
                <div>
-                <Toast ref={toast} />
-               <TableToolbar projectId={projectId} projectName={projectName} label='Add Risk' formType='AddRisks'/>
+                 <Toast ref={toast} />
+               <TableHeader projectId={projectId} projectName={projectName} label='Add Deliverables' formType='AddDeliverables'/>
             </div>
-           <DataTable value={riskData}  className="p-datatable-sm" resizableColumns columnResizeMode="expand">
+              <DataTable value={deliverablesData} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
                         {dynamicColumns}
                          <Column header="Action" body={ActionButton}></Column>
                     </DataTable> 
         </div>
-    );
+    )
 }
 }

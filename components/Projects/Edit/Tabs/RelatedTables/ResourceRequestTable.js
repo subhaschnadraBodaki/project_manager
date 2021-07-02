@@ -1,11 +1,16 @@
 import React from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import TableToolbar from '../TableToolbar'
+import TableHeader from '../TableHeader'
 
-export default function ResourceRequestData({projectsData}) {
+export default function ResourceRequestTable({projectsData}) {
     if (projectsData[0] == null || projectsData[0] === undefined || projectsData[0].project_resource_requests[0] == null || projectsData[0].project_resource_requests[0] === undefined) {
-        return <div>No Data Found</div>
+        return (
+        <div>
+         <TableHeader/>
+        <div>No Data Found</div>
+        </div>
+        )
     }
     else{
 const resourceRequestData =projectsData[0].project_resource_requests
@@ -23,7 +28,7 @@ const dynamicColumns = columns.map((col)=> {
     return (
         <div>
                <div>
-                <TableToolbar/>
+                <TableHeader/>
             </div>
               <DataTable value={resourceRequestData} className="p-datatable-sm"  resizableColumns columnResizeMode="expand">
                         {dynamicColumns}
