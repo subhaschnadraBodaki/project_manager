@@ -121,11 +121,14 @@ return (
                 <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined align-right" onClick={()=> setModalIsOpen(false)} />
                 </div>
             </div>
+             <div>
+              <EditTask projectId={projectId} editData={editData} />
              
-            <EditTask projectId={projectId} editData={editData} />
+
+            </div>
                     <div className="text-right mr-10 ">
                      <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
-                    <button className="btn ml-3" type="submit" form="editTask" >Save 
+                    <button className="btn ml-3" type="submit" form="a-form" >Save 
                     </button>
                     
                     </div> 

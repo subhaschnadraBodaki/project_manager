@@ -13,19 +13,34 @@ function EditProject ({projectsData,currencydata,accountdata,projectManager}) {
   const toast = useRef(null); 
   const projectCode = projectsData[0].project_code
   const projectId = projectsData[0].id
+  console.log(projectsData[0])
   // --------------------------------------initial Values---------------------
-  const initialValues = {
-      name: projectsData[0].name,
-      project_code: projectCode,
-      description: projectsData[0].description,
-      planned_hours: projectsData[0].planned_hours,
-      planned_revenue:projectsData[0].planned_revenue,
-      actual_start_date: null,
-      actual_end_date: null,
-      billable: false,
-      active: false,
-      project_notes:projectsData[0].project_notes
+  const initialValues =  {
+account_id: projectsData[0].account_id,
+active: projectsData[0].active,
+actual_end_date: projectsData[0].actual_end_date,
+actual_poc: projectsData[0].actual_poc,
+actual_start_date: projectsData[0].actual_start_date,
+billable: projectsData[0].billable,
+billed_amount: projectsData[0].billed_amount,
+billing_type:projectsData[0].billing_type,
+currency_code: projectsData[0].currency_code,
+description:projectsData[0].description,
+name: projectsData[0].name,
+opportunity: projectsData[0].opportunity,
+percentage_of_completion:projectsData[0].percentage_of_completion,
+planned_hours:projectsData[0].planned_hours,
+planned_revenue:projectsData[0].planned_revenue,
+project_code:projectsData[0].project_code, 
+project_manager_id:projectsData[0].project_manager_id,
+project_notes:projectsData[0].project_notes,
+project_phase:projectsData[0].project_phase,
+project_type:projectsData[0].project_type, 
+region:projectsData[0].region, 
+state:projectsData[0].state 
+
   }
+ 
 // -----------------------------Dynamic Select Options-----------------------
 
 // --------------Account Id--------------
@@ -130,6 +145,7 @@ for (const item of projectManager) {
       console.log(error)
     },
     onSuccess: (data, variables, context) => {
+    
        console.log('onSuccess',variables,data)
     },
     onSettled: (data, error) => {
@@ -141,6 +157,21 @@ for (const item of projectManager) {
 
   const validationSchema = Yup.object({
       name: Yup.string().required('Required'),
+      project_manager_id: Yup.string().required('Required'),
+      project_phase: Yup.string().required('Required'),
+      account_id: Yup.string().required('Required'),
+      billing_type: Yup.string().required('Required'),
+      billable: Yup.string().required('Required'),
+      currency_code: Yup.string().required('Required'),
+      active: Yup.string().required('Required'),
+      project_type: Yup.string().required('Required'),
+      opportunity: Yup.string().required('Required'),
+      region: Yup.string().required('Required'),
+      description: Yup.string().required('Required'),
+      planned_hours: Yup.string().required('Required'),
+      planned_revenue: Yup.string().required('Required'),
+      actual_start_date: Yup.string().required('Required'),
+      actual_end_date: Yup.string().required('Required'),
       planned_revenue: Yup.string().max(14,'Must be 14 digits or less').test(
         'Is positive?', 
         ' Amount must be greater than 0!', 
@@ -161,8 +192,9 @@ for (const item of projectManager) {
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
   console.log(data)
-       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Details Updated', life: 3000 });
+       
        mutation.mutate(data);
+         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Details Updated', life: 3000 });
     };
 
     // -------------------------------Form----------------------------
@@ -336,7 +368,8 @@ for (const item of projectManager) {
       <h2 className="h2Form">Dates</h2> 
       <div className="ml-3">
              <FormikControl
-              control='date'
+              control='input'
+              type='date'
               label='Actual Start Date'
               name='actual_start_date'
             />
@@ -344,7 +377,8 @@ for (const item of projectManager) {
 
     <div className="ml-3">
              <FormikControl
-              control='date'
+              control='input'
+              type='date'
               label='Actual End Date'
               name='actual_end_date'
             />

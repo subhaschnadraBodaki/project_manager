@@ -5,31 +5,31 @@ import FormikControl from '../../FormComponents/FormikControl'
 import { useMutation, useQueryClient } from 'react-query';
  import axios from 'axios';
  import {useQuery} from 'react-query'
-
  import {useState} from 'react'
 
 function EditTask ({projectId,editData}) {
 
-  
+
   // --------------------------------------initial Values---------------------
   // console.log(editData.id)
-  console.log('edittask')
+  console.log('editData')
 
-  const initialValues = {
-     actual_effort_in_hours:null,
-      name: editData.name,
-      // associated_milestone:null,
-      description: editData.description,
-      sucecssor_task:editData.sucecssor_task,
-      parent_task:editData.parent_task,
-      project_id:projectId,
-      story_id:editData.story_id,
-      actual_start_date: null,
-      actual_end_date: null,
-      percentage_of_completion:null,
-      owner:editData.owner,
-      time_recording_allowed: false,
-  }
+  const initialValues = editData
+  //  {
+  //    actual_effort_in_hours:null,
+  //     name: editData.name,
+  //     // associated_milestone:null,
+  //     description: editData.description,
+  //     sucecssor_task:editData.sucecssor_task,
+  //     parent_task:editData.parent_task,
+  //     project_id:projectId,
+  //     story_id:editData.story_id,
+  //     actual_start_date: null,
+  //     actual_end_date: null,
+  //     percentage_of_completion:null,
+  //     owner:editData.owner,
+  //     time_recording_allowed: false,
+  // }
 
 // -------------------------- Static Select Options----------------------------
 
@@ -118,7 +118,8 @@ function EditTask ({projectId,editData}) {
   console.log(data)
       
        mutation.mutate(data);
-        document.form.reset();
+        // document.form.reset();
+
     };
 
     // -------------------------------Form----------------------------
@@ -135,8 +136,8 @@ function EditTask ({projectId,editData}) {
    
    
 
-    <Form id="editTask" name="form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-     md:gap-y-4 py-6   md:ml-0" autoComplete="off">
+    <Form  name="form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+     md:gap-y-4 py-6   md:ml-0"  id="a-form" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
     
@@ -248,7 +249,8 @@ function EditTask ({projectId,editData}) {
       <h2 className="h2Form">Dates</h2> 
       <div className="ml-3">
              <FormikControl
-              control='date'
+              control='input'
+              type='date'
               label='Actual Start Date'
               name='actual_start_date'
             />
@@ -256,16 +258,16 @@ function EditTask ({projectId,editData}) {
 
     <div className="ml-3">
              <FormikControl
-              control='date'
+              control='input'
+              type='date'
               label='Actual End Date'
               name='actual_end_date'
             />
     </div>
 
-   
-    {/* <div className="text-right mt-5  col-span-2 mr-20 ">
+ <div className="text-right mt-5  col-span-2 mr-20 ">
      <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
-    </div> */}
+    </div> 
    
     </Form>
     </div>

@@ -64,7 +64,7 @@ export default function DeliverablesData({projectsData}) {
          setDeliverablesData(_deliverablesData)
            setDeleteItemConfirm(false)
            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Deliverable Deleted', life: 3000 });
-             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?id=eq.${deleteData.id}` 
+             const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/deliverables?id=eq.${deleteData.id}` 
       axios.delete(url,
             {
             headers:{
