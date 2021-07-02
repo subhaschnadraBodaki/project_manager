@@ -12,12 +12,11 @@ const EditEmployee = ({
   jobTitles,
   countries,
   employees,
-  employeeData
+  employeeData,
 }) => {
-
-    const employeeId = employeeData[0].employee_id;
+  const employeeId = employeeData[0].employee_id;
   // -------------------------Initaial Values----------------------------
-  const initialValues = employeeData[0]
+  const initialValues = employeeData[0];
 
   // ---------------Options----------------------------
 
@@ -141,7 +140,6 @@ const EditEmployee = ({
   });
 
   const onSubmit = (data, submitProps) => {
-
     mutation.mutate(data);
     submitProps.setSubmitting(false);
     // submitProps.resetForm()

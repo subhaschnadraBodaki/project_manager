@@ -334,7 +334,8 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
               <h2 className="h2Form">Dates</h2>
               <div className="ml-3">
                 <FormikControl
-                  control="date"
+                  control="input"
+                  type="date"
                   label="Planned Start Date"
                   name="planned_start_date"
                 />
@@ -342,7 +343,8 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
 
               <div className="ml-3">
                 <FormikControl
-                  control="date"
+                  control="input"
+                  type="date"
                   label="Planned End Date"
                   name="planned_end_date"
                 />

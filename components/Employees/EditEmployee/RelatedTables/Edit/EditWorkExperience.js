@@ -1,12 +1,13 @@
 import React from "react";
 import * as Yup from "yup";
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
+import { Formik, Form, FieldArray } from "formik";
+import FormikControl from "../../../../FormComponents/FormikControl";
 
-const EditWorkExperience = (employmentType, designation, employeeData, rowId) => {
+const EditWorkExperience = ({ employmentType, designation, editTask }) => {
   // Initial Values
-  console.log(employeeData);
-  console.log(employmentType);
-  console.log(designation);
-  // const initialValues = employeeData[0].work_experience[0];
+  const initialValues = editTask;
   // console.log(initialValues);
 
   // -----------------Options-----------------
@@ -27,15 +28,15 @@ const EditWorkExperience = (employmentType, designation, employeeData, rowId) =>
     dropdownForDesignation.push(obj2);
   });
 
-  //   validation Schema
+  //---------------validation Schema------------------
   const validationSchema = Yup.object({});
 
   // -----------Database-------------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/work_experience?id=eq.${workExperienceId}`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/work_experience?id=eq.${editTask.id}`;
 
-  const EditWorkExperience = (data) => {
+  const editWorkExperience = (data) => {
     return axios.patch(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -44,7 +45,7 @@ const EditWorkExperience = (employmentType, designation, employeeData, rowId) =>
     });
   };
 
-  const mutation = useMutation(EditWorkExperience, {
+  const mutation = useMutation(editWorkExperience, {
     onMutate: (variables) => {
       console.log("onmutate", variables);
     },
@@ -72,107 +73,93 @@ const EditWorkExperience = (employmentType, designation, employeeData, rowId) =>
       onSubmit={onSubmit}
     >
       {(formik) => {
-        <div className="min-h-screen  justify-items-center container w-full mx-auto">
-          <div className=" shadow-sm py-6 text-blue-900 ">
-            <h2 className="text-2xl text-center  font-semibold px-20">
-              Add Employee Details
-            </h2>
+        return (
+          <div className="justify-items-center container w-full mx-auto">
+            <Form id="editWorkExp" className="formGridModal" autoComplete="off">
+              <div>
+                <FormikControl
+                  control="input"
+                  type="text"
+                  label="Organization"
+                  name="organization"
+                />
+              </div>
+
+              <div>
+                <FormikControl
+                  control="input"
+                  type="number"
+                  label="No of Years"
+                  name="no_of_years"
+                />
+              </div>
+
+              <div>
+                <FormikControl
+                  control="input"
+                  type="date"
+                  label="Start Date"
+                  name="start_date"
+                />
+              </div>
+
+              <div>
+                <FormikControl
+                  control="input"
+                  type="date"
+                  label="End Date"
+                  name="end_date"
+                />
+              </div>
+
+              <div>
+                <FormikControl
+                  control="select"
+                  label="Employment Type"
+                  name="employment_type"
+                  options={dropdownForEmploymentType}
+                />
+              </div>
+
+              <div>
+                <FormikControl
+                  control="input"
+                  type="text"
+                  label="Website"
+                  name="website"
+                />
+              </div>
+
+              <div>
+                <FormikControl
+                  control="select"
+                  label="Designation"
+                  name="first_name"
+                  options={dropdownForDesignation}
+                />
+              </div>
+
+              <div className="col-span-2 ">
+                <FormikControl
+                  control="textarea"
+                  type="text"
+                  label="Description"
+                  name="description"
+                />
+              </div>
+
+              <div className="text-right mt-5  col-span-2 mr-20 ">
+                <button
+                  type="submit"
+                  className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
+                  disabled={!formik.isValid || formik.isSubmitting}
+                >
+                  Submit
+                </button>
+              </div>
+            </Form>
           </div>
-          <Form className="formGrid" autoComplete="off">
-            <h2 className="h2Form">Basic Details</h2>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Employee Id"
-                name="employee_id"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Organization"
-                name="organization"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="number"
-                label="No of Years"
-                name="no_of_years"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="date"
-                label="Start Date"
-                name="start_date"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="date"
-                label="End Date"
-                name="end_date"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="select"
-                label="Employment Type"
-                name="employment_type"
-                options={dropdownForEmploymentType}
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Website"
-                name="website"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="select"
-                label="Designation"
-                name="first_name"
-                options={dropdownForDesignation}
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="textarea"
-                type="text"
-                label="Description"
-                name="description"
-              />
-            </div>
-
-            <div className="text-right mt-5  col-span-2 mr-20 ">
-              <button
-                type="submit"
-                className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
-                disabled={!formik.isValid || formik.isSubmitting}
-              >
-                Submit
-              </button>
-            </div>
-          </Form>
-        </div>;
+        );
       }}
     </Formik>
   );

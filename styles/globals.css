@@ -2,93 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .error {
-    color: red;
-    font-size: 1rem;
+  color: red;
+  font-size: 1rem;
 }
 
 input.invalid {
-    border-color: red;
+  border-color: red;
 }
 
 .react-datepicker-wrapper,
 .react-datepicker__input-container,
 .react-datepicker__input-container input {
-    display: block;
-    width: 100%;
-    height: 38px;
-    /* border: 1px solid grey 300; */
-    border-width: 1px;
-    border-color: #e2e8f0;
-    color: rgba(55, 65, 81, 1);
-    margin-left: 2px;
-   
+  display: block;
+  width: 100%;
+  height: 38px;
+  /* border: 1px solid grey 300; */
+  border-width: 1px;
+  border-color: #e2e8f0;
+  color: rgba(55, 65, 81, 1);
+  margin-left: 2px;
 }
 
-
-input:focus{
-    outline: none;
-    border-color: blue;
-   
+input:focus {
+  outline: none;
+  border-color: blue;
 }
-
 
 .DeleteFormModalAlert {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@layer base{
-
-.formGrid{
+@layer base {
+  .formGrid {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-    md:gap-x-44 md:gap-y-4 px-20 py-6 mx-16  md:ml-0
-}   
-
-.addProjectFormating{
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-    md:gap-x-44 md:gap-y-4  py-6   md:ml-0
-}  
-
-.label{
-    @apply block md:col-span-2  text-right  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1
-}
-
-.labelProjectId{
-    @apply block md:col-start-2 md:col-span-2 md:mr-2 text-left  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1
-}
-
-
-.labelText{
-    @apply block col-span-1  text-right  tracking-wide  mb-0 text-gray-500 text-sm lg:text-base  font-medium mb-1
-}
-
-
-.h2Form{
-   @apply col-span-2 text-xl mt-3 text-left text-blue-900  font-semibold mb-2
-}
-.h2FormModal{
-   @apply col-span-2 text-xl mt-0 text-left text-blue-900  font-semibold mb-2
-}
-
-.h2heading{
-    @apply text-center  font-semibold px-20 text-blue-900  text-3xl text-indigo-700
+    md:gap-x-44 md:gap-y-4 px-20 py-6 mx-16  md:ml-0;
   }
 
-.inputFieldText{
-@apply block md:w-full md:ml-2 md:col-span-5 md:px-2 md:mb-0  text-gray-700 border border-gray-300   ring-1 ring-black ring-opacity-5 w-full rounded-sm py-2   leading-tight focus:outline-none focus:bg-white focus:border-blue-800
-}
+  .formGridModal {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+    md:gap-y-4  py-6  md:ml-0;
+  }
 
- .inputField {
-     @apply  block  col-span-3 md:ml-2  md:mb-0  text-gray-700 border border-gray-300   ring-1 ring-black ring-opacity-5 w-full rounded-sm py-2 px-4 mb-3 leading-tight focus:outline-none bg-white focus:border-blue-800
- }   
- .btn{
-    @apply bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-4 rounded-sm   
-}
+  .addProjectFormating {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
+    md:gap-x-44 md:gap-y-4  py-6   md:ml-0;
+  }
 
-.headerBtn{
-    @apply bg-blue-900 px-1 py-1  text-sm shadow-sm font-medium tracking-wider border text-blue-100 rounded-md hover:shadow-lg hover:bg-blue-800 flex
-}
+  .label {
+    @apply block md:col-span-2  text-right  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1;
+  }
+
+  .labelProjectId {
+    @apply block md:col-start-2 md:col-span-2 md:mr-2 text-left  tracking-wide  mb-0 text-gray-500  text-sm lg:text-base  font-medium mb-1;
+  }
+
+  .labelText {
+    @apply block col-span-1  text-right  tracking-wide  mb-0 text-gray-500 text-sm lg:text-base  font-medium mb-1;
+  }
+
+  .h2Form {
+    @apply col-span-2 text-xl mt-3 text-left text-blue-900  font-semibold mb-2;
+  }
+  .h2FormModal {
+    @apply col-span-2 text-xl mt-0 text-left text-blue-900  font-semibold mb-2;
+  }
+
+  .h2heading {
+    @apply text-center  font-semibold px-20 text-blue-900  text-3xl text-indigo-700;
+  }
+
+  .inputFieldText {
+    @apply block md:w-full md:ml-2 md:col-span-5 md:px-2 md:mb-0  text-gray-700 border border-gray-300   ring-1 ring-black ring-opacity-5 w-full rounded-sm py-2   leading-tight focus:outline-none focus:bg-white focus:border-blue-800;
+  }
+
+  .inputField {
+    @apply block  col-span-3 md:ml-2  md:mb-0  text-gray-700 border border-gray-300   ring-1 ring-black ring-opacity-5 w-full rounded-sm py-2 px-4 mb-3 leading-tight focus:outline-none bg-white focus:border-blue-800;
+  }
+  .btn {
+    @apply bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-4 rounded-sm;
+  }
+
+  .headerBtn {
+    @apply bg-blue-900 px-1 py-1  text-sm shadow-sm font-medium tracking-wider border text-blue-100 rounded-md hover:shadow-lg hover:bg-blue-800 flex;
+  }
 }

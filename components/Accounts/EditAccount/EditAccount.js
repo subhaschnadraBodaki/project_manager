@@ -97,7 +97,7 @@ const EditAccount = ({ accountData, accountId, countries }) => {
           <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
             <div className=" shadow-sm py-6 text-blue-900 ">
               <h2 className="text-2xl text-center  font-semibold px-20">
-                Add Account Details
+                Edit Account Details
               </h2>
             </div>
 

@@ -1,11 +1,10 @@
+import FormType from "../FormType";
 import Modal from "react-modal";
 import { Toolbar } from "primereact/toolbar";
 import { PlusIcon, SaveIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
 import { Button } from "primereact/button";
-import React, { useState } from 'react'
-
-import FormType from '../FormType'
-
+import React, { useState } from "react";
 
 export default function TableToolbar({
   employeeId,
@@ -15,7 +14,6 @@ export default function TableToolbar({
   employmentType,
   designation,
 }) {
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const customStyles = {
@@ -62,10 +60,11 @@ export default function TableToolbar({
               />
             </div>
           </div>
-          
+
           <div>
             <FormType
               employeeId={employeeId}
+              employeeName={employeeName}
               formType={formType}
               employmentType={employmentType}
               designation={designation}
@@ -76,7 +75,7 @@ export default function TableToolbar({
             <button className="btn " onClick={() => setModalIsOpen(false)}>
               Close
             </button>
-            <button className="btn ml-3" type="submit" form="a-form">
+            <button className="btn ml-3" type="submit" form="AddWorkExperience">
               Save
             </button>
           </div>
@@ -95,7 +94,7 @@ export default function TableToolbar({
     return (
       <React.Fragment>
         <button className="headerBtn">
-          <SaveIcon className="h-5 w-5 mr-2" /> Save
+          <SaveIcon className="h-5 w-5 mr-2" form="AddWorkExperience" /> Save
         </button>
       </React.Fragment>
     );
@@ -108,4 +107,4 @@ export default function TableToolbar({
       right={rightToolbarTemplate}
     ></Toolbar>
   );
-};
+}

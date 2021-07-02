@@ -2,6 +2,7 @@ import { server } from "../../../config";
 import axios from "axios";
 import TabsRender from "../../../components/Employees/EditEmployee/Tabs/TabRender";
 import EditEmployee from "../../../components/Employees/EditEmployee/EditEmployee";
+import AddWorkExperience from "../../../components/Employees/EditEmployee/RelatedTables/Add/AddWorkExperience";
 
 const editEmployee = ({
   education,
@@ -13,6 +14,8 @@ const editEmployee = ({
   employmentType, 
   designation
 }) => {
+
+  const employeeId = 1
   return (
     <>
       <EditEmployee
