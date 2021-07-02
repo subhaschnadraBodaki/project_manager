@@ -210,7 +210,8 @@ function AddDeliverables ({projectId}) {
      
     <div > 
        <FormikControl
-        control='date'
+        control='input'
+        type='date'
         label='Planned Start Date'
         name='planned_start_date'
        
@@ -219,7 +220,8 @@ function AddDeliverables ({projectId}) {
 
       <div > 
        <FormikControl
-        control='date'
+        control='input'
+        type='date'
         label='Planned End Date'
         name='planned_end_date'
         
