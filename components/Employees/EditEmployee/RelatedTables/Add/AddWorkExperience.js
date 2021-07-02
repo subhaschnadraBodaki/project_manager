@@ -101,16 +101,7 @@ const AddWorkExperience = ({
               className="formGridModal"
               autoComplete="off"
             >
-              {/* <h2 className="h2Form ml-8">Name : {employeeName}</h2>   */}
-
-              {/* <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Employee Id"
-                name="employee_id"
-              />
-            </div> */}
+              
               <div>
                 <FormikControl
                   control="input"

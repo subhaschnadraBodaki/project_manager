@@ -11,11 +11,12 @@ const editEmployee = ({
   countries,
   employees,
   employeeData,
-  employmentType, 
-  designation
+  employmentType,
+  designation,
+  identityType,
+  employeeDataForEdit
 }) => {
-
-  const employeeId = 1
+  
   return (
     <>
       <EditEmployee
@@ -24,7 +25,7 @@ const editEmployee = ({
         jobTitles={jobTitles}
         countries={countries}
         employees={employees}
-        employeeData={employeeData}
+        employeeDataForEdit={employeeDataForEdit}
       />
 
       <div className="my-5 px-2">
@@ -32,6 +33,8 @@ const editEmployee = ({
           employeeData={employeeData}
           employmentType={employmentType}
           designation={designation}
+          identityType={identityType}
+          countries={countries}
         />
       </div>
     </>
@@ -40,6 +43,15 @@ const editEmployee = ({
 
 export async function getServerSideProps(context) {
   const { employee_id } = context.query;
+
+  const employeeForEdit = axios({
+    method: "get",
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*`,
+    headers: {
+      apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      "Content-Type": "application/json",
+    },
+  });
 
   const employee = axios({
     method: "get",
@@ -111,6 +123,14 @@ export async function getServerSideProps(context) {
     },
   });
 
+  const identityData = axios({
+    method: "get",
+    url: `${server}/api/enums/identity_type_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   const data = await axios.all([
     employee,
     educationdata,
@@ -120,7 +140,10 @@ export async function getServerSideProps(context) {
     employeesData,
     employmentTypeData,
     designationData,
+    identityData,
+    employeeForEdit
   ]);
+
 
   const employeeData = data[0].data;
   const education = data[1].data;
@@ -130,6 +153,8 @@ export async function getServerSideProps(context) {
   const employees = data[5].data;
   const employmentType = data[6].data;
   const designation = data[7].data;
+  const identityType = data[8].data;
+  const employeeDataForEdit = data[9].data
 
   return {
     props: {
@@ -141,6 +166,8 @@ export async function getServerSideProps(context) {
       employees,
       employmentType,
       designation,
+      identityType,
+      employeeDataForEdit
     },
   };
 }
