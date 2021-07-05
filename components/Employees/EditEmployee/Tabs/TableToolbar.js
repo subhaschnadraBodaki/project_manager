@@ -13,6 +13,8 @@ export default function TableToolbar({
   formType,
   employmentType,
   designation,
+  identityType,
+  countries
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -68,6 +70,8 @@ export default function TableToolbar({
               formType={formType}
               employmentType={employmentType}
               designation={designation}
+              identityType={identityType}
+              countries={countries}
             />
           </div>
 
@@ -75,7 +79,7 @@ export default function TableToolbar({
             <button className="btn " onClick={() => setModalIsOpen(false)}>
               Close
             </button>
-            <button className="btn ml-3" type="submit" form="AddWorkExperience">
+            <button className="btn ml-3" type="submit" form={formType}>
               Save
             </button>
           </div>
@@ -94,7 +98,7 @@ export default function TableToolbar({
     return (
       <React.Fragment>
         <button className="headerBtn">
-          <SaveIcon className="h-5 w-5 mr-2" form="AddWorkExperience" /> Save
+          <SaveIcon className="h-5 w-5 mr-2" form={formType} /> Save
         </button>
       </React.Fragment>
     );

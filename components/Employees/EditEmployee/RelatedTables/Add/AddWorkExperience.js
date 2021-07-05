@@ -42,13 +42,7 @@ const AddWorkExperience = ({
   });
 
   //   validation Schema
-  const validationSchema = Yup.object({
-    start_date: Yup.date(),
-    end_date: Yup.date().min(
-      Yup.ref("planned_start_date"),
-      "end date can't be before start date"
-    ),
-  });
+  const validationSchema = Yup.object({});
 
   // -----------Database-------------------
 

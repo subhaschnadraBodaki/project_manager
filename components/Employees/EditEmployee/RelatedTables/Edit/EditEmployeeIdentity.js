@@ -5,16 +5,8 @@ import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import FormikControl from '../../../../FormComponents/FormikControl'
 
-const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
-  const initialValues = {
-    employee_id: employeeId,
-    identity_no: "",
-    name: "",
-    description: "",
-    validity: null,
-    issuing_authority: "",
-    active: false,
-  };
+const EditEmployeeIdentity = ({ employeeId,identityType, countries, editIdentity }) => {
+  const initialValues = editIdentity
 
   //    -----------Options----------------
 
@@ -43,10 +35,10 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
   // -----------Post data-----------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employee_identity`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employee_identity?id=eq.${editIdentity.id}`;
 
-  const addIdentity = (data) => {
-    return axios.post(url, data, {
+  const editIdentityOfEmployee = (data) => {
+    return axios.patch(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
         "Content-Type": "application/json",
@@ -54,7 +46,7 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
     });
   };
 
-  const mutation = useMutation(addIdentity, {
+  const mutation = useMutation(editIdentityOfEmployee, {
     onMutate: (variables) => {
       console.log("onmutate", variables);
     },
@@ -85,7 +77,7 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
       return (
         <div className="justify-items-center container w-full mx-auto">
           <Form
-            id="AddEmployeeIdentity"
+            id="editIdentity"
             name="form"
             className="formGridModal"
             autoComplete="off"
@@ -164,7 +156,7 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
               />
             </div>
 
-            {/* <div className="text-right mt-5  col-span-2 mr-20 ">
+            <div className="text-right mt-5  col-span-2 mr-20 ">
             <button
               type="submit"
               className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
@@ -172,7 +164,7 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
             >
               Submit
             </button>
-          </div> */}
+          </div>
           </Form>
         </div>
       );
@@ -181,4 +173,4 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
   )
 };
 
-export default AddEmployeeIdentity;
+export default EditEmployeeIdentity;
