@@ -1,8 +1,9 @@
-import React from "react";
 import { Formik, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
+import { Toast } from "primereact/toast";
+import {useRef} from 'react'
 
 import FormikControl from "../../../../FormComponents/FormikControl";
 
@@ -12,6 +13,7 @@ const AddWorkExperience = ({
   employmentType,
   designation,
 }) => {
+  const toast = useRef(null);
   // Initial Values
   const initialValues = {
     employee_id: employeeId,
@@ -70,6 +72,12 @@ const AddWorkExperience = ({
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Experience Added",
+        life: 3000,
+      });
     },
   });
 
@@ -81,6 +89,8 @@ const AddWorkExperience = ({
   };
 
   return (
+    <>
+    <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -182,6 +192,7 @@ const AddWorkExperience = ({
         );
       }}
     </Formik>
+    </>
   );
 };
 

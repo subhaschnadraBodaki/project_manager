@@ -1,11 +1,13 @@
-import React from "react";
 import { Formik, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
+import { Toast } from "primereact/toast";
+import {useRef} from 'react'
 import FormikControl from '../../../../FormComponents/FormikControl'
 
 const EditEmployeeIdentity = ({ employeeId,identityType, countries, editIdentity }) => {
+  const toast = useRef(null);
   const initialValues = editIdentity
 
   //    -----------Options----------------
@@ -58,6 +60,12 @@ const EditEmployeeIdentity = ({ employeeId,identityType, countries, editIdentity
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Identity Updated",
+        life: 3000,
+      });
     },
   });
 
@@ -68,6 +76,8 @@ const EditEmployeeIdentity = ({ employeeId,identityType, countries, editIdentity
   };
 
   return (
+    <>
+    <Toast ref={toast} />
     <Formik
     initialValues={initialValues}
     validationSchema={validationSchema}
@@ -170,6 +180,7 @@ const EditEmployeeIdentity = ({ employeeId,identityType, countries, editIdentity
       );
     }}
   </Formik>
+  </>
   )
 };
 

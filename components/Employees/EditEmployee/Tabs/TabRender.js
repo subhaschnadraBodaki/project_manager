@@ -1,8 +1,16 @@
 import Tabs from "./Tabs";
 
-const TabsRender = ({ employeeData, employmentType, designation, identityType, countries }) => {
+const TabsRender = ({
+  employeeData,
+  employmentType,
+  designation,
+  identityType,
+  countries,
+  skillCategories,
+  skillLevel,
+  addressType,
+}) => {
   return (
-    
     <Tabs
       color="blue"
       employeeData={employeeData}
@@ -10,6 +18,9 @@ const TabsRender = ({ employeeData, employmentType, designation, identityType, c
       designation={designation}
       identityType={identityType}
       countries={countries}
+      skillCategories={skillCategories}
+      skillLevel={skillLevel}
+      addressType={addressType}
     />
   );
 };

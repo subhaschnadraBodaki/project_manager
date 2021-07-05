@@ -48,15 +48,10 @@ export default function ProjectListTable({ actionBody, data, employeeData }) {
     }
   };
 
-  const paginatorLeft = (
-    <Button type="button" icon="pi pi-refresh" className="p-button-text" />
-  );
-  const paginatorRight = (
-    <Button type="button" icon="pi pi-cloud" className="p-button-text" />
-  );
   return (
     <div>
       <DataTable
+        className="p-datatable-sm"
         value={data}
         resizableColumns
         columnResizeMode="expand"
@@ -65,8 +60,6 @@ export default function ProjectListTable({ actionBody, data, employeeData }) {
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         rows={5}
         rowsPerPageOptions={[5, 10, 15]}
-        paginatorLeft={paginatorLeft}
-        paginatorRight={paginatorRight}
       >
         {dynamicColumns}
         {/* <Column  header="Project Manager" >{projectManager}</Column> */}

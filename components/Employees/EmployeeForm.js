@@ -3,8 +3,8 @@ import * as Yup from "yup";
 import FormikControl from "../FormComponents/FormikControl";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
-import { useQuery } from "react-query";
-import { useState } from "react";
+import { Toast } from "primereact/toast";
+import {useRef} from 'react'
 
 const EmployeeForm = ({
   education,
@@ -12,7 +12,12 @@ const EmployeeForm = ({
   jobTitles,
   countries,
   employees,
+  nationality,
+  gender,
+  jobRoles,
+  maritalStatus,
 }) => {
+  const toast = useRef(null);
   // -------------------------Initial Values----------------------------
   const initialValues = {
     first_name: "",
@@ -81,39 +86,37 @@ const EmployeeForm = ({
     dropDownForEmployees.push(obj5);
   });
 
-  const dropdownForNationality = [
-    { key: "Nationality", value: "" },
-    { key: "Indian", value: "Indian" },
-    { key: "British", value: "British" },
-    { key: "American", value: "American" },
-  ];
+  const dropdownForNationality = [{ key: "Nationality", value: "" }];
+  nationality.map((n) => {
+    let obj6 = {};
+    obj6["key"] = n.key;
+    obj6["value"] = n.value;
+    dropdownForNationality.push(obj6);
+  });
 
-  const dropdownForGender = [
-    { key: "Gender", value: "" },
-    { key: "Male", value: "Male" },
-    { key: "Female", value: "Female" },
-    { key: "Unspecified", value: "Unspecified" },
-  ];
+  const dropdownForGender = [{ key: "Gender", value: "" }];
+  gender.map((g) => {
+    let obj7 = {};
+    obj7["key"] = g.key;
+    obj7["value"] = g.value;
+    dropdownForGender.push(obj7);
+  });
 
-  const dropdownForMartialStatus = [
-    { key: "Martial Status", value: "" },
-    { key: "Single", value: "Single" },
-    { key: "Married", value: "Married" },
-    { key: "Divorced", value: "Divorced" },
-    { key: "Widowed", value: "Widowed" },
-    { key: "Other", value: "Other" },
-  ];
+  const dropdownForMaritalStatus = [{ key: "Martial Status", value: "" }];
+  maritalStatus.map((marital) => {
+    let obj8 = {};
+    obj8["key"] = marital.key;
+    obj8["value"] = marital.value;
+    dropdownForMaritalStatus.push(obj8);
+  });
 
-  const dropdownForJobRoles = [
-    { key: "Job Role", value: "" },
-    { key: "Business Analyst", value: "Business Analyst" },
-    { key: "CTO", value: "CTO" },
-    { key: "Product Manager", value: "Product Manager" },
-    { key: "Project Manager", value: "Project Manager" },
-    { key: "Software Developer", value: "Software Developer" },
-    { key: "Software Engineer", value: "Software Engineer" },
-    { key: "Software Architect", value: "Software Architect" },
-  ];
+  const dropdownForJobRoles = [{ key: "Job Role", value: "" }];
+  jobRoles.map((jobRole) => {
+    let obj9 = {};
+    obj9["key"] = jobRole.key;
+    obj9["value"] = jobRole.value;
+    dropdownForJobRoles.push(obj9);
+  });
 
   // -------------------------------Validation Schema------------------------
 
@@ -157,261 +160,270 @@ const EmployeeForm = ({
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Employee Added",
+        life: 3000,
+      });
     },
   });
 
   const onSubmit = (data, submitProps) => {
-
     mutation.mutate(data);
     submitProps.setSubmitting(false);
-    // submitProps.resetForm()
+    submitProps.resetForm()
+
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {(formik) => {
-        return (
-          <div className="min-h-screen  justify-items-center container w-full mx-auto">
-            <div className=" shadow-sm py-6 text-blue-900 ">
-              <h2 className="text-2xl text-center  font-semibold px-20">
-                Add Employee Details
-              </h2>
+    <>
+      <Toast ref={toast} />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {(formik) => {
+          return (
+            <div className="min-h-screen  justify-items-center container w-full mx-auto">
+              <div className=" shadow-sm py-6 text-blue-900 ">
+                <h2 className="text-2xl text-center  font-semibold px-20">
+                  Add Employee Details
+                </h2>
+              </div>
+
+              <Form className="formGrid" name="form" autoComplete="off">
+                <h2 className="h2Form">Basic Details</h2>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="First Name"
+                    name="first_name"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Middle Name"
+                    name="middle_name"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Last Name"
+                    name="last_name"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Nationality"
+                    name="nationality"
+                    options={dropdownForNationality}
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="date"
+                    label="Birthday"
+                    name="birthday"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Gender"
+                    name="gender"
+                    options={dropdownForGender}
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Marital Status"
+                    name="marital_status"
+                    options={dropdownForMaritalStatus}
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Education"
+                    name="education_level"
+                    options={dropDownForEducation}
+                  />
+                </div>
+
+                <h2 className="h2Form">Job Details</h2>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Job Title"
+                    name="job_title"
+                    options={dropDownForJobTitles}
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Employment Status"
+                    name="employment_status"
+                    options={dropDownForEmploymentStatus}
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="date"
+                    label="Joined Date"
+                    name="joined_date"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="date"
+                    label="Confirmation Date"
+                    name="confirmation_date"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Manager"
+                    name="manager"
+                    options={dropDownForEmployees}
+                  />
+                </div>
+
+                <h2 className="h2Form">Communication Details</h2>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Address Line 1"
+                    name="address.address_line_1"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Address Line 2"
+                    name="address.address_line_2"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="City"
+                    name="city"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Country"
+                    name="country"
+                    options={dropdownForCountries}
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Postal Code"
+                    name="postal_code"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Phone"
+                    name="mobile_phone"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Email"
+                    name="work_email"
+                  />
+                </div>
+
+                <h2 className="h2Form">Other Details</h2>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Driving License No"
+                    name="driving_license"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="date"
+                    label="Driv License Exp Date"
+                    name="driving_license_exp_date"
+                  />
+                </div>
+
+                <div className="col-span-2">
+                  <FormikControl
+                    control="textarea"
+                    type="text"
+                    label="Notes"
+                    name="notes"
+                  />
+                </div>
+
+                <div className="text-right mt-5  col-span-2 mr-20 ">
+                  <button
+                    type="submit"
+                    className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
+                    disabled={!formik.isValid || formik.isSubmitting}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </Form>
             </div>
-
-            <Form className="formGrid" autoComplete="off">
-              <h2 className="h2Form">Basic Details</h2>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="First Name"
-                  name="first_name"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Middle Name"
-                  name="middle_name"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Last Name"
-                  name="last_name"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="select"
-                  label="Nationality"
-                  name="nationality"
-                  options={dropdownForNationality}
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="date"
-                  label="Birthday"
-                  name="birthday"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="select"
-                  label="Gender"
-                  name="gender"
-                  options={dropdownForGender}
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="select"
-                  label="Marital Status"
-                  name="marital_status"
-                  options={dropdownForMartialStatus}
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="select"
-                  label="Education"
-                  name="education_level"
-                  options={dropDownForEducation}
-                />
-              </div>
-
-              <h2 className="h2Form">Job Details</h2>
-
-              <div>
-                <FormikControl
-                  control="select"
-                  label="Job Title"
-                  name="job_title"
-                  options={dropDownForJobTitles}
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="select"
-                  label="Employment Status"
-                  name="employment_status"
-                  options={dropDownForEmploymentStatus}
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="date"
-                  label="Joined Date"
-                  name="joined_date"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="date"
-                  label="Confirmation Date"
-                  name="confirmation_date"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="select"
-                  label="Manager"
-                  name="manager"
-                  options={dropDownForEmployees}
-                />
-              </div>
-
-              <h2 className="h2Form">Communication Details</h2>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Address Line 1"
-                  name="address.address_line_1"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Address Line 2"
-                  name="address.address_line_2"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="City"
-                  name="city"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="select"
-                  label="Country"
-                  name="country"
-                  options={dropdownForCountries}
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Postal Code"
-                  name="postal_code"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Phone"
-                  name="mobile_phone"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Email"
-                  name="work_email"
-                />
-              </div>
-
-              <h2 className="h2Form">Other Details</h2>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Driving License No"
-                  name="driving_license"
-                />
-              </div>
-
-              <div>
-                <FormikControl
-                  control="input"
-                  type="date"
-                  label="Driv License Exp Date"
-                  name="driving_license_exp_date"
-                />
-              </div>
-
-              <div className="col-span-2">
-                <FormikControl
-                  control="textarea"
-                  type="text"
-                  label="Notes"
-                  name="notes"
-                />
-              </div>
-
-              <div className="text-right mt-5  col-span-2 mr-20 ">
-                <button
-                  type="submit"
-                  className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
-                  disabled={!formik.isValid || formik.isSubmitting}
-                >
-                  Submit
-                </button>
-              </div>
-            </Form>
-          </div>
-        );
-      }}
-    </Formik>
+          );
+        }}
+      </Formik>
+    </>
   );
 };
 

@@ -8,10 +8,12 @@ const add = ({
   jobTitles,
   countries,
   employees,
-  nationality
+  nationality,
+  gender,
+  jobRoles,
+  maritalStatus,
 }) => {
   return (
-    
     <EmployeeForm
       education={education}
       employmentStatus={employmentStatus}
@@ -19,6 +21,9 @@ const add = ({
       countries={countries}
       employees={employees}
       nationality={nationality}
+      gender={gender}
+      jobRoles={jobRoles}
+      maritalStatus={maritalStatus}
     />
   );
 };
@@ -77,6 +82,30 @@ export async function getStaticProps() {
     },
   });
 
+  const genderData = axios({
+    method: "get",
+    url: `${server}/api/enums/gender_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const jobRolesData = axios({
+    method: "get",
+    url: `${server}/api/enums/job_roles_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const maritalStatusData = axios({
+    method: "get",
+    url: `${server}/api/enums/marital_status_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   const data = await axios.all([
     educationdata,
     employmentStatusData,
@@ -84,6 +113,9 @@ export async function getStaticProps() {
     countriesData,
     employeesData,
     nationalityData,
+    genderData,
+    jobRolesData,
+    maritalStatusData,
   ]);
 
   const education = data[0].data;
@@ -92,8 +124,9 @@ export async function getStaticProps() {
   const countries = data[3].data;
   const employees = data[4].data;
   const nationality = data[5].data;
-
-
+  const gender = data[6].data;
+  const jobRoles = data[7].data;
+  const maritalStatus = data[8].data;
 
   return {
     props: {
@@ -102,7 +135,10 @@ export async function getStaticProps() {
       jobTitles,
       countries,
       employees,
-      nationality
+      nationality,
+      gender,
+      jobRoles,
+      maritalStatus,
     },
     revalidate: 60,
   };
