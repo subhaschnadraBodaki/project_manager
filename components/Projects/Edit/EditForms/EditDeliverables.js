@@ -8,9 +8,8 @@ import { useMutation, useQueryClient } from 'react-query';
 
  import {useState} from 'react'
 
-function EditDeliverables () {
+function EditDeliverables ({projectId,editData}) {
 
-  
   // --------------------------------------initial Values---------------------
   const initialValues = {
      assignees:'',
@@ -24,8 +23,8 @@ function EditDeliverables () {
     //   planned_end_date: null,
       predecessor_deliverables: '',
       sucecssor_deliverables: '',
-      // actual_effort_in_hours: '',
-      estimated_effort_in_hours: '',
+      actual_effort_in_hours: '',
+      // estimated_effort_in_hours: '',
     //   inserted_at: '',
       // modified_by: '',
       task_id: '',
@@ -33,8 +32,8 @@ function EditDeliverables () {
     //   created_by:'',
     //   project_id:'',
       story_id:'',
-      // actual_start_date:null,
-      // actual_end_date: null,
+       actual_start_date:null,
+       actual_end_date: null,
       time_recording_allowed: false
       
   }
@@ -154,16 +153,16 @@ function EditDeliverables () {
       //   ' Amount must be greater than 0!', 
       //   (value) => value > 0
       // ),
-      estimated_effort_in_hours: Yup.string().test(
+      actual_effort_in_hours: Yup.string().test(
         'Is positive?', 
         ' The Number must be positive', 
         (value) => value >= 0
       ),
-    //   planned_start_date: Yup.date(),
-    //     planned_end_date: Yup.date().min(
-    //         Yup.ref('planned_start_date'),
-    //         "end date can't be before start date"
-    //       )
+      actual_start_date: Yup.date(),
+        actual_end_date: Yup.date().min(
+            Yup.ref('actual_start_date'),
+            "end date can't be before start date"
+          )
   })
 
   // ----------------------------------onSubmit-------------------------
@@ -184,10 +183,10 @@ function EditDeliverables () {
       {formik => {
         return (
     <div className="  justify-items-center container w-full mx-auto   ">
-   
+    
    
 
-    <Form className="formGrid
+    <Form className="formGridModal
     " autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
     <div className="ml-3">
@@ -198,15 +197,7 @@ function EditDeliverables () {
               name='story_id'
             />
     </div>
-    {/* <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Project Id'
-        name='project_id'
-        
-      /> */}
-      {/* </div> */}
+ 
       <div>
       <FormikControl
         control='input'
@@ -256,7 +247,7 @@ function EditDeliverables () {
       <FormikControl
         control='input'
         type='number'
-        label='Percentage of Completion'
+        label='% Complete'
         name='percentage_of_completion'
       />
       </div>
@@ -265,7 +256,7 @@ function EditDeliverables () {
       <FormikControl
         control='select'
         
-        label='Associated Milestone'
+        label='Ass. Milestone'
         name='associated_milestone'
         options={dropdownOptionsMilestone}
       />
@@ -280,51 +271,12 @@ function EditDeliverables () {
       />
       </div> */}
 
-      <div > 
-       <FormikControl
-        control='date'
-        label='Planned Start Date'
-        name='planned_start_date'
-       
-      />
-      </div>
-
-      <div > 
-       <FormikControl
-        control='date'
-        label='Planned End Date'
-        name='planned_end_date'
-        
-      />
-      </div>
-
-       
-      {/* {/* <div>
-      <FormikControl
-        control='select'
-        label='Project manager'
-        name='project_manager_id'
-        options={dropdownProjectManager}
-      />
-      </div> */}
-
-      {/* <div > 
-       <FormikControl
-        control='select'
-        label='Account'
-        name='account_id'
-        options={dropdownOptionsAccountId}
-      />
-      </div>
-       */}
-    
-        */
-
+      
       <div > 
        <FormikControl
         control='input'
         type= 'number'
-        label='Predecessor Deliverables'
+        label='Predecessor Deli.'
         name='predecessor_deliverables'
         
       />
@@ -334,108 +286,23 @@ function EditDeliverables () {
       <FormikControl
       control='input'
       type='number'
-      label='Seccessor Deliverables'
+      label='Seccessor Deli.'
       name='sucecssor_deliverables'
      
       />
       </div>
 
-       {/* <div>
-      <FormikControl
-        control='select'
-        label='Currency'
-        name='currency_code'
-        options={dropdownOptionsCurrency}
-      />
-      </div> */}
-
-      {/* <div >
+       
+      <div >
         <FormikControl
         control='input'
         type='number'
-        label='Actual Effort in Hours'
+        label='Act. Eft in Hours'
         name='actual_effort_in_hours'
        
       />
-      </div> */}
-
-      <div>
-         <FormikControl
-        control='input'
-        type='number'
-        label='Estimated Effort in Hours'
-        name='estimated_effort_in_hours'
-        
-        />
-        </div>
-
-      {/* <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Updated at'
-        name='updated_at'
-        
-      />
       </div>
-       */}
-      {/* <div >
-         <FormikControl
-        control='input'
-        type= 'text'
-        label='Modified by'
-        name='modified_by'
-        />
-        </div> */}
-        
-        {/* <div>
-      <FormikControl
-        control='text'
-        type='number'
-        label='Status'
-        name='  status'
-      />
-      </div> */}
 
-      
-      {/* <div className=" col-span-2">
-         <FormikControl
-        control='textarea'
-        label='Updated at'
-        name='updated_at'
-        />
-        </div>
-       */}
-
-     
-     {/* <div>
-      <FormikControl
-        control='input'
-        type='text'
-        label='Created by'
-        name='created_by'
-      /> */}
-      {/* </div> */}
-      
-      
-
-     
-     
-
-    {/* <div >
-             <FormikControl
-              control='date'
-              label='Actual Start Date'
-              name='actual_start_date'
-            />
-    </div> */}
-    {/* <div >
-             <FormikControl
-              control='date'
-              label='Actual End Date'
-              name='actual_end_date'
-            />
-    </div> */}
     <div >
              <FormikControl
               control='checkbox'
@@ -444,6 +311,28 @@ function EditDeliverables () {
               options={checkboxOptionsTimeRecord}
             />
     </div>
+
+      <div > 
+       <FormikControl
+        control='input'
+        type='date'
+        label='Actual Start Date'
+        name='actual_start_date'
+       
+      />
+      </div>
+
+      <div > 
+       <FormikControl
+        control='input'
+        type='date'
+        label='Actual End Date'
+        name='actual_end_date'
+        
+      />
+      </div>
+
+    
 
    
     {/* <div className="text-right mt-5  col-span-2 mr-20 ">
@@ -461,5 +350,7 @@ function EditDeliverables () {
 
   )
 }
+
+
 
 export default  EditDeliverables;

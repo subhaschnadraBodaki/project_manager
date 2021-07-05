@@ -1,6 +1,7 @@
 
 import React from 'react'
 import TabsRender from '../../../components/Projects/Edit/Tabs/TabsRender';
+import { server } from "../../../config";
 // import { useKeycloak } from '@react-keycloak/ssr';
 
 import axios from 'axios';
@@ -15,6 +16,9 @@ export default function editproject({
   currencydata,
   accountdata,
   projectManager,
+  projectPhase,
+  projectType,
+  projectBillingType
 }) {
   const tabName = ["Teams", "Budget", "Risks", "Deliverables"];
 
@@ -36,6 +40,9 @@ export default function editproject({
           currencydata={currencydata}
           accountdata={accountdata}
           projectManager={projectManager}
+          projectPhase={projectPhase}
+          projectType={projectType}
+          projectBillingType={projectBillingType}
         />
       </div>
 
@@ -89,17 +96,46 @@ export async function getServerSideProps(context) {
 
   const response2 = axios({
     method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?select=user_id,first_name`,
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?select=user_id,first_name,role`,
     headers: {
       apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "Content-Type": "application/json",
     },
   });
-  const data = await axios.all([response, response1, response2, response3]);
+
+
+    const response4 = axios({
+    method: "get",
+    url: `${server}/api/enums/project_phase_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const response5 = axios({
+    method: "get",
+    url: `${server}/api/enums/project_type_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const response6 = axios({
+    method: "get",
+    url: `${server}/api/enums/billing_type_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await axios.all([response, response1, response2, response3,response4,response5,response6]);
   const accountdata = data[0].data;
   const currencydata = data[1].data;
   const projectManager = data[2].data;
   const projectsData = data[3].data;
+  const projectPhase = data[4].data;
+  const projectType = data[5].data;
+  const projectBillingType = data[6].data;
 
   return {
     props: {
@@ -107,6 +143,9 @@ export async function getServerSideProps(context) {
       accountdata,
       currencydata,
       projectManager,
+      projectPhase,
+      projectType,
+      projectBillingType
     },
   };
 }

@@ -9,7 +9,13 @@ import { useQuery } from "react-query";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
 
-function ProjectForm({ currencydata, accountdata, projectManager }) {
+function ProjectForm({ 
+ currencydata,
+ accountdata, 
+ projectManager,
+ projectPhase,
+ projectType,
+ projectBillingType, }) {
     const toast = useRef(null);  
   // --------------------------------------initial Values---------------------
   const initialValues = {
@@ -29,56 +35,59 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
 
   // --------------Account Id--------------
   let dropdownOptionsAccountId = [{ key: "Account", value: "" }];
-  for (const item of accountdata) {
+  accountdata.map((item)=> {
     let obj = {};
     obj["key"] = item.account_name;
     obj["value"] = item.id;
     dropdownOptionsAccountId.push(obj);
-  }
+  });
 
   //   ---------------Currency--------------
   let dropdownOptionsCurrency = [{ key: "Currency", value: "" }];
-  for (const item of currencydata) {
+  currencydata.map((item)=> {
     let obj = {};
     obj["key"] = item.code;
     obj["value"] = item.id;
     dropdownOptionsCurrency.push(obj);
-  }
+  });
 
   // ---------------Project Manager-----------
   let dropdownProjectManager = [{ key: "Project Manager", value: "" }];
-  for (const item of projectManager) {
+  projectManager.filter(item=> item.role === 'Software Developer').map((Fitem)=> {
     let obj = {};
-    obj["key"] = item.first_name;
-    obj["value"] = item.user_id;
+    obj["key"] = Fitem.first_name;
+    obj["value"] = Fitem.user_id;
     dropdownProjectManager.push(obj);
-  }
+  });
+
+
+   let dropdownOptionsProjectPhase = [{ key: "Project Phase", value: "" }];
+  projectPhase.map((item)=> {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsProjectPhase.push(obj);
+  });
+
+   let dropdownOptionsbillable = [{ key: "Billing Type", value: "" }];
+  projectBillingType.map((item) =>{
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsbillable.push(obj);
+  });
+
+  let dropdownOptionsProjectType = [{ key: "Project Type", value: "" }];
+   projectType.map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsProjectType.push(obj);
+  });
 
   // -------------------------- Static Select Options----------------------------
 
-  const dropdownOptionsbillable = [
-    { key: "Billing Type", value: "" },
-    { key: "Time and Material", value: "Time_and_Material" },
-    { key: "Fixed Price", value: "Fixed_Price" },
-  ];
-
-  const dropdownOptionsProjectType = [
-    { key: "Project Type", value: "" },
-    { key: "Customer Project", value: "Customer_Project" },
-    { key: "Internal Project", value: "Internal_Project" },
-  ];
-
-  const dropdownOptionsProjectPhase = [
-    { key: "Project Phase", value: "" },
-    { key: "Planning", value: "Planning" },
-    { key: "Requiremnet", value: "Requirement" },
-    { key: "Design", value: "Design" },
-    { key: "Development", value: "Development" },
-    { key: "UAT", value: "UAT" },
-    { key: "GoLivw Preparation", value: "GoLive_Preparation" },
-    { key: "Post GoLive Support", value: "Post_GoLive_Support" },
-  ];
-
+ 
   const checkboxOptionsBillable = [{ key: "Billable", value: true }];
 
   const statusOptions = [{ key: "Active", value: true }];
@@ -141,7 +150,7 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
       .test(
         "Is positive?",
         " Amount must be greater than 0!",
-        (value) => value > 0
+        (value) => value > 0 
       ),
     planned_hours: Yup.string().test(
       "Is positive?",
@@ -335,7 +344,8 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
               <h2 className="h2Form">Dates</h2>
               <div className="ml-3">
                 <FormikControl
-                  control="date"
+                  control="input"
+                  type="date"
                   label="Planned Start Date"
                   name="planned_start_date"
                 />
@@ -343,7 +353,8 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
 
               <div className="ml-3">
                 <FormikControl
-                  control="date"
+                  control="input"
+                  type="date"
                   label="Planned End Date"
                   name="planned_end_date"
                 />
@@ -352,7 +363,7 @@ function ProjectForm({ currencydata, accountdata, projectManager }) {
               <div className="text-right mt-5  col-span-2 mr-20 ">
                 <button
                   type="submit"
-                  className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
+                  className="btn"
                   disabled={!formik.isValid}
                 >
                   Submit

@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
 
-function EditRisks({ projectId }) {
+function EditRisks({ projectId,editData }) {
   const toast = useRef(null); 
   // --------------------------------------initial Values---------------------
   const initialValues = {
@@ -123,8 +123,7 @@ function EditRisks({ projectId }) {
              
 
               <Form name="form" id="a-form"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-                  md:gap-y-4 py-6   md:ml-0"
+                className="formGridModal"
                 autoComplete="off"
               >
                 <h2 className="h2FormModal">Basic Details</h2>

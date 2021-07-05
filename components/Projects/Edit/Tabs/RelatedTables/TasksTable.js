@@ -34,7 +34,7 @@ export default function TasksTable({projectsData}) {
           right: 'auto',
           bottom: 'auto',
           width: '900px', 
-          height: '500px', 
+          height: '600px', 
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
         },
@@ -116,7 +116,7 @@ return (
             <div className="grid grid-cols-3">
                 <div><h2 className="h2Form">{projectName} ({projectId})</h2></div>
                  <div className=" shadow-sm py-6 text-blue-900 ">
-                <h2 className="text-2xl text-center  font-semibold px-20">Edit Task
+                <h2 className="ModalHeading">Edit Task
                 </h2>
                 </div>
                 <div className="text-right">

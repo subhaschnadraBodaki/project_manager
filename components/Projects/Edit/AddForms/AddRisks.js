@@ -20,6 +20,7 @@ function AddRisks({ projectId }) {
     show_on_project_status_report: false,
     description: "",
     notes: "",
+    owner:''
   };
 
   // -------------------------- Static Select Options----------------------------
@@ -122,14 +123,21 @@ function AddRisks({ projectId }) {
             <div className="  justify-items-center container w-full mx-auto   ">
              
 
-              <Form name="form" id="a-form"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-                  md:gap-y-4 py-6   md:ml-0"
+              <Form name="form" 
+                className="formGridModal"
+                id="a-form"
                 autoComplete="off"
               >
                 <h2 className="h2FormModal">Basic Details</h2>
 
-             
+                  <div>  
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    label='Owner'
+                    name='owner'
+                  />
+                  </div>
 
                 <div>
                   <FormikControl

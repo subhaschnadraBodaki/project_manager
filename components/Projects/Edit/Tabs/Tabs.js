@@ -22,8 +22,8 @@ const Tabs = ({ color, projectsData }) => {
     "Issues",
     "Change Req.",
     "Resource Req.",
-    "Status ",
-    "Financials",
+    "Status "
+    // "Financials",
   ];
 
   const TabsContent = [
@@ -36,7 +36,7 @@ const Tabs = ({ color, projectsData }) => {
     <ChangeRequestsTable projectsData={projectsData} />,
     <ResourceRequestTable projectsData={projectsData} />,
     <StatusReportsTable projectsData={projectsData} />,
-    <FinancialsTable projectsData={projectsData} />,
+    // <FinancialsTable projectsData={projectsData} />,
   ];
 
   return (

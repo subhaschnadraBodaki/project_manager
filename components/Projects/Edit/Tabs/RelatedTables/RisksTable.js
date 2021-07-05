@@ -6,7 +6,7 @@ import { TrashIcon, PencilIcon } from '@heroicons/react/solid'
 import Modal from 'react-modal'
 import {useState} from 'react'
 import { Button } from 'primereact/button';
-import EditTask from '../../EditForms/EditTask'
+import EditRisks from '../../EditForms/EditRisks'
 import {useRef} from 'react'
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
@@ -16,7 +16,7 @@ export default function RisksTable({projectsData}) {
      const projectName = projectsData[0].name
     const projectId = projectsData[0].id
 
-      const[ModalIsOpen, setModalIsOpen] = useState(false)
+      const[modalIsOpen, setModalIsOpen] = useState(false)
       const [deleteItemConfirm,setDeleteItemConfirm]=useState(false)
     const[deleteData,setDeleteData]=useState(null)
        const [editData,setEditData]=useState(null)
@@ -28,7 +28,7 @@ export default function RisksTable({projectsData}) {
           right: 'auto',
           bottom: 'auto',
           width: '900px', 
-          height: '500px', 
+          height: '600px', 
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
         },
@@ -102,7 +102,7 @@ export default function RisksTable({projectsData}) {
             <div className="grid grid-cols-3">
                 <div><h2 className="h2Form">{projectName} ({projectId})</h2></div>
                  <div className=" shadow-sm py-6 text-blue-900 ">
-                <h2 className="text-2xl text-center  font-semibold px-20">Edit Risk
+                <h2 className="ModalHeading">Edit Risk
                 </h2>
                 </div>
                 <div className="text-right">
@@ -110,7 +110,7 @@ export default function RisksTable({projectsData}) {
                 </div>
             </div>
              
-            <EditTask projectId={projectId} editData={editData} />
+            <EditRisks projectId={projectId} editData={editData} />
                     <div className="text-right mr-10 ">
                      <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
                     <button className="btn ml-3" type="submit" form="editForm" >Save 

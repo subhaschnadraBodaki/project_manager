@@ -9,7 +9,7 @@ import { Toast } from 'primereact/toast';
  import {useState} from 'react'
 import {useRef} from 'react'
 
-function EditProject ({projectsData,currencydata,accountdata,projectManager}) {
+function EditProject ({projectsData,currencydata,accountdata,projectManager,projectPhase,projectType,projectBillingType}) {
   const toast = useRef(null); 
   const projectCode = projectsData[0].project_code
   const projectId = projectsData[0].id
@@ -43,59 +43,61 @@ state:projectsData[0].state
  
 // -----------------------------Dynamic Select Options-----------------------
 
-// --------------Account Id--------------
-let dropdownOptionsAccountId = [{key:"Account",value:""}];
-for (const item of accountdata) {
-  let obj = {};
-  obj['key'] = item.account_name;
-  obj['value'] = item.id;
-  dropdownOptionsAccountId.push(obj);
-}
 
-//   ---------------Currency--------------
-let dropdownOptionsCurrency =[{key:"Currency",value:""}];
-for (const item of currencydata) {
-  let obj = {};
-  obj['key'] = item.code;
-  obj['value'] = item.id;
-  dropdownOptionsCurrency.push(obj);
-}
+  // --------------Account Id--------------
+  let dropdownOptionsAccountId = [{ key: "Account", value: "" }];
+  accountdata.map((item)=> {
+    let obj = {};
+    obj["key"] = item.account_name;
+    obj["value"] = item.id;
+    dropdownOptionsAccountId.push(obj);
+  });
 
-// ---------------Project Manager-----------
-let dropdownProjectManager =[{key:"Project Manager",value:""}];
-for (const item of projectManager) {
-  let obj = {};
-  obj['key'] = item.first_name;
-  obj['value'] = item.user_id;
-  dropdownProjectManager.push(obj);
-}
+  //   ---------------Currency--------------
+  let dropdownOptionsCurrency = [{ key: "Currency", value: "" }];
+  currencydata.map((item)=> {
+    let obj = {};
+    obj["key"] = item.code;
+    obj["value"] = item.id;
+    dropdownOptionsCurrency.push(obj);
+  });
+
+  // ---------------Project Manager-----------
+  let dropdownProjectManager = [{ key: "Project Manager", value: "" }];
+  projectManager.filter(item=> item.role === 'Software Developer').map((Fitem)=> {
+    let obj = {};
+    obj["key"] = Fitem.first_name;
+    obj["value"] = Fitem.user_id;
+    dropdownProjectManager.push(obj);
+  });
+
+
+   let dropdownOptionsProjectPhase = [{ key: "Project Phase", value: "" }];
+  projectPhase.map((item)=> {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsProjectPhase.push(obj);
+  });
+
+   let dropdownOptionsbillable = [{ key: "Billing Type", value: "" }];
+  projectBillingType.map((item) =>{
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsbillable.push(obj);
+  });
+
+  let dropdownOptionsProjectType = [{ key: "Project Type", value: "" }];
+   projectType.map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsProjectType.push(obj);
+  });
+
 
 // -------------------------- Static Select Options----------------------------
-
-
-  const dropdownOptionsbillable = [
-    { key: 'Billing Type', value: '' },
-    { key: 'Time and Material', value: 'Time_and_Material' },
-    { key: 'Fixed Price', value: 'Fixed_Price' }
-    
-  ]
-
-  const dropdownOptionsProjectType = [
-    { key: 'Project Type', value: '' },
-    { key: 'Customer Project', value: 'Customer_Project' },
-    { key: 'Internal Project', value: 'Internal_Project' }
-  ]
-
-  const dropdownOptionsProjectPhase = [
-    { key: 'Project Phase', value: '' },
-    { key: 'Planning', value: 'Planning' },
-    { key: 'Requiremnet', value: 'Requirement' },
-    { key: 'Design', value: 'Design' },
-    { key: 'Development', value: 'Development' },
-    { key: 'UAT', value: 'UAT' },
-    { key: 'GoLivw Preparation', value: 'GoLive_Preparation' },
-    { key: 'Post GoLive Support', value: 'Post_GoLive_Support' }
-  ]
 
 
   const checkboxOptionsBillable =  [

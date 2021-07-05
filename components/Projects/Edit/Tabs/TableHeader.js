@@ -23,7 +23,7 @@ export default function TableHeader({
       right: "auto",
       bottom: "auto",
       width: "900px",
-      height: "500px",
+      height: "600px",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
     },
@@ -47,7 +47,7 @@ export default function TableHeader({
             </div>
 
             <div className=" shadow-sm py-6 text-blue-900 ">
-              <h2 className="text-2xl text-center  font-semibold px-20">
+              <h2 className="text-2xl text-center  font-semibold ">
                 {label}
               </h2>
             </div>
@@ -89,7 +89,9 @@ export default function TableHeader({
       <React.Fragment>
         <button className="headerBtn">
           <SaveIcon className="h-5 w-5 mr-2" /> Save
+           
         </button>
+        {/* <Button type="button" icon="pi pi-refresh" className="p-button-text" /> */}
       </React.Fragment>
     );
   };

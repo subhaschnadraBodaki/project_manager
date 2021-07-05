@@ -9,33 +9,31 @@ import { useState } from "react";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
 
-function AddTask({ projectId}) {
+function AddTeam({ projectId}) {
 
    const toast = useRef(null); 
   // --------------------------------------initial Values---------------------
   const initialValues = {
-    estimated_effort_in_hours: '',
-    name: '',
-    // associated_milestone:'',
-    description: '',
-    sucecssor_task: null,
-    parent_task: null,
+    notes: '',
     project_id: projectId,
-    story_id: null,
     planned_end_date: null,
     planned_start_date: null,
-    owner: '',
-    time_recording_allowed: false,
+    team_member: '',
+    full_time: false,
+    active: false,
+    allocation_percentage:''
   };
 
-  const checkboxOptionsTimeRecord = [{ key: "Time Recording", value: true }];
+  const checkboxFullTime = [{ key: "Full Time", value: true }];
+
+  const checkboxActive = [{ key: "Active", value: true }];
 
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_team_members`;
 
-  const addTask = (data) => {
+  const response = (data) => {
     return axios.post(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -45,7 +43,7 @@ function AddTask({ projectId}) {
     });
   };
 
-  const mutation = useMutation(addTask, {
+  const mutation = useMutation(response, {
     onMutate: (variables) => {
       console.log("onmutate", variables);
     },
@@ -63,8 +61,12 @@ function AddTask({ projectId}) {
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Required"),
-     owner: Yup.string().required("Required"),
+     team_member: Yup.string().required("Required"),
+     allocation_percentage: Yup.string().test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
     planned_start_date: Yup.date(),
     planned_end_date: Yup.date().min(
       Yup.ref("planned_start_date"),
@@ -76,7 +78,7 @@ function AddTask({ projectId}) {
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Added', life: 3000 });
+     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Team Added', life: 3000 });
        document.form.reset();
  
     };
@@ -102,100 +104,57 @@ function AddTask({ projectId}) {
        <h2 className="h2FormModal">Basic Details</h2> 
       
     
-       
-      <div>
-      <FormikControl
-        control='input'
-        type='text'
-        label='Task Name'
-        name='name'
-      />
-      </div>
-
-      <div>  
-      <FormikControl
-        control='input'
-        type='text'
-        label='Owner'
-        name='owner'
-      />
-      </div>
-
-      <div>  
-      <FormikControl
-        control='input'
-        type='number'
-        label='Est. Effort in hours'
-        name='estimated_effort_in_hours'
-      />
-      </div>
-       
-      
-
-      <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Story ID'
-        name='story_id'
-      />
-      </div>
     
-{/* 
-      <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Associated Milestone'
-        name='associated_milestone'
-      />
-      </div> */}
 
-                {/* <div > 
-       <FormikControl
-        control='select'
-        label='Project Type'
-        name='project_type'
-        options={dropdownOptionsProjectType}
-      />
-      </div> */}
+                <div>  
+                <FormikControl
+                  control='input'
+                  type='text'
+                  label='Team Member'
+                  name='team_member'
+                />
+                </div>
+
+                <div className=" ">
+                  <FormikControl
+                    control="checkbox"
+                    label="Active"
+                    name="active"
+                    options={checkboxActive}
+                  />
+                </div>
+
+                <div>  
+                <FormikControl
+                  control='input'
+                  type='number'
+                  label='Allocation %'
+                  name='allocation_percentage'
+                />
+                </div>
+                
+                
+                 <div className=" ">
+                  <FormikControl
+                    control="checkbox"
+                    label="Full Time"
+                    name="full_time"
+                    options={checkboxFullTime}
+                  />
+                </div>
+
 
                 
 
                 <div className=" col-span-2">
                   <FormikControl
                     control="textarea"
-                    label="Description"
-                    name="description"
+                    label="Notes"
+                    name="notes"
                   />
                 </div>
 
-                <div>
-                  <FormikControl
-                    control="input"
-                    type="number"
-                    label="Parent Task"
-                    name="parent_task"
-                  />
-                </div>
-
-                <div>
-                  <FormikControl
-                    control="input"
-                    type="number"
-                    label="Sucecssor Task"
-                    name="sucecssor_task"
-                  />
-                </div>
-
-                <div className=" ">
-                  <FormikControl
-                    control="checkbox"
-                    label="Time Recording"
-                    name="time_recording_allowed"
-                    options={checkboxOptionsTimeRecord}
-                  />
-                </div>
+              
 
                 <h2 className="h2Form">Dates</h2>
                 <div className="ml-3">
@@ -230,4 +189,4 @@ function AddTask({ projectId}) {
   );
 }
 
-export default AddTask;
+export default AddTeam;
