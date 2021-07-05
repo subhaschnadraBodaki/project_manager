@@ -14,7 +14,7 @@ function EditTask ({projectId,editData}) {
   // console.log(editData.id)
   console.log('editData')
 
-  const initialValues = editData
+  const initialValues = editData;
   //  {
   //    actual_effort_in_hours:null,
   //     name: editData.name,
@@ -64,7 +64,6 @@ function EditTask ({projectId,editData}) {
       headers: {
           "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
           "Content-Type": "application/json",
-          // "Prefer": "resolution=merge-duplicates"
           "Prefer": "return=representation"
       }
     }
@@ -132,12 +131,11 @@ function EditTask ({projectId,editData}) {
     >
       {formik => {
         return (
-    <div className="min-h-screen  justify-items-center container w-full mx-auto   ">
+    <div className="  justify-items-center container w-full mx-auto   ">
    
    
 
-    <Form  name="form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-     md:gap-y-4 py-6   md:ml-0"  id="a-form" autoComplete="off">
+    <Form   className="formGridModal"  id="a-form" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
     
@@ -237,7 +235,7 @@ function EditTask ({projectId,editData}) {
       />
       </div>
 
-       <div className=' mt-3'>
+       <div >
       <FormikControl
       control='checkbox'
       label='Time Recording'

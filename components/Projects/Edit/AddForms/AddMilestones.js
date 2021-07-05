@@ -9,33 +9,42 @@ import { useState } from "react";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
 
-function AddTask({ projectId}) {
+function AddMilestones({ projectId}) {
 
    const toast = useRef(null); 
   // --------------------------------------initial Values---------------------
   const initialValues = {
     estimated_effort_in_hours: '',
     name: '',
-    // associated_milestone:'',
+    milestone_planned_cost:'',
+    billing_date: null,
     description: '',
-    sucecssor_task: null,
-    parent_task: null,
     project_id: projectId,
-    story_id: null,
-    planned_end_date: null,
-    planned_start_date: null,
+    planned_due_date: null,
     owner: '',
-    time_recording_allowed: false,
+    currency_code: '',
+    notes:'',
+    approver: '',
+    requires_customer_signoff: false,
+    approved_for_billing: false,
   };
 
-  const checkboxOptionsTimeRecord = [{ key: "Time Recording", value: true }];
+  const checkboxOptionsTimeRecord = [{ key: "Customer Signoff", value: true }];
 
+  const checkboxOptionsApprovedForBilling = [{ key: "Approved for Billing", value: true }];
+
+
+ const dropdownOptionsCurrency = [
+    { key: "Currency", value: "" },
+    { key: "ALL", value: "1" },
+    { key: "USD", value: "2" },
+  ];
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/milestones`;
 
-  const addTask = (data) => {
+  const response = (data) => {
     return axios.post(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -45,7 +54,7 @@ function AddTask({ projectId}) {
     });
   };
 
-  const mutation = useMutation(addTask, {
+  const mutation = useMutation(response, {
     onMutate: (variables) => {
       console.log("onmutate", variables);
     },
@@ -65,18 +74,25 @@ function AddTask({ projectId}) {
   const validationSchema = Yup.object({
     name: Yup.string().required("Required"),
      owner: Yup.string().required("Required"),
-    planned_start_date: Yup.date(),
-    planned_end_date: Yup.date().min(
-      Yup.ref("planned_start_date"),
-      "end date can't be before start date"
+     approver: Yup.string().required("Required"),
+     milestone_planned_cost: Yup.string().test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
     ),
+    estimated_effort_in_hours: Yup.string().test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
+   
   });
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Added', life: 3000 });
+     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Milestone Added', life: 3000 });
        document.form.reset();
  
     };
@@ -99,6 +115,7 @@ function AddTask({ projectId}) {
    
 
     <Form name="form" className="formGridModal" id="a-form" autoComplete="off">
+
        <h2 className="h2FormModal">Basic Details</h2> 
       
     
@@ -107,7 +124,7 @@ function AddTask({ projectId}) {
       <FormikControl
         control='input'
         type='text'
-        label='Task Name'
+        label='Milestone Name'
         name='name'
       />
       </div>
@@ -118,6 +135,16 @@ function AddTask({ projectId}) {
         type='text'
         label='Owner'
         name='owner'
+      />
+      </div>
+
+      
+      <div>  
+      <FormikControl
+        control='input'
+        type='text'
+        label='Approver'
+        name='approver'
       />
       </div>
 
@@ -136,10 +163,20 @@ function AddTask({ projectId}) {
       <FormikControl
         control='input'
         type='number'
-        label='Story ID'
-        name='story_id'
+        label='Planned Cost'
+        name='milestone_planned_cost'
       />
       </div>
+
+
+       <div>
+                <FormikControl
+                  control="select"
+                  label="Currency"
+                  name="currency_code"
+                  options={dropdownOptionsCurrency}
+                />
+              </div>
     
 {/* 
       <div>
@@ -170,40 +207,44 @@ function AddTask({ projectId}) {
                   />
                 </div>
 
-                <div>
+                <div className=" col-span-2">
                   <FormikControl
-                    control="input"
-                    type="number"
-                    label="Parent Task"
-                    name="parent_task"
+                    control="textarea"
+                    label="Notes"
+                    name="notes"
                   />
                 </div>
 
-                <div>
-                  <FormikControl
-                    control="input"
-                    type="number"
-                    label="Sucecssor Task"
-                    name="sucecssor_task"
-                  />
-                </div>
+                 
 
-                <div className=" ">
+              
+
+                <div  >
                   <FormikControl
                     control="checkbox"
-                    label="Time Recording"
-                    name="time_recording_allowed"
+                    label="Requires Customer Signoff"
+                    name="requires_customer_signoff"
                     options={checkboxOptionsTimeRecord}
                   />
                 </div>
+
+                  <div >
+                  <FormikControl
+                    control="checkbox"
+                    label="Approved for Billing"
+                    name="approved_for_billing"
+                    options={checkboxOptionsApprovedForBilling}
+                  />
+                </div>
+
 
                 <h2 className="h2Form">Dates</h2>
                 <div className="ml-3">
                   <FormikControl
                     control="input"
                     type='date'
-                    label="Planned Start Date"
-                    name="planned_start_date"
+                    label="Billing Date"
+                    name="billing_date"
                   />
                 </div>
 
@@ -211,8 +252,8 @@ function AddTask({ projectId}) {
                   <FormikControl
                     control="input"
                     type='date'
-                    label="Planned End Date"
-                    name="planned_end_date"
+                    label="Planned Due Date"
+                    name="planned_due_date"
                   />
                 </div>
                
@@ -230,4 +271,4 @@ function AddTask({ projectId}) {
   );
 }
 
-export default AddTask;
+export default AddMilestones;

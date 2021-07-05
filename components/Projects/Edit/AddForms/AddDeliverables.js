@@ -111,9 +111,7 @@ function AddDeliverables ({projectId}) {
     
    
 
-    <Form name="form" id="a-form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-     md:gap-y-4 py-6   md:ml-0
-    " autoComplete="off">
+    <Form name="form" id="a-form" className="formGridModal" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
       
@@ -171,7 +169,7 @@ function AddDeliverables ({projectId}) {
        <FormikControl
         control='input'
         type= 'number'
-        label='Predecessor Deliverables'
+        label='Predecessor Deli.'
         name='predecessor_deliverables'
         
       />
@@ -181,7 +179,7 @@ function AddDeliverables ({projectId}) {
       <FormikControl
       control='input'
       type='number'
-      label='Successor Deliverables'
+      label='Successor Deli.'
       name='sucecssor_deliverables'
       />
       </div>
@@ -192,21 +190,14 @@ function AddDeliverables ({projectId}) {
          <FormikControl
         control='input'
         type='number'
-        label='Estimated Effort in Hours'
+        label='Est. Effort in Hours'
         name='estimated_effort_in_hours'
         
         />
         </div>
 
         
-    <div >
-             <FormikControl
-              control='checkbox'
-              label='Time Recording'
-              name='time_recording_allowed'
-              options={checkboxOptionsTimeRecord}
-            />
-    </div>
+  
      
     <div > 
        <FormikControl
@@ -224,9 +215,17 @@ function AddDeliverables ({projectId}) {
         type='date'
         label='Planned End Date'
         name='planned_end_date'
-        
       />
       </div>
+
+        <div >
+             <FormikControl
+              control='checkbox'
+              label='Time Recording'
+              name='time_recording_allowed'
+              options={checkboxOptionsTimeRecord}
+            />
+    </div>
    
     {/* <div className="text-right mt-5  col-span-2 mr-10 ">
     <button type="submit" class="btn" >Save and Continue</button>

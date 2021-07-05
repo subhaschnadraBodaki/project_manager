@@ -115,8 +115,7 @@ const checkboxOptionsStatus =  [
     
    
 
-    <Form name="form" id="a-form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-     md:gap-y-4 py-6   md:ml-0" autoComplete="off">
+    <Form name="form" id="a-form" className="formGridModal" autoComplete="off">
       <h2 className="h2FormModal">Basic Details</h2>
 
      
@@ -160,6 +159,7 @@ const checkboxOptionsStatus =  [
         options={dropdownImpact}
       />
       </div>
+      
     <div>
       <FormikControl
         control='checkbox'

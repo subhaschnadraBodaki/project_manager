@@ -4,9 +4,9 @@ import AddTask from '../../AddForms/AddTask'
 import AddIssues from '../../AddForms/AddIssues'
 import AddDeliverables from '../../AddForms/AddDeliverables'
 import AddRisks from '../../AddForms/AddRisks'
-import EditTask from '../../EditForms/EditTask'
-import EditIssues from '../../EditForms/EditIssues'
-import EditDeliverables from '../../EditForms/EditDeliverables'
+import AddMilestones from '../../AddForms/AddMilestones'
+import AddTeam from '../../AddForms/AddTeam'
+import AddChangeReq from '../../AddForms/AddChangeReq'
 
 export default function formTypeFxn({formType,projectId,editData}) 
 {
@@ -20,15 +20,12 @@ export default function formTypeFxn({formType,projectId,editData})
          return <AddDeliverables projectId={projectId}/>
          case 'AddRisks':
          return <AddRisks projectId={projectId}/>
-         case 'Edit Task':
-         return <EditTask projectId={projectId} editData={editData} />
-         case 'Edit Issue':
-         return <EditIssues projectId={projectId} editData={editData} />
-         case 'Edit Risk':
-         return <EditIssues projectId={projectId} editData={editData} />
-         case 'Edit Deliverable':
-         return <EditDeliverables projectId={projectId} editData={editData} />
-         
+         case 'AddMilestones':
+         return <AddMilestones projectId={projectId}/>
+         case 'Add Team':
+         return <AddTeam projectId={projectId}/>
+         case 'AddChangeReq':
+         return <AddChangeReq projectId={projectId}/>
          default: 
          return null
        }

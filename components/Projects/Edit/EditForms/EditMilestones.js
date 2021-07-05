@@ -9,43 +9,59 @@ import { useState } from "react";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
 
-function AddTask({ projectId}) {
+function EditMilestones({ projectId,editData}) {
 
    const toast = useRef(null); 
+   console.log(editData)
   // --------------------------------------initial Values---------------------
-  const initialValues = {
-    estimated_effort_in_hours: '',
-    name: '',
-    // associated_milestone:'',
-    description: '',
-    sucecssor_task: null,
-    parent_task: null,
-    project_id: projectId,
-    story_id: null,
-    planned_end_date: null,
-    planned_start_date: null,
-    owner: '',
-    time_recording_allowed: false,
-  };
+  const initialValues =  editData;
+//    {
+//     actual_effort_in_hours: editData.actual_effort_in_hours,
+//     actual_due_date: null,
+//     approved_for_billing: false,
+//     name: '',
+//     milestone_billing_amount:'',
+//     billing_date: null,
+//     description: '',
+//     project_id: projectId,
+//     planned_due_date: null,
+//     owner: '',
+//     billed: false,
+//     currency_code: '',
+//     notes:'',
+//     // approver: '',
+//     percentage_of_completion: '',
+//     approved: false,
+//     requires_customer_signoff: false,
+//   };
 
-  const checkboxOptionsTimeRecord = [{ key: "Time Recording", value: true }];
+   const checkboxOptionsTimeRecord = [{ key: "Customer Signoff", value: true }];
+
+  const checkboxOptionsApprovedForBilling = [{ key: "Approved for Billing", value: true }];
+
+  const checkboxOptionsBilled = [{ key: "Billed", value: true }];
+
+  const checkboxOptionsApproved = [{ key: "Approved", value: true }];
 
   // -----------------------------Post Data--------------------------------
 
-  const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks`;
+ const queryClient = useQueryClient()
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/milestones?id=eq.${editData.id}`
 
-  const addTask = (data) => {
-    return axios.post(url, data, {
+  const response = (data)=>{
+    // return axios.post(url,data);
+    return axios.patch(url ,data,
+   {
       headers: {
-        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-        "Content-Type": "application/json",
-      
-      },
-    });
+          "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+      }
+    }
+  )
   };
 
-  const mutation = useMutation(addTask, {
+  const mutation = useMutation(response, {
     onMutate: (variables) => {
       console.log("onmutate", variables);
     },
@@ -65,19 +81,15 @@ function AddTask({ projectId}) {
   const validationSchema = Yup.object({
     name: Yup.string().required("Required"),
      owner: Yup.string().required("Required"),
-    planned_start_date: Yup.date(),
-    planned_end_date: Yup.date().min(
-      Yup.ref("planned_start_date"),
-      "end date can't be before start date"
-    ),
+   
   });
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Added', life: 3000 });
-       document.form.reset();
+     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Milestone Added', life: 3000 });
+      
  
     };
 
@@ -98,7 +110,8 @@ function AddTask({ projectId}) {
     
    
 
-    <Form name="form" className="formGridModal" id="a-form" autoComplete="off">
+    <Form  className="formGridModal" id="a-form" autoComplete="off">
+
        <h2 className="h2FormModal">Basic Details</h2> 
       
     
@@ -107,7 +120,7 @@ function AddTask({ projectId}) {
       <FormikControl
         control='input'
         type='text'
-        label='Task Name'
+        label='Milestone Name'
         name='name'
       />
       </div>
@@ -125,8 +138,8 @@ function AddTask({ projectId}) {
       <FormikControl
         control='input'
         type='number'
-        label='Est. Effort in hours'
-        name='estimated_effort_in_hours'
+        label='Actual Eft. in hours'
+        name='actual_effort_in_hours'
       />
       </div>
        
@@ -136,8 +149,8 @@ function AddTask({ projectId}) {
       <FormikControl
         control='input'
         type='number'
-        label='Story ID'
-        name='story_id'
+        label='Billing Amount'
+        name='milestone_billing_amount'
       />
       </div>
     
@@ -174,8 +187,8 @@ function AddTask({ projectId}) {
                   <FormikControl
                     control="input"
                     type="number"
-                    label="Parent Task"
-                    name="parent_task"
+                    label="Currency"
+                    name="currency_code"
                   />
                 </div>
 
@@ -183,17 +196,46 @@ function AddTask({ projectId}) {
                   <FormikControl
                     control="input"
                     type="number"
-                    label="Sucecssor Task"
-                    name="sucecssor_task"
+                    label="% Complete"
+                    name="percentage_of_completion"
                   />
                 </div>
 
-                <div className=" ">
+                <div >
                   <FormikControl
                     control="checkbox"
-                    label="Time Recording"
-                    name="time_recording_allowed"
+                    label="Requires Customer Signoff"
+                    name="requires_customer_signoff"
                     options={checkboxOptionsTimeRecord}
+                  />
+                </div>
+
+                  <div >
+                  <FormikControl
+                    control="checkbox"
+                    label="Approved for Billing"
+                    name="approved_for_billing"
+                    options={checkboxOptionsApprovedForBilling}
+                  />
+                </div>
+              
+
+                    <div >
+                  <FormikControl
+                    control="checkbox"
+                    label="Billed"
+                    name="billed"
+                    options={checkboxOptionsBilled}
+                  />
+                </div>
+
+
+                  <div >
+                  <FormikControl
+                    control="checkbox"
+                    label="Approved"
+                    name="approved"
+                    options={checkboxOptionsApproved}
                   />
                 </div>
 
@@ -202,8 +244,8 @@ function AddTask({ projectId}) {
                   <FormikControl
                     control="input"
                     type='date'
-                    label="Planned Start Date"
-                    name="planned_start_date"
+                    label="Billing Date"
+                    name="billing_date"
                   />
                 </div>
 
@@ -211,16 +253,16 @@ function AddTask({ projectId}) {
                   <FormikControl
                     control="input"
                     type='date'
-                    label="Planned End Date"
-                    name="planned_end_date"
+                    label="Actual Due Date"
+                    name="actual_due_date"
                   />
                 </div>
                
-                {/* <div className="text-right mt-5  col-span-2 mr-10 ">
+                <div className="text-right mt-5  col-span-2 mr-10 ">
                   <button type="submit" class="btn">
-                    Save and Continue
+                    Save
                   </button>
-                </div> */}
+                </div>
               </Form>
             </div>
           );
@@ -229,5 +271,4 @@ function AddTask({ projectId}) {
     </>
   );
 }
-
-export default AddTask;
+export default EditMilestones;

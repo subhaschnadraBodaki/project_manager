@@ -6,7 +6,7 @@ import FormikControl from '../../../FormComponents/FormikControl'
 import * as Yup from 'yup'
 
 
-function EditIssues ({projectId}) {
+function EditIssues ({projectId,editData}) {
   
   // --------------------------------------initial Values---------------------
   const initialValues = {
@@ -106,8 +106,7 @@ const checkboxOptionsStatus =  [
     
    
 
-    <Form  id="editForm" name="form" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12  
-     md:gap-y-4 py-6   md:ml-0" autoComplete="off">
+    <Form  id="editForm" name="form" className="formGridModal" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
     
@@ -196,7 +195,8 @@ const checkboxOptionsStatus =  [
       <h2 className="h2Form">Dates</h2> 
       <div >
              <FormikControl
-              control='date'
+              control='input'
+              type='date'
               label='Due Date'
               name='due_date'
             />
