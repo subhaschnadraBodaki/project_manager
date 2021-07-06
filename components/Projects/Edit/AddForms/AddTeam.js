@@ -9,9 +9,11 @@ import { useState } from "react";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
 
+
 function AddTeam({ projectId}) {
 
    const toast = useRef(null); 
+  
   // --------------------------------------initial Values---------------------
   const initialValues = {
     notes: '',
@@ -55,6 +57,8 @@ function AddTeam({ projectId}) {
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
+         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Team Added', life: 3000 });
+       document.form.reset();
     },
   });
 
@@ -62,7 +66,7 @@ function AddTeam({ projectId}) {
 
   const validationSchema = Yup.object({
      team_member: Yup.string().required("Required"),
-     allocation_percentage: Yup.string().test(
+     allocation_percentage: Yup.string().required("Required").test(
       "Is positive?",
       " The Number must be positive",
       (value) => value >= 0
@@ -78,8 +82,7 @@ function AddTeam({ projectId}) {
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Team Added', life: 3000 });
-       document.form.reset();
+   document.form.reset();
  
     };
 
@@ -157,7 +160,7 @@ function AddTeam({ projectId}) {
               
 
                 <h2 className="h2Form">Dates</h2>
-                <div className="ml-3">
+                <div >
                   <FormikControl
                     control="input"
                     type='date'

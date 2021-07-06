@@ -6,71 +6,73 @@ import FormikControl from "../../../FormComponents/FormikControl";
 import * as Yup from "yup";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
 
 function EditRisks({ projectId,editData }) {
   const toast = useRef(null); 
+  const contextData = useContext(Context);
   // --------------------------------------initial Values---------------------
-  const initialValues = {
-    project_id : projectId,
-    estimated_cost: null,
-    currency: null,
-    risk_rank: null,
-    assigned_to : '',
-    risk_value: null,
-    show_on_project_status_report: false,
-    description: "",
-    notes: "",
-  };
+  const initialValues = editData;
 
   // -------------------------- Static Select Options----------------------------
 
-  const dropdownState = [
-    { key: "state", value: "" },
-    { key: "Open", value: "Open" },
-    { key: "Work in Progress", value: "Work in Progress" },
-    { key: "Closed Complete", value: "Closed Complete" },
-    { key: "Closed InComplete", value: "Closed InComplete" },
-    { key: "Closed Skipped", value: "Closed Skipped" },
-  ];
+  const checkboxOptionsStatusReport = [{ key: "Status Report", value: true }];
 
-  const dropdownStatus = [
-    { key: "state", value: "" },
-    { key: "Pending", value: "Pending" },
-    { key: "Achieved", value: "Achieved" },
-    { key: "Not Achieved", value: "Not Achieved" },
-    { key: "Avoid", value: "Aviod" },
-    { key: "Mitigate", value: "Mitigate" },
-    { key: "Tranasfer", value: "Tranasfer" },
-    { key: "Accept", value: "Accept" },
-  ];
 
-  const dropdownProbability = [
-    { key: "Probability", value: "" },
-    { key: "Low", value: "Low" },
-    { key: "Moderate", value: "Moderate" },
-    { key: "High", value: "High" },
-    { key: "Absolute", value: "Absolute" },
-  ];
+ const dropdownOptionsCurrency = [ { key: "Currency", value: "" }];
+ contextData[4].map((item) => {
+    let obj = {};
+    obj["key"] = item.code;
+    obj["value"] = item.id;
+    dropdownOptionsCurrency.push(obj);
+  });
 
-  const dropdownImpact = [
-    { key: 1, value: 1 },
-    { key: 2, value: 2 },
-    { key: 3, value: 3 },
-    { key: 4, value: 4 },
-    { key: 5, value: 5 },
-  ];
 
-  const checkboxOptionsStatus = [
-    { key: "Status Report", value: true }
-  ];
+  const dropdownState = [{ key: "state", value: "" }];
+   contextData[5].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownState.push(obj);
+  });
+
+  
+
+ 
+
+  const dropdownImpact = [{ key: "Impact", value: '' }];
+   contextData[6].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownImpact.push(obj);
+  });
+
+
+ const dropdownProbability = [{ key: "Probability", value: "" }];
+   contextData[7].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownProbability.push(obj);
+  });
+
+const dropdownStatus = [{ key: "status", value: "" }];
+   contextData[8].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownStatus.push(obj);
+  });
 
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/risks`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/risks?id=eq.${editData.id}`;
 
   const addRisk = (data) => {
-    return axios.post(url, data, {
+    return axios.patch(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
         "Content-Type": "application/json",
@@ -89,23 +91,39 @@ function EditRisks({ projectId,editData }) {
       console.log("onSuccess", variables, data);
     },
     onSettled: (data, error) => {
-      console.log("onSettled", data, error);
+      toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Risk Updated', life: 3000 });
     },
   });
 
   // -------------------------------Validation Schema------------------------
 
-  const validationSchema = Yup.object({
-    state: Yup.string().required("Required"),
+ const validationSchema = Yup.object({
+    owner: Yup.string().required("Required"),
+    assigned_to: Yup.string().required("Required"),
+    risk_rank:  Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
+     risk_value:  Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
+     actual_cost:  Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
   });
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = (data) => {
     console.log(data);
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Risk Added', life: 3000 });
     
-     document.form.reset();
+    
+     
   };
 
   // -------------------------------Form----------------------------
@@ -122,13 +140,24 @@ function EditRisks({ projectId,editData }) {
             <div className="  justify-items-center container w-full mx-auto   ">
              
 
-              <Form name="form" id="a-form"
+              <Form 
                 className="formGridModal"
                 autoComplete="off"
+                id="a-form"
               >
                 <h2 className="h2FormModal">Basic Details</h2>
 
              
+
+             
+                  <div>  
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    label='Owner'
+                    name='owner'
+                  />
+                  </div>
 
                 <div>
                   <FormikControl
@@ -169,17 +198,17 @@ function EditRisks({ projectId,editData }) {
                   <FormikControl
                     control="input"
                     type="number"
-                    label="Estimated Cost"
-                    name="estimated_cost"
+                    label="Actual Cost"
+                    name="actual_cost"
                   />
                 </div>
 
                 <div>
                   <FormikControl
-                    control="input"
-                    type="number"
+                    control="select"
                     label="Currency"
                     name="currency"
+                    options={dropdownOptionsCurrency}
                   />
                 </div>
 
@@ -211,12 +240,21 @@ function EditRisks({ projectId,editData }) {
                   />
                 </div>
 
-                <div>
+                 <div>
                   <FormikControl
                     control="input"
-                    type="bool"
+                    type="date"
+                    label="Due Date"
+                    name="due_date"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="checkbox"
                     label="Status Report"
                     name="show_on_project_status_report"
+                    options={checkboxOptionsStatusReport}
                   />
                 </div>
 
@@ -228,20 +266,18 @@ function EditRisks({ projectId,editData }) {
                   />
                 </div>
 
-                <div>
+                <div  className=" col-span-2">
                   <FormikControl
-                    control="input"
-                    type="text"
+                    control="textarea"
                     label="Notes"
                     name="notes"
                   />
                 </div>
-
-                {/* <div className="text-right mt-5  col-span-2 mr-10 ">
+                <div className="text-right mt-5  col-span-2 mr-10 ">
                   <button type="submit" class="btn" disabled={!formik.isValid}>
-                    Save And Continue
+                    Save
                   </button>
-                </div> */}
+                </div>
               </Form>
             </div>
           );

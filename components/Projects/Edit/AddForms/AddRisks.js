@@ -6,64 +6,79 @@ import FormikControl from "../../../FormComponents/FormikControl";
 import * as Yup from "yup";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
 
 function AddRisks({ projectId }) {
   const toast = useRef(null); 
+   const contextData = useContext(Context);
   // --------------------------------------initial Values---------------------
   const initialValues = {
     project_id : projectId,
-    estimated_cost: null,
+    estimated_cost: '',
     currency: null,
-    risk_rank: null,
+    risk_rank: '',
     assigned_to : '',
-    risk_value: null,
+    risk_value: '',
     show_on_project_status_report: false,
     description: "",
     notes: "",
-    owner:''
+    owner:'',
+    due_date: null
   };
 
   // -------------------------- Static Select Options----------------------------
 
-  const dropdownState = [
-    { key: "state", value: "" },
-    { key: "Open", value: "Open" },
-    { key: "Work in Progress", value: "Work in Progress" },
-    { key: "Closed Complete", value: "Closed Complete" },
-    { key: "Closed InComplete", value: "Closed InComplete" },
-    { key: "Closed Skipped", value: "Closed Skipped" },
-  ];
+const checkboxOptionsStatusReport = [{ key: "Status Report", value: true }];
 
-  const dropdownStatus = [
-    { key: "state", value: "" },
-    { key: "Pending", value: "Pending" },
-    { key: "Achieved", value: "Achieved" },
-    { key: "Not Achieved", value: "Not Achieved" },
-    { key: "Avoid", value: "Aviod" },
-    { key: "Mitigate", value: "Mitigate" },
-    { key: "Tranasfer", value: "Tranasfer" },
-    { key: "Accept", value: "Accept" },
-  ];
 
-  const dropdownProbability = [
-    { key: "Probability", value: "" },
-    { key: "Low", value: "Low" },
-    { key: "Moderate", value: "Moderate" },
-    { key: "High", value: "High" },
-    { key: "Absolute", value: "Absolute" },
-  ];
+ const dropdownOptionsCurrency = [ { key: "Currency", value: "" }];
+ contextData[4].map((item) => {
+    let obj = {};
+    obj["key"] = item.code;
+    obj["value"] = item.id;
+    dropdownOptionsCurrency.push(obj);
+  });
 
-  const dropdownImpact = [
-    { key: 1, value: 1 },
-    { key: 2, value: 2 },
-    { key: 3, value: 3 },
-    { key: 4, value: 4 },
-    { key: 5, value: 5 },
-  ];
 
-  const checkboxOptionsStatus = [
-    { key: "Status Report", value: true }
-  ];
+  const dropdownState = [{ key: "state", value: "" }];
+   contextData[5].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownState.push(obj);
+  });
+
+  
+
+ 
+
+  const dropdownImpact = [{ key: "Impact", value: '' }];
+   contextData[6].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownImpact.push(obj);
+  });
+
+
+ const dropdownProbability = [{ key: "Probability", value: "" }];
+   contextData[7].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownProbability.push(obj);
+  });
+
+const dropdownStatus = [{ key: "status", value: "" }];
+   contextData[8].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownStatus.push(obj);
+  });
+
+
 
   // -----------------------------Post Data--------------------------------
 
@@ -90,22 +105,36 @@ function AddRisks({ projectId }) {
       console.log("onSuccess", variables, data);
     },
     onSettled: (data, error) => {
-      console.log("onSettled", data, error);
+       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Risk Added', life: 3000 });
     },
   });
 
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
-    state: Yup.string().required("Required"),
+    owner: Yup.string().required("Required"),
+    assigned_to: Yup.string().required("Required"),
+    risk_rank:  Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
+     risk_value:  Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
+     estimated_cost:  Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
   });
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = (data) => {
     console.log(data);
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Risk Added', life: 3000 });
-    
      document.form.reset();
   };
 
@@ -185,10 +214,10 @@ function AddRisks({ projectId }) {
 
                 <div>
                   <FormikControl
-                    control="input"
-                    type="number"
+                    control="select"
                     label="Currency"
                     name="currency"
+                    options={dropdownOptionsCurrency}
                   />
                 </div>
 
@@ -220,12 +249,21 @@ function AddRisks({ projectId }) {
                   />
                 </div>
 
-                <div>
+                 <div>
                   <FormikControl
                     control="input"
-                    type="bool"
+                    type="date"
+                    label="Due Date"
+                    name="due_date"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="checkbox"
                     label="Status Report"
                     name="show_on_project_status_report"
+                    options={checkboxOptionsStatusReport}
                   />
                 </div>
 
@@ -237,10 +275,9 @@ function AddRisks({ projectId }) {
                   />
                 </div>
 
-                <div>
+                <div  className=" col-span-2">
                   <FormikControl
-                    control="input"
-                    type="text"
+                    control="textarea"
                     label="Notes"
                     name="notes"
                   />

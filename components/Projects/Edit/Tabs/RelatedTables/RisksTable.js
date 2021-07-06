@@ -113,7 +113,7 @@ export default function RisksTable({projectsData}) {
             <EditRisks projectId={projectId} editData={editData} />
                     <div className="text-right mr-10 ">
                      <button className="btn " onClick={()=>setModalIsOpen(false)}  >Close</button>
-                    <button className="btn ml-3" type="submit" form="editForm" >Save 
+                    <button className="btn ml-3" type="submit" form="a-form" >Save 
                     </button>
                     
                     </div> 

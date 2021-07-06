@@ -8,10 +8,13 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
 
 function EditChangeReq({ projectId,editData}) {
 
    const toast = useRef(null); 
+    const contextData = useContext(Context);
   // --------------------------------------initial Values---------------------
   const initialValues = editData
 
@@ -20,30 +23,41 @@ function EditChangeReq({ projectId,editData}) {
   const checkboxOptionsStatusReport = [{ key: "Prj. Status Report", value: true }];
 
 
- const dropdownOptionsImpact = [
-    { key: "Impact", value: "" },
-    { key: "ALL", value: "1" },
-    { key: "USD", value: "2" },
-  ];
 
 
-  const   dropdownOptionsState = [
-    { key: "state", value: "" },
-    { key: "ALL", value: "1" },
-    { key: "USD", value: "2" },
-  ];
+  const   dropdownOptionsCategory = [{ key: "Category", value: "" }];
+  contextData[9].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsCategory.push(obj);
+  });
 
-  const   dropdownOptionsCategory = [
-    { key: "Category", value: "" },
-    { key: "ALL", value: "1" },
-    { key: "USD", value: "2" },
-  ];
+  const   dropdownOptionsReqPriority = [{ key: "Change Req. Priority", value: "" }];
+  contextData[10].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsReqPriority.push(obj);
+  });
 
-  const   dropdownOptionsReqPriority = [
-    { key: "Change Req. Priority", value: "" },
-    { key: "ALL", value: "1" },
-    { key: "USD", value: "2" },
-  ];
+
+   const dropdownOptionsImpact = [{ key: "Impact", value: "" }];
+  contextData[11].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsImpact.push(obj);
+  });
+
+
+  const   dropdownOptionsState = [{ key: "state", value: "" }];
+  contextData[12].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsState.push(obj);
+  });
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient();
@@ -70,7 +84,7 @@ function EditChangeReq({ projectId,editData}) {
       console.log("onSuccess", variables, data);
     },
     onSettled: (data, error) => {
-      console.log("onSettled", data, error);
+      toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Successfully Updated', life: 3000 });
     },
   });
 
@@ -79,6 +93,7 @@ function EditChangeReq({ projectId,editData}) {
   const validationSchema = Yup.object({
     title: Yup.string().required("Required"),
      assigned_to: Yup.string().required("Required"),
+    
     estimated_cost: Yup.string().test(
       "Is positive?",
       " The Number must be positive",
@@ -87,11 +102,12 @@ function EditChangeReq({ projectId,editData}) {
    
   });
 
+
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Successfully Updated', life: 3000 });
+     
       
  
     };
@@ -138,14 +154,14 @@ function EditChangeReq({ projectId,editData}) {
       </div>
 
       
-      <div>  
-      <FormikControl
-        control='input'
-        type='text'
-        label='Approver'
-        name='approver'
-      />
-      </div>
+    <div >
+    <FormikControl
+    control="input"
+    type='date'
+    label="Due Date"
+    name="due_date"
+    />
+    </div>
 
         <div>
         <FormikControl
@@ -240,15 +256,7 @@ function EditChangeReq({ projectId,editData}) {
               
                  
 
-                <h2 className="h2Form">Dates</h2>
-                <div className="ml-3">
-                  <FormikControl
-                    control="input"
-                    type='date'
-                    label="Due Date"
-                    name="due_date"
-                  />
-                </div>
+                
 
                
                

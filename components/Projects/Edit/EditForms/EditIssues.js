@@ -4,64 +4,75 @@ import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import FormikControl from '../../../FormComponents/FormikControl'
 import * as Yup from 'yup'
-
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
+import { Toast } from 'primereact/toast';
+import {useRef} from 'react'
 
 function EditIssues ({projectId,editData}) {
-  
+  const toast = useRef(null);
+  const contextData = useContext(Context);
   // --------------------------------------initial Values---------------------
-  const initialValues = {
-     issue_number:'',
-      estimated_cost:'',
-      assigned_to:'',
-      project_id:{projectId},
-      description:'',
-      text: '',
-      actual_cost:'',
-      due_date:null,
-      currency:'',
-      show_on_project_status_report:false
-  }
+  const initialValues = editData;
 
 // -------------------------- Static Select Options----------------------------
 
-const dropdownState = [
-  
-  {key:'state', value:''},
-  {key:'Open', value:'Open'},
-  { key:  'Work in Progress', value: 'Work in Progress' },
-  { key: 'Closed Complete', value: 'Closed Complete' },
-  { key: 'Closed InComplete', value: 'Closed InComplete' },
-  { key: 'Closed Skipped', value: 'Closed Skipped' },
-]
-const dropdownIsuuePriority = [
-  { key: 'Low', value: 'Low' },
-  { key: 'Medium', value: 'Medium' },
-  { key: 'Urgent', value: 'Urgent' },
-  { key: 'Immediate', value: 'Immediate' },
-]
 
-const dropdownImpact = [
-  { key: '1', value: '1' },
-  { key: '2', value: '2' },
-  { key: '3', value: '3' },
-  { key: '4', value: '4' },
-  { key: '5', value: '5' },
-]
+const  dropdownCurrency =[{key:'Currency', value:''}];
+contextData[4].map((item) => {
+    let obj = {};
+    obj["key"] = item.code;
+    obj["value"] = item.id;
+    dropdownCurrency.push(obj);
+  });
+
+const dropdownState = [{key:'state', value:''}];
+ contextData[5].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownState.push(obj);
+  });
+
+
+const dropdownIssuePriority = [{ key: 'Priority', value: '' }];
+ contextData[14].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownIssuePriority.push(obj);
+  });
+
+const dropdownImpact = [{ key: 'Impact', value: '' }];
+ contextData[13].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownImpact.push(obj);
+  });
 
 const checkboxOptionsStatus =  [
   { key: 'Status Report', value: true},
   ]
    
     // -----------------------------Post Data--------------------------------
+ const queryClient = useQueryClient()
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?id=eq.${editData.id}`
 
-  const queryClient = useQueryClient()
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/issues?apikey=${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
+  const response = (data)=>{
+    return axios.patch(url ,data,
+   {
+      headers: {
+          "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+      }
+    }
+  )
+  };
+ 
 
-  const addproject = (data)=>{
-    return axios.patch(url,data);
-    };
-
-  const mutation = useMutation(addproject,{
+  const mutation = useMutation(response,{
     onMutate: variables => {
            console.log('onmutate',variables)
      },
@@ -73,28 +84,34 @@ const checkboxOptionsStatus =  [
     },
     onSettled: (data, error) => {
     console.log('onSettled',data,error)
+     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Issue Added', life: 3000 });
   },
   })
 
   // -------------------------------Validation Schema------------------------
 
-  const validationSchema = Yup.object({
+    const validationSchema = Yup.object({
     issue_number: Yup.string().required('Required'),
-    state: Yup.string().required('Required'),
-    due_date: Yup.date(),
+    assigned_to: Yup.string().required('Required'),
+     actual_cost: Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
       
   })
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
   console.log(data)
-       document.form.reset();
+      
        mutation.mutate(data);
     };
 
     // -------------------------------Form----------------------------
  return (
    <>
+    <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
        validationSchema={validationSchema}
@@ -106,12 +123,12 @@ const checkboxOptionsStatus =  [
     
    
 
-    <Form  id="editForm" name="form" className="formGridModal" autoComplete="off">
+    <Form  id="a-form" name="form" className="formGridModal" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
 
     
        
-      <div>
+     <div>
       <FormikControl
         control='input'
         type='number'
@@ -135,7 +152,7 @@ const checkboxOptionsStatus =  [
         control='select'
         label='Issue Proiority'
         name='issue_priority'
-        options={dropdownIsuuePriority}
+        options={dropdownIssuePriority}
       />
       </div>
       
@@ -150,10 +167,20 @@ const checkboxOptionsStatus =  [
         options={dropdownImpact}
       />
       </div>
+
+       <div>
+      <FormikControl
+        control='input'
+        type='text'
+        label='Assigned To'
+        name='assigned_to'
+      />
+      </div>
+
     <div>
       <FormikControl
         control='checkbox'
-        name=' show_on_project_status_report'
+        name='show_on_project_status_report'
         options={checkboxOptionsStatus}
       />
       </div> 
@@ -166,12 +193,24 @@ const checkboxOptionsStatus =  [
         name='actual_cost'
       />
       </div>
+
       <div>
       <FormikControl
-        control='input'
-        type='number'
+        control='select'
         label='Currency'
         name='currency'
+        options={dropdownCurrency}
+      />
+      </div>
+
+     
+
+         <div>
+      <FormikControl
+        control='input'
+        type='date'
+        label='Due Date'
+        name='due_date'
       />
       </div>
 
@@ -183,31 +222,18 @@ const checkboxOptionsStatus =  [
         />
         </div>
         
-        <div>
+        <div className=" col-span-2">
       <FormikControl
-        control='input'
-        type='text'
+        control='textarea'
         label='Notes'
         name='notes'
       />
       </div>
 
-      <h2 className="h2Form">Dates</h2> 
-      <div >
-             <FormikControl
-              control='input'
-              type='date'
-              label='Due Date'
-              name='due_date'
-            />
-    </div>
-    
-     
-
    
-    {/* <div className="text-right mt-5  col-span-2 mr-20 ">
+    <div className="text-right mt-5  col-span-2 mr-20 ">
      <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
-    </div> */}
+    </div>
    
     </Form>
     </div>

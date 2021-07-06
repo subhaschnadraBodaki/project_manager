@@ -46,6 +46,9 @@ function EditTeam({ projectId,editData}) {
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
+      toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Team Updated', life: 3000 });
+       document.form.reset();
+ 
     },
   });
 
@@ -53,7 +56,7 @@ function EditTeam({ projectId,editData}) {
 
   const validationSchema = Yup.object({
      team_member: Yup.string().required("Required"),
-     allocation_percentage: Yup.string().test(
+     allocation_percentage: Yup.string().required("Required").test(
       "Is positive?",
       " The Number must be positive",
       (value) => value >= 0
@@ -69,9 +72,7 @@ function EditTeam({ projectId,editData}) {
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Team Updated', life: 3000 });
-       document.form.reset();
- 
+     
     };
 
     // -------------------------------Form----------------------------
