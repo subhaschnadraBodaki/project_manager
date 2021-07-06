@@ -25,7 +25,7 @@ const AccountForm = ({ countries }) => {
       address_line_2: "",
     },
     phone: "",
-    phNumbers: ["", ""],
+    // phNumbers: ["", ""],
     email: "",
     website: "",
 
@@ -285,7 +285,7 @@ const AccountForm = ({ countries }) => {
             </div>
                */}
 
-                <div>
+                {/* <div>
                   <FieldArray name="phNumbers">
                     {(fieldArrayProps) => {
                       const { push, remove, form } = fieldArrayProps;
@@ -320,7 +320,7 @@ const AccountForm = ({ countries }) => {
                       );
                     }}
                   </FieldArray>
-                </div>
+                </div> */}
 
                 <div>
                   <FormikControl

@@ -177,14 +177,14 @@ const EditAccount = ({ accountData, accountId, countries }) => {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <FormikControl
                   control="input"
                   type="text"
                   label=" State"
                   name="state"
                 />
-              </div>
+              </div> */}
 
               <div>
                 <FormikControl
