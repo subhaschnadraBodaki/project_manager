@@ -396,7 +396,7 @@ const EmployeeForm = ({
                   <FormikControl
                     control="input"
                     type="date"
-                    label="Driv License Exp Date"
+                    label="Driv Exp Date"
                     name="driving_license_exp_date"
                   />
                 </div>
