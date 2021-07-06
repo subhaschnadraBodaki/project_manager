@@ -4,7 +4,7 @@ import FormikControl from "../FormComponents/FormikControl";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Toast } from "primereact/toast";
-import {useRef} from 'react'
+import { useRef } from "react";
 
 const EmployeeForm = ({
   education,
@@ -160,20 +160,21 @@ const EmployeeForm = ({
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
-      toast.current.show({
-        severity: "success",
-        summary: "Successful",
-        detail: "Employee Added",
-        life: 3000,
-      });
+      if (data) {
+        toast.current.show({
+          severity: "success",
+          summary: "Successful",
+          detail: "Employee Added",
+          life: 3000,
+        });
+      }
     },
   });
 
   const onSubmit = (data, submitProps) => {
     mutation.mutate(data);
     submitProps.setSubmitting(false);
-    submitProps.resetForm()
-
+    submitProps.resetForm();
   };
 
   return (

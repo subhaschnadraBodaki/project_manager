@@ -18,6 +18,7 @@ export default function TableToolbar({
   skillCategories,
   skillLevel,
   addressType,
+  phoneType
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -78,6 +79,7 @@ export default function TableToolbar({
               skillCategories={skillCategories}
               skillLevel={skillLevel}
               addressType={addressType}
+              phoneType={phoneType}
             />
           </div>
 

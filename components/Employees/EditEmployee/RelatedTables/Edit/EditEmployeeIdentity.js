@@ -3,12 +3,17 @@ import * as Yup from "yup";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Toast } from "primereact/toast";
-import {useRef} from 'react'
-import FormikControl from '../../../../FormComponents/FormikControl'
+import { useRef } from "react";
+import FormikControl from "../../../../FormComponents/FormikControl";
 
-const EditEmployeeIdentity = ({ employeeId,identityType, countries, editIdentity }) => {
+const EditEmployeeIdentity = ({
+  employeeId,
+  identityType,
+  countries,
+  editIdentity,
+}) => {
   const toast = useRef(null);
-  const initialValues = editIdentity
+  const initialValues = editIdentity;
 
   //    -----------Options----------------
 
@@ -60,12 +65,14 @@ const EditEmployeeIdentity = ({ employeeId,identityType, countries, editIdentity
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
-      toast.current.show({
-        severity: "success",
-        summary: "Successful",
-        detail: "Identity Updated",
-        life: 3000,
-      });
+      if (data) {
+        toast.current.show({
+          severity: "success",
+          summary: "Successful",
+          detail: "Identity Updated",
+          life: 3000,
+        });
+      }
     },
   });
 
@@ -77,111 +84,109 @@ const EditEmployeeIdentity = ({ employeeId,identityType, countries, editIdentity
 
   return (
     <>
-    <Toast ref={toast} />
-    <Formik
-    initialValues={initialValues}
-    validationSchema={validationSchema}
-    onSubmit={onSubmit}
-  >
-    {(formik) => {
-      return (
-        <div className="justify-items-center container w-full mx-auto">
-          <Form
-            id="editIdentity"
-            name="form"
-            className="formGridModal"
-            autoComplete="off"
-          >
-            
-            <div>
-              <FormikControl
-                control="select"
-                label="Addr Type"
-                name="type"
-                options={dropdownForType}
-              />
+      <Toast ref={toast} />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {(formik) => {
+          return (
+            <div className="justify-items-center container w-full mx-auto">
+              <Form
+                id="editIdentity"
+                name="form"
+                className="formGridModal"
+                autoComplete="off"
+              >
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Addr Type"
+                    name="type"
+                    options={dropdownForType}
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Identity No"
+                    name="identity_no"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Name"
+                    name="name"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="date"
+                    label="Validity"
+                    name="validity"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Issuing Authority"
+                    name="issuing_authority"
+                  />
+                </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Issuing Country"
+                    name="issuing_country"
+                    options={dropdownForCountries}
+                  />
+                </div>
+
+                <div className=" mb-3">
+                  <FormikControl
+                    control="checkbox"
+                    label="Active"
+                    name="active"
+                    options={activeOption}
+                  />
+                </div>
+
+                <div className="col-span-2">
+                  <FormikControl
+                    control="textarea"
+                    type="text"
+                    label="Description"
+                    name="description"
+                  />
+                </div>
+
+                <div className="text-right mt-5  col-span-2 mr-20 ">
+                  <button
+                    type="submit"
+                    className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
+                    disabled={!formik.isValid || formik.isSubmitting}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </Form>
             </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Identity No"
-                name="identity_no"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Name"
-                name="name"
-              />
-            </div>
-
-
-            <div>
-              <FormikControl
-                control="input"
-                type="date"
-                label="Validity"
-                name="validity"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Issuing Authority"
-                name="issuing_authority"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="select"
-                label="Issuing Country"
-                name="issuing_country"
-                options={dropdownForCountries}
-              />
-            </div>
-
-            <div className=" mb-3">
-                <FormikControl
-                  control="checkbox"
-                  label="Active"
-                  name="active"
-                  options={activeOption}
-                />
-              </div>
-
-              <div className="col-span-2">
-              <FormikControl
-                control="textarea"
-                type="text"
-                label="Description"
-                name="description"
-              />
-            </div>
-
-            <div className="text-right mt-5  col-span-2 mr-20 ">
-            <button
-              type="submit"
-              className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
-              disabled={!formik.isValid || formik.isSubmitting}
-            >
-              Submit
-            </button>
-          </div>
-          </Form>
-        </div>
-      );
-    }}
-  </Formik>
-  </>
-  )
+          );
+        }}
+      </Formik>
+    </>
+  );
 };
 
 export default EditEmployeeIdentity;

@@ -6,8 +6,11 @@ import FormikControl from "../../FormComponents/FormikControl";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { useQuery } from "react-query";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 
 const EditAccount = ({ accountData, accountId, countries }) => {
+  const toast = useRef(null);
   const [rate, setRate] = useState(null);
 
   // -----------Initial Values-------------------------------------
@@ -71,6 +74,14 @@ const EditAccount = ({ accountData, accountId, countries }) => {
     },
     onSuccess: (data, variables, context) => {
       console.log("onSuccess", variables, data);
+      if (data) {
+        toast.current.show({
+          severity: "success",
+          summary: "Successful",
+          detail: "Account Updated",
+          life: 3000,
+        });
+      }
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
@@ -87,6 +98,8 @@ const EditAccount = ({ accountData, accountId, countries }) => {
   //   -------------Form----------------------
 
   return (
+    <>
+    <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -289,6 +302,7 @@ const EditAccount = ({ accountData, accountId, countries }) => {
         );
       }}
     </Formik>
+    </>
   );
 };
 

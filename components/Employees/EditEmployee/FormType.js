@@ -1,7 +1,10 @@
 import AddWorkExperience from "./RelatedTables/Add/AddWorkExperience";
 import AddEmployeeIdentity from "./RelatedTables/Add/AddEmployeeIdentity";
-import AddEmployeeSkills from './RelatedTables/Add/AddEmployeeSkills'
-import AddEmployeeAddress from './RelatedTables/Add/AddEmployeeAddress'
+import AddEmployeeSkills from "./RelatedTables/Add/AddEmployeeSkills";
+import AddEmployeeAddress from "./RelatedTables/Add/AddEmployeeAddress";
+import AddCommunicationDetails from "./RelatedTables/Add/AddCommunicationDetails";
+// import AddCommunicationDetails from "../../../playground/AddCommunicationetails";
+
 
 
 export default function FormType({
@@ -15,6 +18,7 @@ export default function FormType({
   skillCategories,
   skillLevel,
   addressType,
+  phoneType,
 }) {
   switch (formType) {
     case "AddWorkExperience":
@@ -49,10 +53,22 @@ export default function FormType({
 
     case "AddEmployeeAddress":
       return (
-        <AddEmployeeAddress employeeId={employeeId} addressType={addressType} />
+        <AddEmployeeAddress
+          employeeId={employeeId}
+          addressType={addressType}
+          countries={countries}
+        />
+      );
+
+    case "AddCommunicationDetails":
+      return (
+        <AddCommunicationDetails
+          employeeId={employeeId}
+          phoneType={phoneType}
+        />
       );
 
     default:
-      return <h1>Switch</h1>;
+      return null;
   }
 }

@@ -22,6 +22,7 @@ const editEmployee = ({
   skillCategories,
   skillLevel,
   addressType,
+  phoneType
 }) => {
   return (
     <>
@@ -48,6 +49,7 @@ const editEmployee = ({
           skillCategories={skillCategories}
           skillLevel={skillLevel}
           addressType={addressType}
+          phoneType={phoneType}
         />
       </div>
     </>
@@ -68,7 +70,7 @@ export async function getServerSideProps(context) {
 
   const employee = axios({
     method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*),employee_identity(*),employee_skills(*)`,
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*),employee_identity(*),employee_skills(*),employee_address(*),communication_details(*)`,
     headers: {
       apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "Content-Type": "application/json",
@@ -200,6 +202,14 @@ export async function getServerSideProps(context) {
     },
   });
 
+  const phoneTypeData = axios({
+    method: "get",
+    url: `${server}/api/enums/phone_type_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   const data = await axios.all([
     employee,
     educationdata,
@@ -218,6 +228,8 @@ export async function getServerSideProps(context) {
     skillCategoriesData,
     skillLevelData,
     addressTypeData,
+    phoneTypeData
+
   ]);
 
   const employeeData = data[0].data;
@@ -237,6 +249,7 @@ export async function getServerSideProps(context) {
   const skillCategories = data[14].data;
   const skillLevel = data[15].data;
   const addressType = data[16].data;
+  const phoneType= data[17].data;
 
   return {
     props: {
@@ -257,6 +270,7 @@ export async function getServerSideProps(context) {
       skillCategories,
       skillLevel,
       addressType,
+      phoneType
     },
   };
 }

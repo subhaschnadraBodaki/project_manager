@@ -9,6 +9,7 @@ const TabsRender = ({
   skillCategories,
   skillLevel,
   addressType,
+  phoneType
 }) => {
   return (
     <Tabs
@@ -21,6 +22,7 @@ const TabsRender = ({
       skillCategories={skillCategories}
       skillLevel={skillLevel}
       addressType={addressType}
+      phoneType={phoneType}
     />
   );
 };

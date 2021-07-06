@@ -6,31 +6,22 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import FormikControl from "../../../../FormComponents/FormikControl";
 
-const AddEmployeeAddress = ({
+const EditCommunicationDetails = ({
   employeeId,
-  addressType,
-  countries,
-  editAddress,
+  phoneType,
+  editCommunicationDetails,
 }) => {
   const toast = useRef(null);
-  const initialValues = editAddress;
+  const initialValues = editCommunicationDetails;
 
   //    -----------Options----------------
 
-  const dropdownForAddressType = [{ key: "Address Type", value: "" }];
-  addressType.map((address) => {
+  const dropDownForphoneType = [{ key: "Type", value: "" }];
+  phoneType.map((phone) => {
     let obj1 = {};
-    obj1["key"] = address.key;
-    obj1["value"] = address.value;
-    dropdownForAddressType.push(obj1);
-  });
-
-  const dropdownForCountries = [{ key: "Select Country", value: "" }];
-  countries.map((country) => {
-    let obj2 = {};
-    obj2["key"] = country.name;
-    obj2["value"] = country.code;
-    dropdownForCountries.push(obj2);
+    obj1["key"] = phone.key;
+    obj1["value"] = phone.value;
+    dropDownForphoneType.push(obj1);
   });
 
   // ---------------validation Schema------------------------
@@ -40,9 +31,9 @@ const AddEmployeeAddress = ({
   // -----------Post data-----------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employee_address?id=eq.${editAddress.id}`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/communication_details?id=eq.${editCommunicationDetails.id}`;
 
-  const editEmployeeAddress = (data) => {
+  const editCommunication = (data) => {
     return axios.patch(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -51,7 +42,7 @@ const AddEmployeeAddress = ({
     });
   };
 
-  const mutation = useMutation(editEmployeeAddress, {
+  const mutation = useMutation(editCommunication, {
     onMutate: (variables) => {
       console.log("onmutate", variables);
     },
@@ -67,7 +58,7 @@ const AddEmployeeAddress = ({
         toast.current.show({
           severity: "success",
           summary: "Successful",
-          detail: "Address Updated",
+          detail: "Communication details Added",
           life: 3000,
         });
       }
@@ -92,53 +83,35 @@ const AddEmployeeAddress = ({
           return (
             <div className="justify-items-center container w-full mx-auto">
               <Form
-                id="editAddress"
+                id="editCommunicationDetails"
                 name="form"
                 className="formGridModal"
                 autoComplete="off"
               >
                 <div>
                   <FormikControl
-                    control="select"
-                    label="Addr Type"
-                    name="address_type"
-                    options={dropdownForAddressType}
+                    control="input"
+                    type="number"
+                    label="Homephone"
+                    name="homephone"
                   />
                 </div>
 
                 <div>
                   <FormikControl
                     control="input"
-                    type="text"
-                    label="Address"
-                    name="address"
+                    type="number"
+                    label="Mobilephone"
+                    name="mobilephone"
                   />
                 </div>
 
                 <div>
                   <FormikControl
                     control="input"
-                    type="text"
-                    label="City"
-                    name="city"
-                  />
-                </div>
-
-                <div>
-                  <FormikControl
-                    control="select"
-                    label="Country"
-                    name="country"
-                    options={dropdownForCountries}
-                  />
-                </div>
-
-                <div>
-                  <FormikControl
-                    control="input"
-                    type="text"
-                    label="Postal Code"
-                    name="postal_code"
+                    type="number"
+                    label="Alternative Phone"
+                    name="alternative_phone"
                   />
                 </div>
 
@@ -160,4 +133,4 @@ const AddEmployeeAddress = ({
   );
 };
 
-export default AddEmployeeAddress;
+export default EditCommunicationDetails;

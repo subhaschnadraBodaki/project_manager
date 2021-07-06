@@ -3,15 +3,15 @@ import * as Yup from "yup";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Toast } from "primereact/toast";
-import {useRef} from 'react'
-import FormikControl from '../../../../FormComponents/FormikControl'
+import { useRef } from "react";
+import FormikControl from "../../../../FormComponents/FormikControl";
 
-const AddEmployeeSkills = ({ employeeId,skillCategories, skillLevel }) => {
+const AddEmployeeSkills = ({ employeeId, skillCategories, skillLevel }) => {
   const toast = useRef(null);
-  const initialValues = { 
-      employee_id: employeeId,
-      name: '',
-      description: '' 
+  const initialValues = {
+    employee_id: employeeId,
+    name: "",
+    description: "",
   };
 
   //    -----------Options----------------
@@ -31,8 +31,6 @@ const AddEmployeeSkills = ({ employeeId,skillCategories, skillLevel }) => {
     obj2["value"] = skill.value;
     dropdownForSkillLevel.push(obj2);
   });
-
-  
 
   // ---------------validation Schema------------------------
 
@@ -64,12 +62,14 @@ const AddEmployeeSkills = ({ employeeId,skillCategories, skillLevel }) => {
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
-      toast.current.show({
-        severity: "success",
-        summary: "Successful",
-        detail: "Skill Added",
-        life: 3000,
-      });
+      if (data) {
+        toast.current.show({
+          severity: "success",
+          summary: "Successful",
+          detail: "Experience Added",
+          life: 3000,
+        });
+      }
     },
   });
 
@@ -81,61 +81,58 @@ const AddEmployeeSkills = ({ employeeId,skillCategories, skillLevel }) => {
 
   return (
     <>
-    <Toast ref={toast} />
-    <Formik
-    initialValues={initialValues}
-    validationSchema={validationSchema}
-    onSubmit={onSubmit}
-  >
-    {(formik) => {
-      return (
-        <div className="justify-items-center container w-full mx-auto">
-          <Form
-            id="AddEmployeeSkills"
-            name="form"
-            className="formGridModal"
-            autoComplete="off"
-          >
-            
-            <div>
-              <FormikControl
-                control="select"
-                label="Skill Category"
-                name="skill_category"
-                options={dropDownForSkillCategories}
-              />
-            </div>
+      <Toast ref={toast} />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {(formik) => {
+          return (
+            <div className="justify-items-center container w-full mx-auto">
+              <Form
+                id="AddEmployeeSkills"
+                name="form"
+                className="formGridModal"
+                autoComplete="off"
+              >
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Skill Category"
+                    name="skill_category"
+                    options={dropDownForSkillCategories}
+                  />
+                </div>
 
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Name"
-                name="name"
-              />
-            </div>
+                <div>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label="Name"
+                    name="name"
+                  />
+                </div>
 
-            <div className="col-span-2">
-              <FormikControl
-                control="textarea"
-                type="text"
-                label="Description"
-                name="description"
-              />
-            </div>
+                <div className="col-span-2">
+                  <FormikControl
+                    control="textarea"
+                    type="text"
+                    label="Description"
+                    name="description"
+                  />
+                </div>
 
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Skill Level"
+                    name="skill_level"
+                    options={dropdownForSkillLevel}
+                  />
+                </div>
 
-            <div>
-              <FormikControl
-                control="select"
-                label="Skill Level"
-                name="skill_level"
-                options={dropdownForSkillLevel}
-              />
-            </div>
-
-            
-            {/* <div className="text-right mt-5  col-span-2 mr-20 ">
+                {/* <div className="text-right mt-5  col-span-2 mr-20 ">
             <button
               type="submit"
               className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
@@ -144,13 +141,13 @@ const AddEmployeeSkills = ({ employeeId,skillCategories, skillLevel }) => {
               Submit
             </button>
           </div> */}
-          </Form>
-        </div>
-      );
-    }}
-  </Formik>
-  </>
-  )
+              </Form>
+            </div>
+          );
+        }}
+      </Formik>
+    </>
+  );
 };
 
 export default AddEmployeeSkills;

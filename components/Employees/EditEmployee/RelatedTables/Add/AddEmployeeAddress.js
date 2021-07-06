@@ -7,7 +7,7 @@ import { Toast } from "primereact/toast";
 import {useRef} from 'react'
 import FormikControl from '../../../../FormComponents/FormikControl'
 
-const AddEmployeeAddress = ({ employeeId,addressType, countries }) => {
+const AddEmployeeAddress = ({ employeeId, addressType, countries }) => {
   const toast = useRef(null);
   const initialValues = {
     employee_id: employeeId,
@@ -66,12 +66,14 @@ const AddEmployeeAddress = ({ employeeId,addressType, countries }) => {
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
+      if(data) {
       toast.current.show({
         severity: "success",
         summary: "Successful",
         detail: "Address Added",
         life: 3000,
       });
+    }
     },
   });
 
@@ -129,7 +131,7 @@ const AddEmployeeAddress = ({ employeeId,addressType, countries }) => {
 
             <div>
               <FormikControl
-                control="input"
+                control="select"
                 label="Country"
                 name="country"
                 options={dropdownForCountries}
