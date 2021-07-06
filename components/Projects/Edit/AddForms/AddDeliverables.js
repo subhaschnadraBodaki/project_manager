@@ -8,10 +8,13 @@ import axios from 'axios';
  import {useState} from 'react'
  import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
 
 function AddDeliverables ({projectId}) {
 
   const toast = useRef(null); 
+   const contextData = useContext(Context);
   // --------------------------------------initial Values---------------------
   const initialValues = {
      
@@ -25,14 +28,72 @@ function AddDeliverables ({projectId}) {
       planned_end_date: null,
       predecessor_deliverables: null,
       sucecssor_deliverables : null,
-      estimated_effort_in_hours:null,
+      estimated_effort_in_hours:'',
       task_id: null,
       story_id:null,
       time_recording_allowed: false
       
   }
+// -------------------------------------------------------------
+
+ const dropdownTaskName =[{key:'Task Name', value:''}];
+contextData[1].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownTaskName.push(obj);
+  });
+
+const dropdownStoryName =[{key:'Story Name', value:''}];
+contextData[2].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownStoryName.push(obj);
+  });
+
+  const dropdownAssMilestones =[{key:'Associated Milestone', value:''}];
+contextData[3].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+   dropdownAssMilestones.push(obj);
+  });
+
+      const dropdownDeliStatus =[{key:'Status', value:''}];
+contextData[15].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownDeliStatus.push(obj);
+  });
 
 
+  const parentDeli =[{key:'Parent Deliverables', value:''}];
+contextData[16].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    parentDeli.push(obj);
+  });
+
+    const predecessorDeli =[{key:'Predecessor Deliverables', value:''}];
+contextData[16].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    predecessorDeli.push(obj);
+  });
+
+    const sucessorDeli =[{key:'Successor Deliverables', value:''}];
+contextData[16].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    sucessorDeli.push(obj);
+  });
+
+ 
 
   const checkboxOptionsTimeRecord =  [
     { key: 'Time Recording', value: true},
@@ -119,28 +180,28 @@ function AddDeliverables ({projectId}) {
       <FormikControl
         control='input'
         type='text'
-        label='Deliverables Name'
+        label='Deli. Name'
         name='name'
       />
       </div>
 
        
 
-    <div className="ml-3">
+    <div >
              <FormikControl
-              control='input'
-              type='number'
-              label='Story Id'
+              control='select'
+              label='Story Name'
               name='story_id'
+              options={dropdownStoryName}
             />
     </div>
    
       <div>
       <FormikControl
-        control='input'
-        type='number'
-        label='Task Id'
+        control='select'
+        label='Task Name'
         name='task_id'
+        options={dropdownTaskName}
       />
       </div>
     
@@ -158,29 +219,29 @@ function AddDeliverables ({projectId}) {
 
       <div>
       <FormikControl
-        control='input'
-        type='number'
-        label='Parent Deliverables'
+        control='select'
+        label='Parent Deli.'
         name='parent_deliverables'
+        options={parentDeli}
       />
       </div>
 
       <div > 
        <FormikControl
-        control='input'
-        type= 'number'
+        control='select'
         label='Predecessor Deli.'
         name='predecessor_deliverables'
+        options={predecessorDeli}
         
       />
       </div>
 
       <div >
       <FormikControl
-      control='input'
-      type='number'
+      control='select'
       label='Successor Deli.'
       name='sucecssor_deliverables'
+      options={sucessorDeli}
       />
       </div>
 
@@ -190,20 +251,36 @@ function AddDeliverables ({projectId}) {
          <FormikControl
         control='input'
         type='number'
-        label='Est. Effort in Hours'
+        label='Est. Eft. in Hours'
         name='estimated_effort_in_hours'
         
         />
         </div>
+       
+        <div >
+      <FormikControl
+      control='select'
+      label='Status'
+      name='status'
+      options={dropdownDeliStatus}
+      />
+      </div>
 
-        
-  
-     
+       <div >
+      <FormikControl
+      control='select'
+      label='Ass. Milestone'
+      name='associated_milestone'
+      options={dropdownAssMilestones}
+      />
+      </div>
+
+    
     <div > 
        <FormikControl
         control='input'
         type='date'
-        label='Planned Start Date'
+        label='Planned Strt. Date'
         name='planned_start_date'
        
       />

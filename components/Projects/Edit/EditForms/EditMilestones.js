@@ -8,40 +8,50 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
 
 function EditMilestones({ projectId,editData}) {
 
    const toast = useRef(null); 
-   console.log(editData)
+   const contextData = useContext(Context);
+   
   // --------------------------------------initial Values---------------------
   const initialValues =  editData;
-//    {
-//     actual_effort_in_hours: editData.actual_effort_in_hours,
-//     actual_due_date: null,
-//     approved_for_billing: false,
-//     name: '',
-//     milestone_billing_amount:'',
-//     billing_date: null,
-//     description: '',
-//     project_id: projectId,
-//     planned_due_date: null,
-//     owner: '',
-//     billed: false,
-//     currency_code: '',
-//     notes:'',
-//     // approver: '',
-//     percentage_of_completion: '',
-//     approved: false,
-//     requires_customer_signoff: false,
-//   };
+
 
    const checkboxOptionsTimeRecord = [{ key: "Customer Signoff", value: true }];
 
-  const checkboxOptionsApprovedForBilling = [{ key: "Approved for Billing", value: true }];
+  const checkboxOptionsApprovedForBilling = [{ key: "Appr. for Billing", value: true }];
 
   const checkboxOptionsBilled = [{ key: "Billed", value: true }];
 
   const checkboxOptionsApproved = [{ key: "Approved", value: true }];
+
+
+  const dropdownOptionsOwner = [
+    { key: 'Owner', value: '' },
+    { key: 'member1', value: '7b693dd7-0581-4f58-bc23-c557d14e5e53' },
+    { key: 'member2', value: 'Milestone' }
+  ]
+    
+
+
+ const dropdownOptionsStatus = [{ key: 'Status', value: '' }];
+    contextData[0].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsStatus.push(obj);
+  });
+
+ const dropdownOptionsCurrency = [ { key: "Currency", value: "" }];
+ contextData[4].map((item) => {
+    let obj = {};
+    obj["key"] = item.code;
+    obj["value"] = item.id;
+    dropdownOptionsCurrency.push(obj);
+  });
 
   // -----------------------------Post Data--------------------------------
 
@@ -72,7 +82,7 @@ function EditMilestones({ projectId,editData}) {
       console.log("onSuccess", variables, data);
     },
     onSettled: (data, error) => {
-      console.log("onSettled", data, error);
+      toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Milestone Updated', life: 3000 });
     },
   });
 
@@ -81,6 +91,17 @@ function EditMilestones({ projectId,editData}) {
   const validationSchema = Yup.object({
     name: Yup.string().required("Required"),
      owner: Yup.string().required("Required"),
+     approver: Yup.string().required("Required"),
+     percentage_of_completion: Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
+    actual_effort_in_hours: Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
    
   });
 
@@ -88,9 +109,7 @@ function EditMilestones({ projectId,editData}) {
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Milestone Added', life: 3000 });
-      
- 
+     
     };
 
     // -------------------------------Form----------------------------
@@ -125,20 +144,20 @@ function EditMilestones({ projectId,editData}) {
       />
       </div>
 
-      <div>  
-      <FormikControl
-        control='input'
-        type='text'
-        label='Owner'
-        name='owner'
-      />
-      </div>
+         <div>  
+    <FormikControl
+    control='select'
+    label='Owner'
+    name='owner'
+    options={dropdownOptionsOwner}
+     />
+    </div>
 
       <div>  
       <FormikControl
         control='input'
         type='number'
-        label='Actual Eft. in hours'
+        label='Act. Eft. in hours'
         name='actual_effort_in_hours'
       />
       </div>
@@ -154,43 +173,18 @@ function EditMilestones({ projectId,editData}) {
       />
       </div>
     
-{/* 
-      <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Associated Milestone'
-        name='associated_milestone'
-      />
-      </div> */}
 
-                {/* <div > 
-       <FormikControl
-        control='select'
-        label='Project Type'
-        name='project_type'
-        options={dropdownOptionsProjectType}
-      />
-      </div> */}
 
-                
+             
 
-                <div className=" col-span-2">
-                  <FormikControl
-                    control="textarea"
-                    label="Description"
-                    name="description"
-                  />
-                </div>
-
-                <div>
-                  <FormikControl
-                    control="input"
-                    type="number"
-                    label="Currency"
-                    name="currency_code"
-                  />
-                </div>
+                  <div>
+                <FormikControl
+                  control="select"
+                  label="Currency"
+                  name="currency_code"
+                  options={dropdownOptionsCurrency}
+                />
+              </div>
 
                 <div>
                   <FormikControl
@@ -238,6 +232,43 @@ function EditMilestones({ projectId,editData}) {
                     options={checkboxOptionsApproved}
                   />
                 </div>
+
+                 <div>
+                  <FormikControl
+                    control='select'
+                    label='Status'
+                    name='status'
+                    options={dropdownOptionsStatus}
+                  />
+                  </div>
+
+                  <div>  
+                    <FormikControl
+                        control='input'
+                        type='text'
+                        label='Approver'
+                        name='approver'
+                    />
+                    </div>
+
+                 <div className=" col-span-2">
+                  <FormikControl
+                    control="textarea"
+                    label="Description"
+                    name="description"
+                  />
+                </div>
+
+                
+                <div className=" col-span-2">
+                  <FormikControl
+                    control="textarea"
+                    label="Notes"
+                    name="notes"
+                  />
+                </div>
+
+                
 
                 <h2 className="h2Form">Dates</h2>
                 <div className="ml-3">

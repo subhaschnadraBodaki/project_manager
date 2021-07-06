@@ -8,15 +8,19 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
 
 function AddTask({ projectId}) {
 
    const toast = useRef(null); 
+  const contextData = useContext(Context);
+    console.log(contextData)
   // --------------------------------------initial Values---------------------
   const initialValues = {
+    predecessor_task:null,
     estimated_effort_in_hours: '',
     name: '',
-    // associated_milestone:'',
     description: '',
     sucecssor_task: null,
     parent_task: null,
@@ -29,6 +33,64 @@ function AddTask({ projectId}) {
   };
 
   const checkboxOptionsTimeRecord = [{ key: "Time Recording", value: true }];
+
+     const dropdownOptionsOwner = [
+    { key: 'Owner', value: '' },
+    { key: 'member1', value: '7b693dd7-0581-4f58-bc23-c557d14e5e53' },
+    { key: 'member2', value: 'Milestone' }
+  ]
+    
+     const dropdownOptionsStatus = [{ key: 'Status', value: '' }];
+    contextData[0].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownOptionsStatus.push(obj);
+  });
+     
+     
+    const dropdownOptionsPredecessor = [{ key: 'Predecessor Task', value: '' }];
+     contextData[1].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownOptionsPredecessor.push(obj);
+  });
+  
+
+   const dropdownOptionsSucecssor = [{ key: 'Sucecssor Task', value: '' }];
+   contextData[1].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownOptionsSucecssor.push(obj);
+  });
+
+   const dropdownOptionsParent = [{ key: 'Parent Task', value: '' }];
+   contextData[1].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownOptionsParent.push(obj);
+  });
+
+     const dropdownOptionsStoryName = [{ key: 'Story Name', value: '' }];
+      contextData[2].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownOptionsStoryName.push(obj);
+  });
+
+   const dropdownOptionsMilestone = [{ key: 'Associated Milestone', value: '' }];
+    contextData[3].map((item) => {
+       let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownOptionsMilestone.push(obj);
+  });
+
+ 
 
   // -----------------------------Post Data--------------------------------
 
@@ -56,7 +118,8 @@ function AddTask({ projectId}) {
       console.log("onSuccess", variables, data);
     },
     onSettled: (data, error) => {
-      console.log("onSettled", data, error);
+      toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Added', life: 3000 });
+       document.form.reset();
     },
   });
 
@@ -65,6 +128,11 @@ function AddTask({ projectId}) {
   const validationSchema = Yup.object({
     name: Yup.string().required("Required"),
      owner: Yup.string().required("Required"),
+     estimated_effort_in_hours: Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
     planned_start_date: Yup.date(),
     planned_end_date: Yup.date().min(
       Yup.ref("planned_start_date"),
@@ -76,8 +144,7 @@ function AddTask({ projectId}) {
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Added', life: 3000 });
-       document.form.reset();
+    document.form.reset();
  
     };
 
@@ -100,93 +167,78 @@ function AddTask({ projectId}) {
 
     <Form name="form" className="formGridModal" id="a-form" autoComplete="off">
        <h2 className="h2FormModal">Basic Details</h2> 
-      
-    
-       
-      <div>
-      <FormikControl
-        control='input'
-        type='text'
-        label='Task Name'
-        name='name'
-      />
-      </div>
+                  
+                
+                  
+                  <div>
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    label='Task Name'
+                    name='name'
+                  />
+                  </div>
 
-      <div>  
-      <FormikControl
-        control='input'
-        type='text'
-        label='Owner'
-        name='owner'
-      />
-      </div>
+                  <div>  
+                  <FormikControl
+                    control='select'
+                    label='Owner'
+                    name='owner'
+                     options={dropdownOptionsOwner}
+                  />
+                  </div>
 
-      <div>  
-      <FormikControl
-        control='input'
-        type='number'
-        label='Est. Effort in hours'
-        name='estimated_effort_in_hours'
-      />
-      </div>
-       
-      
+                  <div>  
+                  <FormikControl
+                    control='input'
+                    type='number'
+                    label='Est. Effort in hours'
+                    name='estimated_effort_in_hours'
+                  />
+                  </div>
+                  
+                  
 
-      <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Story ID'
-        name='story_id'
-      />
-      </div>
-    
-{/* 
-      <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Associated Milestone'
-        name='associated_milestone'
-      />
-      </div> */}
-
-                {/* <div > 
-       <FormikControl
-        control='select'
-        label='Project Type'
-        name='project_type'
-        options={dropdownOptionsProjectType}
-      />
-      </div> */}
+                  <div>
+                  <FormikControl
+                    control='select'
+                    label='Story Name'
+                    name='story_id'
+                    options={dropdownOptionsStoryName}
+                  />
+                  </div>
+                
 
                 
 
-                <div className=" col-span-2">
+                  <div>
                   <FormikControl
-                    control="textarea"
-                    label="Description"
-                    name="description"
+                    control="select"
+                    label="Predecessor Task"
+                    name="predecessor_task"
+                    options={dropdownOptionsPredecessor}
                   />
                 </div>
 
-                <div>
+                  <div>
                   <FormikControl
-                    control="input"
-                    type="number"
-                    label="Parent Task"
-                    name="parent_task"
-                  />
-                </div>
-
-                <div>
-                  <FormikControl
-                    control="input"
-                    type="number"
+                    control="select"
                     label="Sucecssor Task"
                     name="sucecssor_task"
+                     options={dropdownOptionsSucecssor}
                   />
                 </div>
+
+                <div>
+                  <FormikControl
+                    control="select"
+                    label="Parent Task"
+                    name="parent_task"
+                     options={dropdownOptionsParent}
+                  />
+                </div>
+
+              
 
                 <div className=" ">
                   <FormikControl
@@ -196,18 +248,50 @@ function AddTask({ projectId}) {
                     options={checkboxOptionsTimeRecord}
                   />
                 </div>
+                 
+                   <div>
+                  <FormikControl
+                    control='select'
+                    label='Status'
+                    name='status'
+                    options={dropdownOptionsStatus}
+                  />
+                  </div>
+
+                  <div>
+                  <FormikControl
+                    control='select'
+                    label='Ass. Milestone'
+                    name='associated_milestone'
+                    options={dropdownOptionsMilestone}
+                  />
+                  </div>
+
+                 
+
+
+
+
+
+                <div className=" col-span-2">
+                  <FormikControl
+                    control="textarea"
+                    label="Description"
+                    name="description"
+                  />
+                </div>
 
                 <h2 className="h2Form">Dates</h2>
-                <div className="ml-3">
+                <div >
                   <FormikControl
                     control="input"
                     type='date'
-                    label="Planned Start Date"
+                    label="Planned Strt Date"
                     name="planned_start_date"
                   />
                 </div>
 
-                <div className="ml-3">
+                <div >
                   <FormikControl
                     control="input"
                     type='date'

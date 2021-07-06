@@ -5,154 +5,125 @@ import FormikControl from '../../../FormComponents/FormikControl'
 import { useMutation, useQueryClient } from 'react-query';
  import axios from 'axios';
  import {useQuery} from 'react-query'
-
  import {useState} from 'react'
+ import { Toast } from 'primereact/toast';
+import {useRef} from 'react'
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
 
 function EditDeliverables ({projectId,editData}) {
 
+
+ const toast = useRef(null); 
+   const contextData = useContext(Context);
   // --------------------------------------initial Values---------------------
-  const initialValues = {
-     assignees:'',
-     name:'',
-     owner:'',
-     parent_deliverables:'',
-     percentage_of_completion:'',
-      associated_milestone: '',
-      description: '',
-    //   planned_start_date: null,
-    //   planned_end_date: null,
-      predecessor_deliverables: '',
-      sucecssor_deliverables: '',
-      actual_effort_in_hours: '',
-      // estimated_effort_in_hours: '',
-    //   inserted_at: '',
-      // modified_by: '',
-      task_id: '',
-    //   updated_at: '',
-    //   created_by:'',
-    //   project_id:'',
-      story_id:'',
-       actual_start_date:null,
-       actual_end_date: null,
-      time_recording_allowed: false
-      
-  }
+  const initialValues = editData
 // -----------------------------Dynamic Select Options-----------------------
 
-// --------------Account Id--------------
-// let dropdownOptionsAccountId = [{key:"Account",value:""}];
-// for (const item of accountdata) {
-//   let obj = {};
-//   obj['key'] = item.account_name;
-//   obj['value'] = item.id;
-//   dropdownOptionsAccountId.push(obj);
-// }
+ const dropdownTaskName =[{key:'Task Name', value:''}];
+contextData[1].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownTaskName.push(obj);
+  });
 
-//   ---------------Currency--------------
-// let dropdownOptionsCurrency =[{key:"Currency",value:""}];
-// for (const item of currencydata) {
-//   let obj = {};
-//   obj['key'] = item.code;
-//   obj['value'] = item.id;
-//   dropdownOptionsCurrency.push(obj);
-// }
+const dropdownStoryName =[{key:'Story Name', value:''}];
+contextData[2].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    dropdownStoryName.push(obj);
+  });
 
-// ---------------Project Manager-----------
-// let dropdownProjectManager =[{key:"Project Manager",value:""}];
-// for (const item of projectManager) {
-//   let obj = {};
-//   obj['key'] = item.first_name;
-//   obj['value'] = item.user_id;
-//   dropdownProjectManager.push(obj);
-// }
+  const dropdownAssMilestones =[{key:'Associated Milestone', value:''}];
+contextData[3].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+   dropdownAssMilestones.push(obj);
+  });
 
-// -------------------------- Static Select Options----------------------------
+      const dropdownDeliStatus =[{key:'Status', value:''}];
+contextData[15].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownDeliStatus.push(obj);
+  });
 
 
-//   const dropdownOptionsbillable = [
-//     { key: 'Billing Type', value: '' },
-//     { key: 'Time and Material', value: 'Time_and_Material' },
-//     { key: 'Fixed Price', value: 'Fixed_Price' }
-    
-//   ]
+  const parentDeli =[{key:'Parent Deliverables', value:''}];
+contextData[16].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    parentDeli.push(obj);
+  });
 
-  const dropdownOptionsMilestone = [
-    { key: 'Associated Milestone', value: '' },
-    { key: 'Task', value: 'Task' },
-    { key: 'Milestone', value: 'Milestone' }
-  ]
+    const predecessorDeli =[{key:'Predecessor Deliverables', value:''}];
+contextData[16].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    predecessorDeli.push(obj);
+  });
 
-//   const dropdownOptionsProjectPhase = [
-//     { key: 'Project Phase', value: '' },
-//     { key: 'Planning', value: 'Planning' },
-//     { key: 'Requiremnet', value: 'Requirement' },
-//     { key: 'Design', value: 'Design' },
-//     { key: 'Development', value: 'Development' },
-//     { key: 'UAT', value: 'UAT' },
-//     { key: 'GoLivw Preparation', value: 'GoLive_Preparation' },
-//     { key: 'Post GoLive Support', value: 'Post_GoLive_Support' }
-//   ]
+    const sucessorDeli =[{key:'Successor Deliverables', value:''}];
+contextData[16].map((item) => {
+    let obj = {};
+    obj["key"] = item.name;
+    obj["value"] = item.id;
+    sucessorDeli.push(obj);
+  });
 
+ 
 
   const checkboxOptionsTimeRecord =  [
     { key: 'Time Recording', value: true},
     ]
    
-    // const statusOptions = [
-    //   { key: 'Active', value: true },
-    // ] 
-    
-//     const dropdownOpportunity = [
-//       { key: 'opportunity', value: '' },
-//       { key: 'Account1', value: 'Account1' },
-//       { key: 'Account2', value: 'Account2' }
-//     ]
-
-//     const dropdownRegion = [
-//       { key: 'Region', value: '' },
-//       { key: 'Benglore', value: 'Benglore' },
-//       { key: 'Noida', value: 'Noida' }
-    // ]
 
   // -----------------------------Post Data--------------------------------
 
-  // const queryClient = useQueryClient()
-  // const url = "https://cthpociewycattzfdtep.supabase.co/rest/v1/deliverables?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMjg2MDk5MSwiZXhwIjoxOTM4NDM2OTkxfQ.ZmeqDJqHN5Bjtzn6tA8hK5_ZB_L-s16LDdkL4IF5rEg"
+  const queryClient = useQueryClient()
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/deliverables?id=eq.${editData.id}`
 
-  // const addproject = (data)=>{
-  //   return axios.post(url,data);
-  //   };
+  const response = (data)=>{
+    return axios.patch(url ,data,
+   {
+      headers: {
+          "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+      }
+    }
+  )
+  };
+ 
 
-  // const mutation = useMutation(addproject,{
-  //   onMutate: variables => {
-  //          console.log('onmutate',variables)
-  //    },
-  //   onError: (error) => {
-  //     console.log(error)
-  //   },
-  //   onSuccess: (data, variables, context) => {
-  //      console.log('onSuccess',variables,data)
-  //   },
-  //   onSettled: (data, error) => {
-  //   console.log('onSettled',data,error)
-  // },
-  // })
+  const mutation = useMutation(response,{
+    onMutate: variables => {
+           console.log('onmutate',variables)
+     },
+    onError: (error) => {
+      console.log(error)
+    },
+    onSuccess: (data, variables, context) => {
+       console.log('onSuccess',variables,data)
+    },
+    onSettled: (data, error) => {
+    console.log('onSettled',data,error)
+     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Updated', life: 3000 });
+  },
+  })
 
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
       name: Yup.string().required('Required'),
-      // project_code: Yup.string().required('Required').test(
-      //   'Is positive?', 
-      //   ' The Project Code must be greater than 0!', 
-      //   (value) => value > 0
-      // ),
-      // project_manager_id: Yup.string().required('Required'),
-      // planned_revenue: Yup.string().max(14,'Must be 14 digits or less').test(
-      //   'Is positive?', 
-      //   ' Amount must be greater than 0!', 
-      //   (value) => value > 0
-      // ),
+      owner: Yup.string().required('Required'),
+   
       actual_effort_in_hours: Yup.string().test(
         'Is positive?', 
         ' The Number must be positive', 
@@ -173,8 +144,10 @@ function EditDeliverables ({projectId,editData}) {
     };
 
     // -------------------------------Form----------------------------
- return (
+return (
+  
    <>
+    <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
        validationSchema={validationSchema}
@@ -186,44 +159,41 @@ function EditDeliverables ({projectId,editData}) {
     
    
 
-    <Form className="formGridModal
-    " autoComplete="off">
+    <Form name="form" id="a-form" className="formGridModal" autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
-    <div className="ml-3">
-             <FormikControl
-              control='input'
-              type='number'
-              label='Story Id'
-              name='story_id'
-            />
-    </div>
- 
-      <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='Task Id'
-        name='task_id'
-      />
-      </div>
-    
-      <div>  
-      <FormikControl
-        control='input'
-        type='text'
-        label='Assignees'
-        name='assignees'
-      />
-      </div>
 
+      
       <div>  
       <FormikControl
         control='input'
         type='text'
-        label='Deliverables Name'
+        label='Deli. Name'
         name='name'
       />
       </div>
+
+       
+
+    <div >
+             <FormikControl
+              control='select'
+              label='Story Name'
+              name='story_id'
+              options={dropdownStoryName}
+            />
+    </div>
+   
+      <div>
+      <FormikControl
+        control='select'
+        label='Task Name'
+        name='task_id'
+        options={dropdownTaskName}
+      />
+      </div>
+    
+    
+
        
       <div>
       <FormikControl
@@ -236,87 +206,68 @@ function EditDeliverables ({projectId,editData}) {
 
       <div>
       <FormikControl
-        control='input'
-        type='number'
-        label='Parent Deliverables'
-        name='parent_deliverables'
-      />
-      </div>
-
-      <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='% Complete'
-        name='percentage_of_completion'
-      />
-      </div>
-
-      <div>
-      <FormikControl
         control='select'
-        
-        label='Ass. Milestone'
-        name='associated_milestone'
-        options={dropdownOptionsMilestone}
+        label='Parent Deli.'
+        name='parent_deliverables'
+        options={parentDeli}
       />
       </div>
 
-      {/* <div>
-      <FormikControl
-        control='textarea'
-        type='text'
-        label='Description'
-        name='description'
-      />
-      </div> */}
-
-      
       <div > 
        <FormikControl
-        control='input'
-        type= 'number'
+        control='select'
         label='Predecessor Deli.'
         name='predecessor_deliverables'
+        options={predecessorDeli}
         
       />
       </div>
 
       <div >
       <FormikControl
-      control='input'
-      type='number'
-      label='Seccessor Deli.'
+      control='select'
+      label='Successor Deli.'
       name='sucecssor_deliverables'
-     
+      options={sucessorDeli}
       />
       </div>
 
-       
-      <div >
-        <FormikControl
+      
+
+      <div>
+         <FormikControl
         control='input'
         type='number'
-        label='Act. Eft in Hours'
+        label='Act. Eft. in Hours'
         name='actual_effort_in_hours'
+        
+        />
+        </div>
        
+        <div >
+      <FormikControl
+      control='select'
+      label='Status'
+      name='status'
+      options={dropdownDeliStatus}
       />
       </div>
 
-    <div >
-             <FormikControl
-              control='checkbox'
-              label='Time Recording'
-              name='time_recording_allowed'
-              options={checkboxOptionsTimeRecord}
-            />
-    </div>
+       <div >
+      <FormikControl
+      control='select'
+      label='Ass. Milestone'
+      name='associated_milestone'
+      options={dropdownAssMilestones}
+      />
+      </div>
 
-      <div > 
+    
+    <div > 
        <FormikControl
         control='input'
         type='date'
-        label='Actual Start Date'
+        label='Actual Strt. Date'
         name='actual_start_date'
        
       />
@@ -328,16 +279,21 @@ function EditDeliverables ({projectId,editData}) {
         type='date'
         label='Actual End Date'
         name='actual_end_date'
-        
       />
       </div>
 
-    
-
+        <div >
+             <FormikControl
+              control='checkbox'
+              label='Time Recording'
+              name='time_recording_allowed'
+              options={checkboxOptionsTimeRecord}
+            />
+    </div>
    
-    {/* <div className="text-right mt-5  col-span-2 mr-20 ">
-     <button type="submit" class="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm" disabled={!formik.isValid}>Submit</button>
-    </div> */}
+    <div className="text-right mt-5  col-span-2 mr-10 ">
+    <button type="submit" class="btn" >Save</button>
+    </div>
    
     </Form>
     </div>
@@ -350,6 +306,7 @@ function EditDeliverables ({projectId,editData}) {
 
   )
 }
+
 
 
 

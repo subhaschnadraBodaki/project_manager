@@ -6,46 +6,60 @@ import FormikControl from '../../../FormComponents/FormikControl'
 import * as Yup from 'yup'
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
+import {useContext} from 'react'
+import {Context} from '../../../../pages/projects/edit/[pid]'
 
 function AddIssues ({projectId}) {
   const toast = useRef(null); 
+   const contextData = useContext(Context);
   // --------------------------------------initial Values---------------------
   const initialValues = {
-     issue_number:null,
+     issue_number:'',
       estimated_cost:'',
       project_id: projectId,
       assigned_to:'',
       description:'',
       notes:'',
       currency:null,
+      due_date:null,
       show_on_project_status_report:false
   }
 
 // -------------------------- Static Select Options----------------------------
 
-const dropdownState = [
-  
-  {key:'state', value:''},
-  {key:'Open', value:'Open'},
-  { key:  'Work in Progress', value: 'Work in Progress' },
-  { key: 'Closed Complete', value: 'Closed Complete' },
-  { key: 'Closed InComplete', value: 'Closed InComplete' },
-  { key: 'Closed Skipped', value: 'Closed Skipped' },
-]
-const dropdownIsuuePriority = [
-  { key: 'Low', value: 'Low' },
-  { key: 'Medium', value: 'Medium' },
-  { key: 'Urgent', value: 'Urgent' },
-  { key: 'Immediate', value: 'Immediate' },
-]
 
-const dropdownImpact = [
-  { key: '1', value: '1' },
-  { key: '2', value: '2' },
-  { key: '3', value: '3' },
-  { key: '4', value: '4' },
-  { key: '5', value: '5' },
-]
+const  dropdownCurrency =[{key:'Currency', value:''}];
+contextData[4].map((item) => {
+    let obj = {};
+    obj["key"] = item.code;
+    obj["value"] = item.id;
+    dropdownCurrency.push(obj);
+  });
+
+const dropdownState = [{key:'state', value:''}];
+ contextData[5].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownState.push(obj);
+  });
+
+const dropdownImpact = [{ key: 'Impact', value: '' }];
+ contextData[13].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownImpact.push(obj);
+  });
+
+const dropdownIssuePriority = [{ key: 'Priority', value: '' }];
+ contextData[14].map((item) => {
+    let obj = {};
+    obj["key"] = item.key;
+    obj["value"] = item.value;
+    dropdownIssuePriority.push(obj);
+  });
+
 
 const checkboxOptionsStatus =  [
   { key: 'Status Report', value: true},
@@ -78,6 +92,7 @@ const checkboxOptionsStatus =  [
       },
       onSettled: (data, error) => {
       console.log('onSettled',data,error)
+       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Issue Added', life: 3000 });
     },
     })
 
@@ -86,8 +101,11 @@ const checkboxOptionsStatus =  [
   const validationSchema = Yup.object({
     issue_number: Yup.string().required('Required'),
     assigned_to: Yup.string().required('Required'),
-    // notes: Yup.string().required('Required'),
-    // state: Yup.string().required('Required'),
+     estimated_cost: Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
       
   })
 
@@ -96,7 +114,7 @@ const checkboxOptionsStatus =  [
   console.log(data)
       
        mutation.mutate(data);
-       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Issue Added', life: 3000 });
+      
        document.form.reset();
     };
 
@@ -144,7 +162,7 @@ const checkboxOptionsStatus =  [
         control='select'
         label='Issue Proiority'
         name='issue_priority'
-        options={dropdownIsuuePriority}
+        options={dropdownIssuePriority}
       />
       </div>
       
@@ -159,11 +177,20 @@ const checkboxOptionsStatus =  [
         options={dropdownImpact}
       />
       </div>
-      
+
+       <div>
+      <FormikControl
+        control='input'
+        type='text'
+        label='Assigned To'
+        name='assigned_to'
+      />
+      </div>
+
     <div>
       <FormikControl
         control='checkbox'
-        name=' show_on_project_status_report'
+        name='show_on_project_status_report'
         options={checkboxOptionsStatus}
       />
       </div> 
@@ -176,12 +203,24 @@ const checkboxOptionsStatus =  [
         name='estimated_cost'
       />
       </div>
+
       <div>
       <FormikControl
-        control='input'
-        type='number'
+        control='select'
         label='Currency'
         name='currency'
+        options={dropdownCurrency}
+      />
+      </div>
+
+     
+
+         <div>
+      <FormikControl
+        control='input'
+        type='date'
+        label='Due Date'
+        name='due_date'
       />
       </div>
 
@@ -193,22 +232,16 @@ const checkboxOptionsStatus =  [
         />
         </div>
         
-        <div>
+        <div className=" col-span-2">
       <FormikControl
-        control='input'
-        type='text'
+        control='textarea'
         label='Notes'
         name='notes'
       />
       </div>
-        <div>
-      <FormikControl
-        control='input'
-        type='text'
-        label='Assigned To'
-        name='assigned_to'
-      />
-      </div>
+
+     
+        
 
       
     
