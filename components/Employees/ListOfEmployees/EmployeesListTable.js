@@ -17,15 +17,11 @@ export default function EmployeesListTable({ actionBody, employeesData }) {
     return <Column key={col.field} field={col.field} header={col.header} />;
   });
 
-  const paginatorLeft = (
-    <Button type="button" icon="pi pi-refresh" className="p-button-text" />
-  );
-  const paginatorRight = (
-    <Button type="button" icon="pi pi-cloud" className="p-button-text" />
-  );
+  
   return (
     <div>
       <DataTable
+        className="p-datatable-sm"
         value={employeesData}
         resizableColumns
         columnResizeMode="expand"
@@ -33,11 +29,7 @@ export default function EmployeesListTable({ actionBody, employeesData }) {
         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         rows={5}
-        rowsPerPageOptions={[5, 10, 15]}
-        paginatorLeft={paginatorLeft}
-        paginatorRight={paginatorRight}
-        className="p-datatable-responsive-demo"
-        header="Responsive"
+        rowsPerPageOptions={[5, 10, 15]}  
       >
         {dynamicColumns}
 

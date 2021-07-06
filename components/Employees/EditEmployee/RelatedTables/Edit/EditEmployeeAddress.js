@@ -1,43 +1,34 @@
+
 import { Formik, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import {useRef} from 'react'
-
 import FormikControl from '../../../../FormComponents/FormikControl'
 
-const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
+const AddEmployeeAddress = ({ employeeId,addressType, countries, editAddress }) => {
   const toast = useRef(null);
-  const initialValues = {
-    employee_id: employeeId,
-    identity_no: "",
-    name: "",
-    description: "",
-    validity: null,
-    issuing_authority: "",
-    active: false,
-  };
+  const initialValues = editAddress
 
   //    -----------Options----------------
 
-  const dropdownForType = [{ key: "Identity Type", value: "" }];
-  identityType.map((t) => {
+  const dropdownForAddressType = [{ key: "Address Type", value: "" }];
+  addressType.map((address) => {
     let obj1 = {};
-    obj1["key"] = t.key;
-    obj1["value"] = t.value;
-    dropdownForType.push(obj1);
+    obj1["key"] = address.key;
+    obj1["value"] = address.value;
+    dropdownForAddressType.push(obj1);
   });
 
   const dropdownForCountries = [{ key: "Select Country", value: "" }];
   countries.map((country) => {
-    let obj4 = {};
-    obj4["key"] = country.name;
-    obj4["value"] = country.code;
-    dropdownForCountries.push(obj4);
+    let obj2 = {};
+    obj2["key"] = country.name;
+    obj2["value"] = country.code;
+    dropdownForCountries.push(obj2);
   });
 
-  const activeOption = [{ key: "Active", value: true }];
 
   // ---------------validation Schema------------------------
 
@@ -46,10 +37,10 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
   // -----------Post data-----------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employee_identity`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employee_address`;
 
-  const addIdentity = (data) => {
-    return axios.post(url, data, {
+  const editEmployeeAddress = (data) => {
+    return axios.patch(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
         "Content-Type": "application/json",
@@ -57,7 +48,7 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
     });
   };
 
-  const mutation = useMutation(addIdentity, {
+  const mutation = useMutation(editsEmployeeAddress, {
     onMutate: (variables) => {
       console.log("onmutate", variables);
     },
@@ -72,7 +63,7 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
       toast.current.show({
         severity: "success",
         summary: "Successful",
-        detail: "Identity Added",
+        detail: "Address Updated",
         life: 3000,
       });
     },
@@ -96,7 +87,7 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
       return (
         <div className="justify-items-center container w-full mx-auto">
           <Form
-            id="AddEmployeeIdentity"
+            id="AddEmployeeAddress"
             name="form"
             className="formGridModal"
             autoComplete="off"
@@ -106,8 +97,8 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
               <FormikControl
                 control="select"
                 label="Addr Type"
-                name="type"
-                options={dropdownForType}
+                name="address_type"
+                options={dropdownForAddressType}
               />
             </div>
 
@@ -115,8 +106,8 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
               <FormikControl
                 control="input"
                 type="text"
-                label="Identity No"
-                name="identity_no"
+                label="Address"
+                name="address"
               />
             </div>
 
@@ -124,8 +115,8 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
               <FormikControl
                 control="input"
                 type="text"
-                label="Name"
-                name="name"
+                label="City"
+                name="city"
               />
             </div>
 
@@ -133,45 +124,18 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
             <div>
               <FormikControl
                 control="input"
-                type="date"
-                label="Validity"
-                name="validity"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="input"
-                type="text"
-                label="Issuing Authority"
-                name="issuing_authority"
-              />
-            </div>
-
-            <div>
-              <FormikControl
-                control="select"
-                label="Issuing Country"
-                name="issuing_country"
+                label="Country"
+                name="country"
                 options={dropdownForCountries}
               />
             </div>
 
-            <div className=" mb-3">
-                <FormikControl
-                  control="checkbox"
-                  label="Active"
-                  name="active"
-                  options={activeOption}
-                />
-              </div>
-
-              <div className="col-span-2">
+            <div>
               <FormikControl
-                control="textarea"
+                control="input"
                 type="text"
-                label="Description"
-                name="description"
+                label="Postal Code"
+                name="postal_code"
               />
             </div>
 
@@ -193,4 +157,4 @@ const AddEmployeeIdentity = ({ employeeId,identityType, countries }) => {
   )
 };
 
-export default AddEmployeeIdentity;
+export default AddEmployeeAddress;

@@ -14,9 +14,15 @@ const editEmployee = ({
   employmentType,
   designation,
   identityType,
-  employeeDataForEdit
+  employeeDataForEdit,
+  nationality,
+  gender,
+  jobRoles,
+  maritalStatus,
+  skillCategories,
+  skillLevel,
+  addressType,
 }) => {
-  
   return (
     <>
       <EditEmployee
@@ -26,6 +32,10 @@ const editEmployee = ({
         countries={countries}
         employees={employees}
         employeeDataForEdit={employeeDataForEdit}
+        nationality={nationality}
+        gender={gender}
+        jobRoles={jobRoles}
+        maritalStatus={maritalStatus}
       />
 
       <div className="my-5 px-2">
@@ -35,6 +45,9 @@ const editEmployee = ({
           designation={designation}
           identityType={identityType}
           countries={countries}
+          skillCategories={skillCategories}
+          skillLevel={skillLevel}
+          addressType={addressType}
         />
       </div>
     </>
@@ -55,7 +68,7 @@ export async function getServerSideProps(context) {
 
   const employee = axios({
     method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*),employee_identity(*)`,
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*),employee_identity(*),employee_skills(*)`,
     headers: {
       apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "Content-Type": "application/json",
@@ -131,6 +144,62 @@ export async function getServerSideProps(context) {
     },
   });
 
+  const nationalityData = axios({
+    method: "get",
+    url: `${server}/api/enums/nationality_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const genderData = axios({
+    method: "get",
+    url: `${server}/api/enums/gender_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const jobRolesData = axios({
+    method: "get",
+    url: `${server}/api/enums/job_roles_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const maritalStatusData = axios({
+    method: "get",
+    url: `${server}/api/enums/marital_status_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const skillCategoriesData = axios({
+    method: "get",
+    url: `${server}/api/enums/skill_categories_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const skillLevelData = axios({
+    method: "get",
+    url: `${server}/api/enums/skill_level_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const addressTypeData = axios({
+    method: "get",
+    url: `${server}/api/enums/address_type_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   const data = await axios.all([
     employee,
     educationdata,
@@ -141,9 +210,15 @@ export async function getServerSideProps(context) {
     employmentTypeData,
     designationData,
     identityData,
-    employeeForEdit
+    employeeForEdit,
+    nationalityData,
+    genderData,
+    jobRolesData,
+    maritalStatusData,
+    skillCategoriesData,
+    skillLevelData,
+    addressTypeData,
   ]);
-
 
   const employeeData = data[0].data;
   const education = data[1].data;
@@ -154,7 +229,14 @@ export async function getServerSideProps(context) {
   const employmentType = data[6].data;
   const designation = data[7].data;
   const identityType = data[8].data;
-  const employeeDataForEdit = data[9].data
+  const employeeDataForEdit = data[9].data;
+  const nationality = data[10].data;
+  const gender = data[11].data;
+  const jobRoles = data[12].data;
+  const maritalStatus = data[13].data;
+  const skillCategories = data[14].data;
+  const skillLevel = data[15].data;
+  const addressType = data[16].data;
 
   return {
     props: {
@@ -167,7 +249,14 @@ export async function getServerSideProps(context) {
       employmentType,
       designation,
       identityType,
-      employeeDataForEdit
+      employeeDataForEdit,
+      nationality,
+      gender,
+      jobRoles,
+      maritalStatus,
+      skillCategories,
+      skillLevel,
+      addressType,
     },
   };
 }

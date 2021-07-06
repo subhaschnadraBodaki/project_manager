@@ -1,4 +1,4 @@
-import { Formik, Form, FieldArray } from "formik";
+import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
 import { Rating } from "primereact/rating";
 import * as Yup from "yup";
 import FormikControl from "../FormComponents/FormikControl";
@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useState } from "react";
+import TextError from "../FormComponents/TextError";
 
 const AccountForm = ({ countries }) => {
   const [rate, setRate] = useState(null);
@@ -22,7 +23,7 @@ const AccountForm = ({ countries }) => {
       address_line_2: "",
     },
     phone: "",
-    // phone_numbers:"",
+    phone_numbers: ["", ""],
     email: "",
     website: "",
 
@@ -30,7 +31,7 @@ const AccountForm = ({ countries }) => {
     annual_revenue: null,
     number_of_employees: null,
     description: "",
-    rating: rate  ,
+    rating: rate,
 
     active: false,
   };
@@ -230,27 +231,31 @@ const AccountForm = ({ countries }) => {
                 />
               </div>
 
-              {/* <div>
+              <div>
                 <FormikControl
                   control="input"
                   type="text"
                   label="Phone"
                   name="phone"
                 />
-              </div> */}
+              </div>
 
-              {/* <label className="label">List of phone numbers</label>
-                <FieldArray name="phone_numbers">
-                  {(fieldArrayProps) => {
-                    const { push, remove, form } = fieldArrayProps;
-                    const { values } = form;
-                    const { phone_numbers } = values;
-
-                    return (
-                      <div>
+              {/* <div>
+              <FieldArray name='phone_numbers'>
+                {fieldArrayProps => {
+                  const { push, remove, form } = fieldArrayProps
+                  const { values } = form
+                  const { phone_numbers } = values
+            
+                  return (
+                    <div>
                       {phone_numbers.map((phNumber, index) => (
-                        <div key={index} >
-                          <FormikControl name={`phone_numbers[${index}]`} type="text" label="phone" control="input"  />
+                        <div key={index}>
+                          <div   className='md:w-full grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5  mb-6 md:mb-0'>
+      <label  htmlFor="PhoneNo" className="label">PhoneNo</label>
+                          <Field name={`phone_numbers[${index}]`} className="inputField" id={`phone_numbers[${index}]`} autoComplete="off" />
+                          <ErrorMessage  component={TextError} name={`phone_numbers[${index}]`} />
+                          </div>
                           {index > 0 && (
                             <button type='button' onClick={() => remove(index)}>
                               -
@@ -262,9 +267,10 @@ const AccountForm = ({ countries }) => {
                         +
                       </button>
                     </div>
-                    );
-                  }}
-                </FieldArray>
+                  )
+                }}
+              </FieldArray>
+            </div>
                */}
 
               <div>
@@ -295,8 +301,9 @@ const AccountForm = ({ countries }) => {
               </div> */}
 
               <div className="md:w-full grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5  mb-6 md:mb-0">
-                <label className="label mx-5" >Rating</label>
-                <Rating className="flex"
+                <label className="label mx-5">Rating</label>
+                <Rating
+                  className="flex"
                   value={rate}
                   name="rating"
                   cancel={false}

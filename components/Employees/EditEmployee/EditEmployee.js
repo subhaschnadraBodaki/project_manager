@@ -3,8 +3,8 @@ import * as Yup from "yup";
 import FormikControl from "../../FormComponents/FormikControl";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
-import { useQuery } from "react-query";
-import { useState } from "react";
+import { Toast } from 'primereact/toast';
+import { useRef } from "react";
 
 const EditEmployee = ({
   education,
@@ -13,7 +13,12 @@ const EditEmployee = ({
   countries,
   employees,
   employeeDataForEdit,
+  nationality,
+  gender,
+  jobRoles,
+  maritalStatus,
 }) => {
+  const toast = useRef(null);
   const employeeId = employeeDataForEdit[0].employee_id;
   // -------------------------Initaial Values----------------------------
   const initialValues = employeeDataForEdit[0];
@@ -60,40 +65,37 @@ const EditEmployee = ({
     dropDownForEmployees.push(obj5);
   });
 
-  const dropdownForNationality = [
-    { key: "Nationality", value: "" },
-    { key: "Indian", value: "Indian" },
-    { key: "British", value: "British" },
-    { key: "American", value: "American" },
-  ];
+  const dropdownForNationality = [{ key: "Nationality", value: "" }];
+  nationality.map((n) => {
+    let obj6 = {};
+    obj6["key"] = n.key;
+    obj6["value"] = n.value;
+    dropdownForNationality.push(obj6);
+  });
 
-  const dropdownForGender = [
-    { key: "Gender", value: "" },
-    { key: "Male", value: "Male" },
-    { key: "Female", value: "Female" },
-    { key: "Unspecified", value: "Unspecified" },
-  ];
+  const dropdownForGender = [{ key: "Gender", value: "" }];
+  gender.map((g) => {
+    let obj7 = {};
+    obj7["key"] = g.key;
+    obj7["value"] = g.value;
+    dropdownForGender.push(obj7);
+  });
 
-  const dropdownForMartialStatus = [
-    { key: "Martial Status", value: "" },
-    { key: "Single", value: "Single" },
-    { key: "Married", value: "Married" },
-    { key: "Divorced", value: "Divorced" },
-    { key: "Widowed", value: "Widowed" },
-    { key: "Other", value: "Other" },
-  ];
+  const dropdownForMaritalStatus = [{ key: "Martial Status", value: "" }];
+  maritalStatus.map((marital) => {
+    let obj8 = {};
+    obj8["key"] = marital.key;
+    obj8["value"] = marital.value;
+    dropdownForMaritalStatus.push(obj8);
+  });
 
-  const dropdownForJobRoles = [
-    { key: "Job Role", value: "" },
-    { key: "Business Analyst", value: "Business Analyst" },
-    { key: "CTO", value: "CTO" },
-    { key: "Product Manager", value: "Product Manager" },
-    { key: "Project Manager", value: "Project Manager" },
-    { key: "Software Developer", value: "Software Developer" },
-    { key: "Software Engineer", value: "Software Engineer" },
-    { key: "Software Architect", value: "Software Architect" },
-  ];
-
+  const dropdownForJobRoles = [{ key: "Job Role", value: "" }];
+  jobRoles.map((jobRole) => {
+    let obj9 = {};
+    obj9["key"] = jobRole.key;
+    obj9["value"] = jobRole.value;
+    dropdownForJobRoles.push(obj9);
+  });
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
@@ -136,6 +138,12 @@ const EditEmployee = ({
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Employee Updated",
+        life: 3000,
+      });
     },
   });
 
@@ -146,6 +154,8 @@ const EditEmployee = ({
   };
 
   return (
+    <>
+    <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -222,7 +232,7 @@ const EditEmployee = ({
                   control="select"
                   label="Marital Status"
                   name="marital_status"
-                  options={dropdownForMartialStatus}
+                  options={dropdownForMaritalStatus}
                 />
               </div>
 
@@ -390,6 +400,7 @@ const EditEmployee = ({
         );
       }}
     </Formik>
+    </>
   );
 };
 
