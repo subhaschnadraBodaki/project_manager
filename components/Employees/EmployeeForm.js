@@ -126,12 +126,11 @@ const EmployeeForm = ({
     nationality: Yup.string().required("Required"),
     gender: Yup.string().required("Required"),
     marital_status: Yup.string().required("Required"),
-    education_level: Yup.string().required("Required"),
     employment_status: Yup.string().required("Required"),
     job_title: Yup.string().required("Required"),
-    city: Yup.string().required("Required"),
-    country: Yup.string().required("Required"),
-    mobile_phone: Yup.string().required("Required"),
+    // city: Yup.string().required("Required"),
+    // country: Yup.string().required("Required"),
+    // mobile_phone: Yup.string().required("Required"),
     work_email: Yup.string().email("Invalid Email Format").required("Required"),
   });
 
@@ -260,14 +259,14 @@ const EmployeeForm = ({
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <FormikControl
                     control="select"
                     label="Education"
                     name="education_level"
                     options={dropDownForEducation}
                   />
-                </div>
+                </div> */}
 
                 <h2 className="h2Form">Job Details</h2>
 
@@ -316,7 +315,7 @@ const EmployeeForm = ({
                   />
                 </div>
 
-                <h2 className="h2Form">Communication Details</h2>
+                {/* <h2 className="h2Form">Communication Details</h2>
 
                 <div>
                   <FormikControl
@@ -370,7 +369,7 @@ const EmployeeForm = ({
                     label="Phone"
                     name="mobile_phone"
                   />
-                </div>
+                </div> */}
 
                 <div>
                   <FormikControl
@@ -383,7 +382,7 @@ const EmployeeForm = ({
 
                 <h2 className="h2Form">Other Details</h2>
 
-                <div>
+                {/* <div>
                   <FormikControl
                     control="input"
                     type="text"
@@ -399,7 +398,7 @@ const EmployeeForm = ({
                     label="Driv Exp Date"
                     name="driving_license_exp_date"
                   />
-                </div>
+                </div> */}
 
                 <div className="col-span-2">
                   <FormikControl

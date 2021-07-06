@@ -9,7 +9,7 @@ export default function EmployeesListTable({ actionBody, employeesData }) {
     { field: "employee_id", header: "Employee_id" },
     { field: "first_name", header: "Name" },
     { field: "work_email", header: "Email" },
-    { field: "job_title", header: "Job_title" },
+    { field: "gender", header: "Gender" },
   ];
 
 
