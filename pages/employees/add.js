@@ -3,7 +3,7 @@ import EmployeeForm from "../../components/Employees/EmployeeForm";
 import axios from "axios";
 
 const add = ({
-  education,
+  qualification,
   employmentStatus,
   jobTitles,
   countries,
@@ -15,7 +15,7 @@ const add = ({
 }) => {
   return (
     <EmployeeForm
-      education={education}
+      qualification={qualification}
       employmentStatus={employmentStatus}
       jobTitles={jobTitles}
       countries={countries}
@@ -29,11 +29,10 @@ const add = ({
 };
 
 export async function getStaticProps() {
-  const educationdata = axios({
+  const qualificationData = axios({
     method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/education?select=code,name`,
+    url: `${server}/api/enums/qualification_t`,
     headers: {
-      apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "Content-Type": "application/json",
     },
   });
@@ -107,7 +106,7 @@ export async function getStaticProps() {
   });
 
   const data = await axios.all([
-    educationdata,
+    qualificationData,
     employmentStatusData,
     jobTitlesData,
     countriesData,
@@ -118,7 +117,7 @@ export async function getStaticProps() {
     maritalStatusData,
   ]);
 
-  const education = data[0].data;
+  const qualification = data[0].data;
   const employmentStatus = data[1].data;
   const jobTitles = data[2].data;
   const countries = data[3].data;
@@ -130,7 +129,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      education,
+      qualification,
       employmentStatus,
       jobTitles,
       countries,

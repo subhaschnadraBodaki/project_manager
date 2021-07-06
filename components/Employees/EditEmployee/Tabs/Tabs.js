@@ -2,8 +2,9 @@ import React from "react";
 import WorkExperienceData from "../Tabs/TabsData/WorkExperienceData";
 import EmployeeAddressData from "./TabsData/EmployeeAddressData";
 import EmployeeIdentityData from "./TabsData/EmployeeIdentityData";
-import EmployeeSkillsData from './TabsData/EmployeeSkillsData'
-import CommunicationDetailsData from './TabsData/CommunicationDetailsData'
+import EmployeeSkillsData from "./TabsData/EmployeeSkillsData";
+import CommunicationDetailsData from "./TabsData/CommunicationDetailsData";
+import EducationData from "./TabsData/EducationData";
 
 const Tabs = ({
   color,
@@ -15,7 +16,9 @@ const Tabs = ({
   skillCategories,
   skillLevel,
   addressType,
-  phoneType
+  phoneType,
+  qualification,
+  qualificationStatus,
 }) => {
   const [openTab, setOpenTab] = React.useState(1);
 
@@ -29,10 +32,14 @@ const Tabs = ({
   ];
 
   const TabsContent = [
-    "education",
-    <CommunicationDetailsData 
-    employeeData={employeeData}
-    phoneType={phoneType}
+    <EducationData
+      employeeData={employeeData}
+      qualification={qualification}
+      qualificationStatus={qualificationStatus}
+    />,
+    <CommunicationDetailsData
+      employeeData={employeeData}
+      phoneType={phoneType}
     />,
     <EmployeeSkillsData
       employeeData={employeeData}
@@ -50,10 +57,10 @@ const Tabs = ({
       countries={countries}
     />,
     <EmployeeAddressData
-     employeeData={employeeData}
-     countries={countries}
-     addressType={addressType}
-     />,
+      employeeData={employeeData}
+      countries={countries}
+      addressType={addressType}
+    />,
   ];
 
   return (

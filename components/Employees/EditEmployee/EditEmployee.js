@@ -7,7 +7,7 @@ import { Toast } from 'primereact/toast';
 import { useRef } from "react";
 
 const EditEmployee = ({
-  education,
+  qualification,
   employmentStatus,
   jobTitles,
   countries,
@@ -26,10 +26,10 @@ const EditEmployee = ({
   // ---------------Options----------------------------
 
   const dropDownForEducation = [{ key: "Education", value: "" }];
-  education.map((educ) => {
+  qualification.map((qual) => {
     let obj1 = {};
-    obj1["key"] = educ.name;
-    obj1["value"] = educ.code;
+    obj1["key"] = qual.key;
+    obj1["value"] = qual.value;
     dropDownForEducation.push(obj1);
   });
 

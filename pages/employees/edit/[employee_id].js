@@ -2,10 +2,9 @@ import { server } from "../../../config";
 import axios from "axios";
 import TabsRender from "../../../components/Employees/EditEmployee/Tabs/TabRender";
 import EditEmployee from "../../../components/Employees/EditEmployee/EditEmployee";
-import AddWorkExperience from "../../../components/Employees/EditEmployee/RelatedTables/Add/AddWorkExperience";
 
 const editEmployee = ({
-  education,
+  qualification,
   employmentStatus,
   jobTitles,
   countries,
@@ -22,12 +21,13 @@ const editEmployee = ({
   skillCategories,
   skillLevel,
   addressType,
-  phoneType
+  phoneType,
+  qualificationStatus,
 }) => {
   return (
     <>
       <EditEmployee
-        education={education}
+        qualification={qualification}
         employmentStatus={employmentStatus}
         jobTitles={jobTitles}
         countries={countries}
@@ -50,6 +50,8 @@ const editEmployee = ({
           skillLevel={skillLevel}
           addressType={addressType}
           phoneType={phoneType}
+          qualification={qualification}
+          qualificationStatus={qualificationStatus}
         />
       </div>
     </>
@@ -70,18 +72,17 @@ export async function getServerSideProps(context) {
 
   const employee = axios({
     method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*),employee_identity(*),employee_skills(*),employee_address(*),communication_details(*)`,
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*),employee_identity(*),employee_skills(*),employee_address(*),communication_details(*),education(*)`,
     headers: {
       apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "Content-Type": "application/json",
     },
   });
 
-  const educationdata = axios({
+  const qualificationData = axios({
     method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/education?select=code,name`,
+    url: `${server}/api/enums/qualification_t`,
     headers: {
-      apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "Content-Type": "application/json",
     },
   });
@@ -210,9 +211,17 @@ export async function getServerSideProps(context) {
     },
   });
 
+  const qualificationStatusData = axios({
+    method: "get",
+    url: `${server}/api/enums/qualification_status_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   const data = await axios.all([
     employee,
-    educationdata,
+    qualificationData,
     employmentStatusData,
     jobTitlesData,
     countriesData,
@@ -228,12 +237,12 @@ export async function getServerSideProps(context) {
     skillCategoriesData,
     skillLevelData,
     addressTypeData,
-    phoneTypeData
-
+    phoneTypeData,
+    qualificationStatusData
   ]);
 
   const employeeData = data[0].data;
-  const education = data[1].data;
+  const qualification = data[1].data;
   const employmentStatus = data[2].data;
   const jobTitles = data[3].data;
   const countries = data[4].data;
@@ -250,11 +259,12 @@ export async function getServerSideProps(context) {
   const skillLevel = data[15].data;
   const addressType = data[16].data;
   const phoneType= data[17].data;
+  const qualificationStatus = data[18].data
 
   return {
     props: {
       employeeData,
-      education,
+      qualification,
       employmentStatus,
       jobTitles,
       countries,
@@ -270,7 +280,8 @@ export async function getServerSideProps(context) {
       skillCategories,
       skillLevel,
       addressType,
-      phoneType
+      phoneType,
+      qualificationStatus
     },
   };
 }
