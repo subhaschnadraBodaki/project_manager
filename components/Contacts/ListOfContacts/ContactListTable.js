@@ -18,15 +18,10 @@ export default function ContactsListTable({ contactsData, actionBody }) {
     return <Column key={col.field} field={col.field} header={col.header} />;
   });
 
-  const paginatorLeft = (
-    <Button type="button" icon="pi pi-refresh" className="p-button-text" />
-  );
-  const paginatorRight = (
-    <Button type="button" icon="pi pi-cloud" className="p-button-text" />
-  );
   return (
     <div>
       <DataTable
+      className="p-datatable-sm"
         value={contactsData}
         resizableColumns
         columnResizeMode="expand"
@@ -35,8 +30,6 @@ export default function ContactsListTable({ contactsData, actionBody }) {
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         rows={5}
         rowsPerPageOptions={[5, 10, 15]}
-        paginatorLeft={paginatorLeft}
-        paginatorRight={paginatorRight}
       >
         {dynamicColumns}
 
