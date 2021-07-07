@@ -172,6 +172,7 @@ const EmployeeForm = ({
 
   const onSubmit = (data, submitProps) => {
     mutation.mutate(data);
+    console.log(submitProps);
     submitProps.setSubmitting(false);
     submitProps.resetForm();
   };

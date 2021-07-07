@@ -198,7 +198,7 @@ const EditAccount = ({ accountData, accountId, countries }) => {
                 <FormikControl
                   control="input"
                   type="text"
-                  label=" Postalcode"
+                  label="Postalcode"
                   name="postalcode"
                 />
               </div>
