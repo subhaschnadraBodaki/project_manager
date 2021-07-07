@@ -4,14 +4,12 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 
-
 export default function ContactsListTable({ contactsData, actionBody }) {
   const columns = [
     { field: "id", header: "Id" },
     { field: "name", header: "Name" },
     { field: "email", header: "Email" },
-    { field: "updated_at", header: "Updated at" },
-    
+    { field: "mobile_phone", header: "Mobilephone" },
   ];
 
   const dynamicColumns = columns.map((col) => {
@@ -21,7 +19,7 @@ export default function ContactsListTable({ contactsData, actionBody }) {
   return (
     <div>
       <DataTable
-      className="p-datatable-sm"
+        className="p-datatable-sm"
         value={contactsData}
         resizableColumns
         columnResizeMode="expand"
