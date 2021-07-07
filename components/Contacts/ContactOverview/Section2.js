@@ -1,11 +1,10 @@
 import { useState } from "react";
-import Link from 'next/link'
+import Link from "next/link";
 
-const Section2 = ({ contactdata }) => {
+const Section2 = ({ contactData }) => {
   const [MoreDetails, setMoreDetails] = useState(false);
 
-  if (contactdata == null || contactdata === undefined) {
-    
+  if (contactData == null || contactData === undefined) {
     return <div>No Data Found</div>;
   }
 
@@ -16,14 +15,25 @@ const Section2 = ({ contactdata }) => {
     "Mailing State",
     "Mailing Postalcode",
     "Mailing Street",
-    "Active",
-    "Website",
-    "Title"
   ];
 
-  const { mailing_address,mailing_city, mailing_country, mailing_state, mailing_postalcode, mailing_street, active, website, title } = contactdata[0];
-  
-  const values = [mailing_address,mailing_city, mailing_country, mailing_state, mailing_postalcode, mailing_street, active, website, title];
+  const {
+    mailing_address,
+    mailing_city,
+    mailing_country,
+    mailing_state,
+    mailing_postalcode,
+    mailing_street,
+  } = contactData[0];
+
+  const values = [
+    mailing_address,
+    mailing_city,
+    mailing_country,
+    mailing_state,
+    mailing_postalcode,
+    mailing_street,
+  ];
 
   const linkName = MoreDetails ? "Less Details" : "More Details ";
   const extraContent = (
