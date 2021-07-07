@@ -7,7 +7,8 @@ import AddRisks from '../../AddForms/AddRisks'
 import AddMilestones from '../../AddForms/AddMilestones'
 import AddTeam from '../../AddForms/AddTeam'
 import AddChangeReq from '../../AddForms/AddChangeReq'
-
+import AddResourceReq from '../../AddForms/AddResourceReq'
+import AddPrjStatusReport from '../../AddForms/AddPrjStatusReport'
 export default function formTypeFxn({formType,projectId,editData}) 
 {
        switch(formType)
@@ -26,6 +27,10 @@ export default function formTypeFxn({formType,projectId,editData})
          return <AddTeam projectId={projectId}/>
          case 'AddChangeReq':
          return <AddChangeReq projectId={projectId}/>
+         case 'AddResourceReq':
+         return <AddResourceReq projectId={projectId}/>
+         case 'AddPrjStatusReport':
+         return <AddPrjStatusReport projectId={projectId}/>
          default: 
          return null
        }

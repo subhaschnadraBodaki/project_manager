@@ -226,7 +226,7 @@ function AddMilestones({ projectId}) {
                   />
                   </div>
 
-                  <div className=" col-span-2">
+                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
                     label="Description"
@@ -234,7 +234,7 @@ function AddMilestones({ projectId}) {
                   />
                 </div>
 
-                <div className=" col-span-2">
+                <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
                     label="Notes"

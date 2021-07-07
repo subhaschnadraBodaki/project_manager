@@ -9,12 +9,14 @@ import Modal from 'react-modal'
 import {useState}   from 'react'
 import {useRef} from 'react'
 import { Button } from 'primereact/button';
-import EditResourceReq from '../../EditForms/EditResourceReq'
+import EditTask from '../../EditForms/EditTask'
 import { Toast } from 'primereact/toast';
+import formatDate from '../../../../utils/FormatDate';
 
-export default function ResourceRequestTable({projectsData}) {
+export default function StatusReportsTable({projectsData}) {
 
-    const toast = useRef(null);  
+
+     const toast = useRef(null);  
     const projectId = projectsData[0].id
     const projectName = projectsData[0].name
 
@@ -48,31 +50,30 @@ export default function ResourceRequestTable({projectsData}) {
           height: '180px' , 
         },
       };
+    
 
-
-
-
-    if (projectsData[0] == null || projectsData[0] === undefined || projectsData[0].project_resource_requests[0] == null || projectsData[0].project_resource_requests[0] === undefined) {
-           return ( 
+    if(projectsData[0]==null || projectsData[0] === undefined || projectsData[0].project_status_report[0]==null || projectsData[0].project_status_report[0]===undefined ){
+     return ( 
     <div>
-      <TableHeader projectId={projectId} projectName={projectName} label='Add Resource Req.' formType='AddResourceReq'/>
+      <TableHeader projectId={projectId} projectName={projectName} label='Add Prj. Status' formType='AddPrjStatusReport'/>
       <div>No Data Found</div>
       </div>
-      )
-    }
-    else{
-const [resourceRequest,setResourceRequest] =useState(projectsData[0].project_resource_requests)
+)
+            }
+
+else{
+const [statusReport,SetStatusReport] = useState(projectsData[0].project_status_report)
 
 
-    // ----------------------------delete task from database and table------
-   const deleteProduct = (deleteData) => {
-        let  _resourceRequest = resourceRequest.filter(val => val.id !== deleteData.id);
-        setResourceRequest( _resourceRequest)
+
+const deleteProduct = (deleteData) => {
+        let  _statusReport = statusreport.filter(val => val.id !== deleteData.id);
+        SetStatusReport(_statusReport)
         setDeleteItemConfirm(false)
         //  console.log(rowData)
-         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Resource Request Deleted', life: 3000 });
+         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Project Status Deleted', life: 3000 });
 
-        const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/resource_requests?id=eq.${deleteData.id}` 
+        const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_status_reports?id=eq.${deleteData.id}` 
       axios.delete(url,
             {
             headers:{
@@ -112,7 +113,7 @@ const [resourceRequest,setResourceRequest] =useState(projectsData[0].project_res
             <div className="grid grid-cols-3">
                 <div><h2 className="h2Form">{projectName} ({projectId})</h2></div>
                  <div className=" shadow-sm py-6 text-blue-900 ">
-                <h2 className="ModalHeading ">Edit Resource Req.
+                <h2 className="ModalHeading ">Edit Prj. Status
                 </h2>
                 </div>
                 <div className="text-right">
@@ -120,7 +121,7 @@ const [resourceRequest,setResourceRequest] =useState(projectsData[0].project_res
                 </div>
             </div>
              <div>
-              <EditResourceReq projectId={projectId} editData={editData} />
+              <EditTask projectId={projectId} editData={editData} />
              
 
             </div>
@@ -169,14 +170,21 @@ const [resourceRequest,setResourceRequest] =useState(projectsData[0].project_res
             </React.Fragment>
         );
     }
-// ---------------------------------------------------------------
-    
-    
+// ---------------------------------------------------------
+function reportingDate (){
+    if (statusReport[0].reporting_date==null){
+        return '-'
+    }
+    else{
+        return formatDate(statusReport[0].reporting_date)
+    }
+}
+
+// ----------------------------------------------------------
     const columns = [
-        {field:"title" , header:"Title"},
-        {field:"resource_role" , header:"Role"},
-        {field:"number_of_resources" , header:"Number of Resources"},
-        {field:"request_priority"  , header:"Request Priority"}
+        {field:"quality_status" , header:"Quality Status"},
+        {field:"effort_status" , header:"Effort Status"},
+        {field:"milestone_status"  , header:"Milestone Status"}
     ]
 const dynamicColumns = columns.map((col)=> {
     return <Column key={col.field} field = {col.field} header={col.header}/>
@@ -184,12 +192,13 @@ const dynamicColumns = columns.map((col)=> {
     return (
         <div>
                <div>
-                <Toast ref={toast} />
-              <TableHeader projectId={projectId} projectName={projectName} label='Add Resource Req.' formType='AddResourceReq'  />
+                 <Toast ref={toast} />
+              <TableHeader projectId={projectId} projectName={projectName} label='Add Prj. Status' formType='AddPrjStatusReport'  />
             </div>
-              <DataTable value={resourceRequest} className="p-datatable-sm"  resizableColumns columnResizeMode="expand">
+              <DataTable value={statusReport} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
+              <Column header="Reporting Date" body={reportingDate}></Column>
                         {dynamicColumns}
-                        <Column header="Action" body={ActionButton}></Column>
+                           <Column header="Action" body={ActionButton}></Column>
                     </DataTable> 
         </div>
     )

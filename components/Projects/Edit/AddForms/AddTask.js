@@ -15,7 +15,7 @@ function AddTask({ projectId}) {
 
    const toast = useRef(null); 
   const contextData = useContext(Context);
-    console.log(contextData)
+    
   // --------------------------------------initial Values---------------------
   const initialValues = {
     predecessor_task:null,
@@ -240,7 +240,7 @@ function AddTask({ projectId}) {
 
               
 
-                <div className=" ">
+                <div >
                   <FormikControl
                     control="checkbox"
                     label="Time Recording"
@@ -273,7 +273,7 @@ function AddTask({ projectId}) {
 
 
 
-                <div className=" col-span-2">
+                <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
                     label="Description"

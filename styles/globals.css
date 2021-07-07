@@ -81,7 +81,7 @@ input:focus{
 
 
 .labelText{
-    @apply block col-span-1  text-right  tracking-wide  mb-0 text-gray-500 text-sm lg:text-base  font-medium mb-1
+    @apply block col-span-1  text-right  tracking-wide  mb-0 text-gray-500 text-sm lg:text-base  font-medium mb-1 md:mr-4
 }
 
 
