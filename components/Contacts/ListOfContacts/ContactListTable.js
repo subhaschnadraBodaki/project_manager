@@ -4,32 +4,32 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 
-export default function EmployeesListTable({ actionBody, employeesData }) {
-  const columns = [
-    { field: "employee_id", header: "Employee_id" },
-    { field: "first_name", header: "Name" },
-    { field: "work_email", header: "Email" },
-    { field: "gender", header: "Gender" },
-  ];
 
+export default function ContactsListTable({ contactsData, actionBody }) {
+  const columns = [
+    { field: "id", header: "Id" },
+    { field: "name", header: "Name" },
+    { field: "email", header: "Email" },
+    { field: "updated_at", header: "Updated at" },
+    
+  ];
 
   const dynamicColumns = columns.map((col) => {
     return <Column key={col.field} field={col.field} header={col.header} />;
   });
 
-  
   return (
     <div>
       <DataTable
-        className="p-datatable-sm"
-        value={employeesData}
+      className="p-datatable-sm"
+        value={contactsData}
         resizableColumns
         columnResizeMode="expand"
         paginator
         paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         rows={5}
-        rowsPerPageOptions={[5, 10, 15]}  
+        rowsPerPageOptions={[5, 10, 15]}
       >
         {dynamicColumns}
 
