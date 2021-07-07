@@ -35,12 +35,16 @@ export default function editproject({
 issueImpact,
 issuePriorty,
 deli_Status,
-deli_Name 
+deli_Name,
+resourceReqStatus,
+resourceRole,
+resourcePriority,
+projectStatus 
 }) {
   const tabName = ["Teams", "Budget", "Risks", "Deliverables"];
   
    const contextData = [taskStatus,taskName,storyName,AssMilestones,currencydata,riskState,riskImpact,riskProbability,riskStatus, ChngReqCategory,ChngReqPriorty,
-  ChngReqImpact,ChngReqState, issueImpact,issuePriorty,deli_Status,deli_Name  ];
+  ChngReqImpact,ChngReqState, issueImpact,issuePriorty,deli_Status,deli_Name,resourceReqStatus,resourceRole,resourcePriority,projectStatus  ];
   // const { keycloak } = useKeycloak()
 
   const projectCode = projectsData[0].project_code;
@@ -286,7 +290,42 @@ const response17 = axios({
     },
   });
 
-  const data = await axios.all([response, response1, response2, response3,response4,response5,response6,response7,response8,response9,response10,response11,response12,response13,response14,response15,response16,response17,response18,response19,response20,response21,response22]);
+    const response23 = axios({
+    method: "get",
+    url: `${server}/api/enums/resource_request_status_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  
+   const response24 = axios({
+    method: "get",
+    url: `${server}/api/enums/resource_roles_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+ const response25 = axios({
+    method: "get",
+    url: `${server}/api/enums/request_priorities_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+ 
+
+   const response26 = axios({
+    method: "get",
+    url: `${server}/api/enums/project_status_t`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  
+
+  const data = await axios.all([response, response1, response2, response3,response4,response5,response6,response7,response8,response9,response10,response11,response12,response13,response14,response15,response16,response17,response18,response19,response20,response21,response22,response23,response24,response25,response26]);
   const accountdata = data[0].data;
   const currencydata = data[1].data;
   const projectManager = data[2].data;
@@ -310,6 +349,10 @@ const response17 = axios({
   const issuePriorty = data[20].data;
   const deli_Status = data[21].data;
   const deli_Name = data[22].data;
+  const resourceReqStatus = data[23].data;
+  const resourceRole = data[24].data;
+  const resourcePriority = data[25].data;
+  const projectStatus = data[26].data;
  
   return {
     props: {
@@ -335,7 +378,11 @@ const response17 = axios({
       issueImpact,
       issuePriorty,
       deli_Status,
-      deli_Name
+      deli_Name,
+      resourceReqStatus,
+      resourceRole,
+      resourcePriority,
+      projectStatus
 
     },
   };

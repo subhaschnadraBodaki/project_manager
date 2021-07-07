@@ -118,7 +118,7 @@ function AddTeam({ projectId}) {
                 />
                 </div>
 
-                <div className=" ">
+                <div >
                   <FormikControl
                     control="checkbox"
                     label="Active"
@@ -149,7 +149,7 @@ function AddTeam({ projectId}) {
 
                 
 
-                <div className=" col-span-2">
+                <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
                     label="Notes"
