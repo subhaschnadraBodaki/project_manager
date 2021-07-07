@@ -24,8 +24,15 @@ const editEmployee = ({
   phoneType,
   qualificationStatus,
 }) => {
+
+  const employeeId = employeeDataForEdit[0].employee_id;
+
   return (
     <>
+      <div>
+        <h2 className="h2Form ml-2">Employee-Id : {employeeId}</h2>
+      </div>
+
       <EditEmployee
         qualification={qualification}
         employmentStatus={employmentStatus}
@@ -238,7 +245,7 @@ export async function getServerSideProps(context) {
     skillLevelData,
     addressTypeData,
     phoneTypeData,
-    qualificationStatusData
+    qualificationStatusData,
   ]);
 
   const employeeData = data[0].data;
@@ -258,8 +265,8 @@ export async function getServerSideProps(context) {
   const skillCategories = data[14].data;
   const skillLevel = data[15].data;
   const addressType = data[16].data;
-  const phoneType= data[17].data;
-  const qualificationStatus = data[18].data
+  const phoneType = data[17].data;
+  const qualificationStatus = data[18].data;
 
   return {
     props: {
@@ -281,7 +288,7 @@ export async function getServerSideProps(context) {
       skillLevel,
       addressType,
       phoneType,
-      qualificationStatus
+      qualificationStatus,
     },
   };
 }
