@@ -1,15 +1,35 @@
-import React from 'react'
-import Contacts from '../../components/Contacts/Contacts'
-// import { useKeycloak } from '@react-keycloak/ssr'
-export default function contacts() {
-    // const {keycloak}=useKeycloak()
-    // const authentication = true
-    // const contact =keycloak.authenticated?(  <Contacts/>):(<> <span>You have been logged out click here to login again</span> <br/> < button type="button" onClick={() => keycloak.login()}>
-    // Login
-    // </button></>)
+import axios from 'axios';
+import ContactsTable from '../../components/Contacts/ListOfContacts/ContactsTable'
+import { useKeycloak } from '@react-keycloak/ssr'
+
+export default function contacts({contactsData}) {
     return (
         <div>
-        <Contacts/>
+            <ContactsTable contactsData={contactsData}/>
         </div>
     )
+}
+
+
+export async function getStaticProps() {
+    const response = await axios({
+        method:'get',
+        url:    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/contacts?select=*` ,
+        headers:{
+            "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+            "Content-Type": "application/json"
+        }
+    })
+
+    if (response.status!=200) throw new Error(response.statusText)
+    
+    const contactsData =  response.data
+
+    return {
+        props:{
+            contactsData,  
+        },
+        revalidate: 60
+    }
+
 }
