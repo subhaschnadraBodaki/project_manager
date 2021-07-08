@@ -9,7 +9,7 @@ import TextError from "../FormComponents/TextError";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 
-const AccountForm = ({ countries }) => {
+const AccountForm = ({ countries, accountType }) => {
   const toast = useRef(null);
   const [rate, setRate] = useState(null);
 
@@ -42,15 +42,14 @@ const AccountForm = ({ countries }) => {
 
   const statusOptions = [{ key: "Active", value: true }];
 
-  const dropdownForAccountType = [
-    { key: "Account Type", value: "" },
-    { key: "type1", value: "type1" },
-    { key: "type2", value: "type2" },
-    { key: "type3", value: "type3" },
-    { key: "type4", value: "type4" },
-    { key: "type5", value: "type5" },
-  ];
-
+  const dropdownForAccountType = [{key: "Account Type", value:""}];
+  accountType.map((acc) => {
+    let obj = {};
+    obj["key"] = acc.key;
+    obj["value"] = acc.value;
+    dropdownForAccountType.push(obj);
+  });
+  
   const dropdownForCountries = [{ key: "Select Country", value: "" }];
   countries.map((country) => {
     let obj = {};

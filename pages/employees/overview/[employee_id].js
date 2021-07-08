@@ -33,7 +33,7 @@ export async function getServerSideProps(context) {
 
   const employee = await axios({
     method: "GET",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}`,
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employee_id}&select=*,work_experience(*),employee_identity(*),employee_skills(*),employee_address(*),communication_details(*),education(*)`,
     headers: {
       apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     },

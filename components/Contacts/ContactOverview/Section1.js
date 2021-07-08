@@ -1,38 +1,35 @@
-const Section1 = ({ contactdata }) => {
+const Section1 = ({ contactData }) => {
 
-  if (contactdata == null || contactdata === undefined) {
+  if (contactData == null || contactData === undefined) {
     return <div>No data Found</div>;
   }
   else {
   const columns = [
     "Account Id",
     "Assistant Name",
-    "Email",
+    "Mobile Phone",
     "Birthdate",
     "Department",
-    "Mobile Phone",
-    "Lead sorce",
+    "Email",
 
   ];
 
   const {
     account_id,
     name,
-    email,
+    mobile_phone,
     birthdate,
     department,
-    mobile_phone,
-    lead_source,
-  } = contactdata[0];
+    email
+  } = contactData[0];
 
   const values = [
     account_id,
     name,
-    email,
+    mobile_phone,
     birthdate,
     department,
-    mobile_phone,
-    lead_source,
+    email,
 ];
 
   return (
@@ -41,7 +38,7 @@ const Section1 = ({ contactdata }) => {
         <h3 className="text-lg">Basic Details</h3>
       </div>
 
-      <div className="grid grid-cols-4 grid-rows-3 grid-flow-col gap-y-0.5 gap-x-1  p-5 ">
+      <div className="grid grid-cols-4 grid-rows-3 grid-flow-col gap-y-0.5 gap-x-1  px-5 ">
         {columns.map((column, index) => {
           if (index < columns.length / 2) {
             return (

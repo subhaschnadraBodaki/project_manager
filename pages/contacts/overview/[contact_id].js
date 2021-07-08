@@ -1,11 +1,11 @@
 import React from "react";
 import axios from "axios";
 
-import Heading from "../../../components/contacts/ContactOverview/Heading";
-import Section1 from "../../../components/contacts/ContactOverview/Section1";
-import Section2 from "../../../components/contacts/ContactOverview/Section2";
+import Heading from "../../../components/Contacts/ContactOverview/Heading";
+import Section1 from "../../../components/Contacts/ContactOverview/Section1";
+import Section2 from "../../../components/Contacts/ContactOverview/Section2";
 
-const ContactOverview = ({ contactdata }) => {
+const ContactOverview = ({ contactData }) => {
   return (
     <>
       <div className="mx-10 px-5">
@@ -13,10 +13,10 @@ const ContactOverview = ({ contactdata }) => {
       </div>
       <div className="mx-1 px-2 ">
         <div>
-          <Section1 contactdata={contactdata} />
+          <Section1 contactData={contactData} />
         </div>
         <div>
-          <Section2 contactdata={contactdata} />
+          <Section2 contactData={contactData} />
         </div>
       </div>
     </>
@@ -26,7 +26,7 @@ const ContactOverview = ({ contactdata }) => {
 export async function getServerSideProps(context) {
   const { contact_id } = context.query;
 
-  const account = await axios({
+  const contact = await axios({
     method: "GET",
     url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/contacts?id=eq.${contact_id}`,
     headers: {
@@ -34,12 +34,11 @@ export async function getServerSideProps(context) {
     },
   });
 
-  if (account.status != 200) throw new Error(account.statusText);
-
-  const response = account.data;
+  
+  const contactData = contact.data
   return {
     props: {
-      response,
+      contactData,
     },
   };
 }
