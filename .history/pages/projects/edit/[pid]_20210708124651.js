@@ -403,3 +403,4 @@ const response17 = axios({
 
 export {Context};
 
+export const Prjdata = {projectsData};

@@ -1,45 +1,35 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import FormikControl from "../../../FormComponents/FormikControl";
-import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
-import { useQuery } from "react-query";
-import { useState } from "react";
-import { Toast } from 'primereact/toast';
-import {useRef} from 'react'
-import {useContext} from 'react'
+import React from 'react'
+import { Formik, Form } from 'formik'
+import * as Yup from 'yup'
+import FormikControl from '../../../FormComponents/FormikControl'
+import { useMutation, useQueryClient } from 'react-query';
+ import axios from 'axios';
+ import {useQuery} from 'react-query'
+ import {useState} from 'react'
+ import {useContext} from 'react'
+ import {useRef} from 'react'
 import {Context} from '../../../../pages/projects/edit/[pid]'
+import { Toast } from 'primereact/toast';
 import {TaskTableContext} from '../Context'
+function EditTask ({projectId,editData}) {
 
-function AddTask({ projectId}) {
 
-   const toast = useRef(null); 
-  const contextData = useContext(Context);
-  const {tasksData,setTasksData} = useContext(TaskTableContext)  
-  console.log(tasksData)
   // --------------------------------------initial Values---------------------
-  const initialValues = {
-    predecessor_task:null,
-    estimated_effort_in_hours: '',
-    name: '',
-    description: '',
-    sucecssor_task: null,
-    parent_task: null,
-    project_id: projectId,
-    story_id: null,
-    planned_end_date: null,
-    planned_start_date: null,
-    owner: '',
-    time_recording_allowed: false,
-  };
+   const toast = useRef(null);
+ const contextData = useContext(Context);
+ const {tasksData,setTasksData} =useContext(TaskTableContext)
+  const initialValues = editData;
+const index = 0;
+console.log(tasksData)
+// -------------------------- Static Select Options----------------------------
 
-  const checkboxOptionsTimeRecord = [{ key: "Time Recording", value: true }];
 
-     const dropdownOptionsOwner = [
+
+
+    const dropdownOptionsOwner = [
     { key: 'Owner', value: '' },
-    { key: 'member1', value: '7b693dd7-0581-4f58-bc23-c557d14e5e53' },
-    { key: 'member2', value: 'Milestone' }
+    { key: 'Member1', value: '7b693dd7-0581-4f58-bc23-c557d14e5e53' },
+    { key: 'Member2', value: '1111' }
   ]
     
      const dropdownOptionsStatus = [{ key: 'Status', value: '' }];
@@ -91,90 +81,105 @@ function AddTask({ projectId}) {
     obj["value"] = item.id;
     dropdownOptionsMilestone.push(obj);
   });
-
  
+
+
+  const checkboxOptionsTimeRecord =  [
+    { key: 'Time Recording', value: true},
+    ]
+   
+  
+  
 
   // -----------------------------Post Data--------------------------------
 
-  const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks`;
+  const queryClient = useQueryClient()
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/tasks?id=eq.${editData.id}`
 
-  const addTask = (data) => {
-    return axios.post(url, data, {
+  const editTaskData = (data)=>{
+    return axios.patch(url ,data,
+   {
       headers: {
-        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-        "Content-Type": "application/json",
-      
-      },
-    });
+          "apikey":process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+      }
+    }
+  )
   };
 
-  const mutation = useMutation(addTask, {
-    onMutate: (variables) => {
-      console.log("onmutate", variables);
-    },
+  const mutation = useMutation(editTaskData,{
+    onMutate: variables => {
+           console.log('onmutate',variables)
+     },
     onError: (error) => {
-      console.log(error);
+      console.log(error)
     },
     onSuccess: (data, variables, context) => {
-      console.log("onSuccess", variables, data);
+       console.log('onSuccess',variables,data)
     },
     onSettled: (data, error) => {
-      toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Added', life: 3000 });
-       document.form.reset();
-    },
-  });
+    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Task Updated', life: 3000 });
+      
+  },
+  })
 
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Required"),
      owner: Yup.string().required("Required"),
-     estimated_effort_in_hours: Yup.string().required("Required").test(
+     actual_effort_in_hours: Yup.string().required("Required").test(
       "Is positive?",
       " The Number must be positive",
       (value) => value >= 0
     ),
-    planned_start_date: Yup.date(),
-    planned_end_date: Yup.date().min(
-      Yup.ref("planned_start_date"),
+      percentage_of_completion: Yup.string().required("Required").test(
+      "Is positive?",
+      " The Number must be positive",
+      (value) => value >= 0
+    ),
+    actual_start_date: Yup.date(),
+    actual_end_date: Yup.date().min(
+      Yup.ref("actual_start_date"),
       "end date can't be before start date"
     ),
   });
-
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
-    
-    mutation.mutate(data);
-    console.log(data)
-    //  const addD =  tasksData.push(data)
-    //  setTasksData(addD)
-    document.form.reset();
- 
+  console.log(data)
+      
+       mutation.mutate(data);
+        // tasksData.push(data)
+        for(items of tasksData) {
+          if(items.id !== editData.id){index++}
+               else
+               break;
+        }
+       tasksData.splice(index,1,data)
+       console.log(index)
     };
 
     // -------------------------------Form----------------------------
  return (
    <>
-     <Toast ref={toast} />
+   <Toast ref={toast} />
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
       {formik => {
         return (
-
-           
-    <div className=" justify-items-center container w-full mx-auto   ">
-    
+    <div className="  justify-items-center container w-full mx-auto   ">
+   
    
 
-    <Form name="form" className="formGridModal" id="a-form" autoComplete="off">
-       <h2 className="h2FormModal">Basic Details</h2> 
-                  
-                
-                  
+    <Form   className="formGridModal"  id="a-form" autoComplete="off">
+      <h2 className="h2Form">Basic Details</h2>
+
+    
+           
                   <div>
                   <FormikControl
                     control='input'
@@ -197,8 +202,8 @@ function AddTask({ projectId}) {
                   <FormikControl
                     control='input'
                     type='number'
-                    label='Est. Effort in hours'
-                    name='estimated_effort_in_hours'
+                    label='Actual Eft. in hours'
+                    name='actual_effort_in_hours'
                   />
                   </div>
                   
@@ -245,7 +250,7 @@ function AddTask({ projectId}) {
 
               
 
-                <div >
+                <div className=" ">
                   <FormikControl
                     control="checkbox"
                     label="Time Recording"
@@ -272,13 +277,16 @@ function AddTask({ projectId}) {
                   />
                   </div>
 
-                 
+                  <div>
+                <FormikControl
+                  control='input'
+                  type='number'
+                  label='%Complete'
+                  name='percentage_of_completion'
+                />
+                </div>
 
-
-
-
-
-                <div className=" col-span-2 md:ml-5">
+                <div className=" col-span-2">
                   <FormikControl
                     control="textarea"
                     label="Description"
@@ -286,37 +294,42 @@ function AddTask({ projectId}) {
                   />
                 </div>
 
-                <h2 className="h2Form">Dates</h2>
-                <div >
-                  <FormikControl
-                    control="input"
-                    type='date'
-                    label="Planned Strt Date"
-                    name="planned_start_date"
-                  />
-                </div>
-
-                <div >
-                  <FormikControl
-                    control="input"
-                    type='date'
-                    label="Planned End Date"
-                    name="planned_end_date"
-                  />
-                </div>
                
-                <div className="text-right mt-5  col-span-2 mr-10 ">
-                  <button type="submit" class="btn">
-                    Save
-                  </button>
-                </div>
-              </Form>
-            </div>
-          );
-        }}
-      </Formik>
-    </>
-  );
+
+                
+                <h2 className="h2Form">Dates</h2> 
+                <div className="ml-3">
+                      <FormikControl
+                        control='input'
+                        type='date'
+                        label='Actual Start Date'
+                        name='actual_start_date'
+                      />
+              </div>
+
+              <div className="ml-3">
+                      <FormikControl
+                        control='input'
+                        type='date'
+                        label='Actual End Date'
+                        name='actual_end_date'
+                      />
+              </div>
+
+ <div className="text-right mt-5  col-span-2 mr-20 ">
+     <button type="submit" class="btn" disabled={!formik.isValid}>Add</button>
+    </div> 
+   
+    </Form>
+    </div>
+  
+  )
+}}
+</Formik>
+
+</>
+
+  )
 }
 
-export default AddTask;
+export default EditTask;

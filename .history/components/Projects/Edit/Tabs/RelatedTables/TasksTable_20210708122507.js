@@ -64,7 +64,8 @@ return (
     
     const [tasksData,setTasksData] = useState(projectsData[0].project_tasks)
     // ................................................
-  
+    
+     console.log(tasksData)
 
     // ----------------------------delete task from database and table------
    const deleteProduct = (deleteData) => {
@@ -191,9 +192,7 @@ return (
         
             <div>
             <Toast ref={toast} />
-            <TaskTableContext.Provider  value={{tasksData,setTasksData}}>
               <TableHeader projectId={projectId} projectName={projectName} label='Add Task' formType='AddTask'  />
-              </TaskTableContext.Provider>
             </div>
               <DataTable value={tasksData}  className="p-datatable-sm" resizableColumns columnResizeMode="expand">
                         {dynamicColumns}

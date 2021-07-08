@@ -11,7 +11,8 @@ import {useRef} from 'react'
 import { Button } from 'primereact/button';
 import EditTask from '../../EditForms/EditTask'
 import { Toast } from 'primereact/toast';
-import {TaskTableContext} from '../../Context'
+
+
 
 export default function TasksTable({projectsData}) {
 
@@ -64,7 +65,8 @@ return (
     
     const [tasksData,setTasksData] = useState(projectsData[0].project_tasks)
     // ................................................
-  
+
+     
 
     // ----------------------------delete task from database and table------
    const deleteProduct = (deleteData) => {
@@ -122,9 +124,9 @@ return (
                 </div>
             </div>
              <div>
-               <TaskTableContext.Provider  value={{tasksData,setTasksData}}>
+               
               <EditTask projectId={projectId} editData={editData}  />
-              </TaskTableContext.Provider>
+             
 
             </div>
                     <div className="text-right mr-10 ">
@@ -191,9 +193,7 @@ return (
         
             <div>
             <Toast ref={toast} />
-            <TaskTableContext.Provider  value={{tasksData,setTasksData}}>
               <TableHeader projectId={projectId} projectName={projectName} label='Add Task' formType='AddTask'  />
-              </TaskTableContext.Provider>
             </div>
               <DataTable value={tasksData}  className="p-datatable-sm" resizableColumns columnResizeMode="expand">
                         {dynamicColumns}

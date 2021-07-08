@@ -16,8 +16,7 @@ function AddTask({ projectId}) {
 
    const toast = useRef(null); 
   const contextData = useContext(Context);
-  const {tasksData,setTasksData} = useContext(TaskTableContext)  
-  console.log(tasksData)
+  const {tasksData,setTasksData} =useContext(TaskTableContext)  
   // --------------------------------------initial Values---------------------
   const initialValues = {
     predecessor_task:null,
@@ -144,11 +143,9 @@ function AddTask({ projectId}) {
 
   // ----------------------------------onSubmit-------------------------
   const onSubmit = data => {
-    
-    mutation.mutate(data);
     console.log(data)
-    //  const addD =  tasksData.push(data)
-    //  setTasksData(addD)
+    mutation.mutate(data);
+   console.log(tasksData.push(data))
     document.form.reset();
  
     };
@@ -305,11 +302,11 @@ function AddTask({ projectId}) {
                   />
                 </div>
                
-                <div className="text-right mt-5  col-span-2 mr-10 ">
+                {/* <div className="text-right mt-5  col-span-2 mr-10 ">
                   <button type="submit" class="btn">
-                    Save
+                    Save and Continue
                   </button>
-                </div>
+                </div> */}
               </Form>
             </div>
           );

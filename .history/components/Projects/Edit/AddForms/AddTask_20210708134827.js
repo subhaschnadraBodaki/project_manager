@@ -16,7 +16,7 @@ function AddTask({ projectId}) {
 
    const toast = useRef(null); 
   const contextData = useContext(Context);
-  const {tasksData,setTasksData} = useContext(TaskTableContext)  
+  const {tasksData,setTasksData} =useContext(TaskTableContext)  
   console.log(tasksData)
   // --------------------------------------initial Values---------------------
   const initialValues = {
@@ -146,9 +146,7 @@ function AddTask({ projectId}) {
   const onSubmit = data => {
     
     mutation.mutate(data);
-    console.log(data)
-    //  const addD =  tasksData.push(data)
-    //  setTasksData(addD)
+      tasksData.push(data)
     document.form.reset();
  
     };

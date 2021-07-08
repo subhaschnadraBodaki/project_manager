@@ -147,8 +147,8 @@ function AddTask({ projectId}) {
     
     mutation.mutate(data);
     console.log(data)
-    //  const addD =  tasksData.push(data)
-    //  setTasksData(addD)
+     const addD =  tasksData.push(data)
+     setTasksData(addD)
     document.form.reset();
  
     };
