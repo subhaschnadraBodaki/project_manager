@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Formik, Form, setNestedObjectValues } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../FormComponents/FormikControl";
 import { useMutation, useQueryClient } from "react-query";
@@ -8,8 +8,6 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { Toast } from 'primereact/toast';
 import {useRef} from 'react'
-import {useState} from 'react'
-import formTypeFxn from "./Edit/Tabs/RelatedTables/FormType";
 
 function ProjectForm({ 
  currencydata,
@@ -17,11 +15,8 @@ function ProjectForm({
  projectManager,
  projectPhase,
  projectType,
- projectBillingType,
- opportunity }) {
-    const toast = useRef(null); 
-    console.log(opportunity)
-    
+ projectBillingType, }) {
+    const toast = useRef(null);  
   // --------------------------------------initial Values---------------------
   const initialValues = {
     name: "",
@@ -35,9 +30,7 @@ function ProjectForm({
     active: false,
     region: "",
     project_notes: "",
-    account_id:null
   };
-  const[oppValue,setoppValue] = useState(1)
   // -----------------------------Dynamic Select Options-----------------------
 
   // --------------Account Id--------------
@@ -60,7 +53,7 @@ function ProjectForm({
 
   // ---------------Project Manager-----------
   let dropdownProjectManager = [{ key: "Project Manager", value: "" }];
-  projectManager.filter(item=> item.role === 'Project Manager').map((Fitem)=> {
+  projectManager.filter(item=> item.role === 'Software Developer').map((Fitem)=> {
     let obj = {};
     obj["key"] = Fitem.first_name;
     obj["value"] = Fitem.user_id;
@@ -92,15 +85,6 @@ function ProjectForm({
     dropdownOptionsProjectType.push(obj);
   });
 
-  
-  const dropdownOpportunity = [{ key: "opportunity", value: "" }];
-  opportunity.filter(item=> item.account_id === 4).map((item)=> {
-    let obj = {};
-    obj["key"] = item.name;
-    obj["value"] = item.name;
-    dropdownOpportunity.push(obj);
-  }); 
-  
   // -------------------------- Static Select Options----------------------------
 
  
@@ -108,15 +92,17 @@ function ProjectForm({
 
   const statusOptions = [{ key: "Active", value: true }];
 
- 
+  const dropdownOpportunity = [
+    { key: "opportunity", value: "" },
+    { key: "Account1", value: "Account1" },
+    { key: "Account2", value: "Account2" },
+  ];
 
   const dropdownRegion = [
     { key: "Region", value: "" },
     { key: "Benglore", value: "Benglore" },
     { key: "Noida", value: "Noida" },
   ];
-
- 
 
   // -----------------------------Post Data--------------------------------
 
@@ -254,7 +240,6 @@ function ProjectForm({
                   label="Project manager"
                   name="project_manager_id"
                   options={dropdownProjectManager}
-                 
                 />
               </div>
 
@@ -263,7 +248,6 @@ function ProjectForm({
                   control="select"
                   label="Account"
                   name="account_id"
-                  
                   options={dropdownOptionsAccountId}
                 />
               </div>

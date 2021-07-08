@@ -171,14 +171,14 @@ const deleteProduct = (deleteData) => {
         );
     }
 // ---------------------------------------------------------
-// function reportingDate (){
-//     if (statusReport[0].reporting_date==null){
-//         return '-'
-//     }
-//     else{
-//         return formatDate(statusReport[0].reporting_date)
-//     }
-// }
+function reportingDate (){
+    if (statusReport[0].reporting_date==null){
+        return '-'
+    }
+    else{
+        return formatDate(statusReport[0].reporting_date)
+    }
+}
 
 // ----------------------------------------------------------
     const columns = [
@@ -197,7 +197,7 @@ const dynamicColumns = columns.map((col)=> {
               <TableHeader projectId={projectId} projectName={projectName} label='Add Prj. Status' formType='AddPrjStatusReport'  />
             </div>
               <DataTable value={statusReport} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
-              {/* <Column header="Reporting Date" body={reportingDate}></Column> */}
+              <Column header="Reporting Date" body={reportingDate}></Column>
                         {dynamicColumns}
                            <Column header="Action" body={ActionButton}></Column>
                     </DataTable> 

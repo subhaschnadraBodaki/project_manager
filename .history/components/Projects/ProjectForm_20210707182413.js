@@ -37,7 +37,7 @@ function ProjectForm({
     project_notes: "",
     account_id:null
   };
-  const[oppValue,setoppValue] = useState(1)
+  const[oppValue,setoppValue] = useState(4)
   // -----------------------------Dynamic Select Options-----------------------
 
   // --------------Account Id--------------
@@ -60,7 +60,7 @@ function ProjectForm({
 
   // ---------------Project Manager-----------
   let dropdownProjectManager = [{ key: "Project Manager", value: "" }];
-  projectManager.filter(item=> item.role === 'Project Manager').map((Fitem)=> {
+  projectManager.filter(item=> item.role === 'Software Developer').map((Fitem)=> {
     let obj = {};
     obj["key"] = Fitem.first_name;
     obj["value"] = Fitem.user_id;
@@ -94,7 +94,7 @@ function ProjectForm({
 
   
   const dropdownOpportunity = [{ key: "opportunity", value: "" }];
-  opportunity.filter(item=> item.account_id === 4).map((item)=> {
+  opportunity.filter(item=> item.account_id === oppValue).map((item)=> {
     let obj = {};
     obj["key"] = item.name;
     obj["value"] = item.name;
@@ -115,8 +115,6 @@ function ProjectForm({
     { key: "Benglore", value: "Benglore" },
     { key: "Noida", value: "Noida" },
   ];
-
- 
 
   // -----------------------------Post Data--------------------------------
 
@@ -254,7 +252,6 @@ function ProjectForm({
                   label="Project manager"
                   name="project_manager_id"
                   options={dropdownProjectManager}
-                 
                 />
               </div>
 

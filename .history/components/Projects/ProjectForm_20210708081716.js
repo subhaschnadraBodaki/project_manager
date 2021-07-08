@@ -94,7 +94,7 @@ function ProjectForm({
 
   
   const dropdownOpportunity = [{ key: "opportunity", value: "" }];
-  opportunity.filter(item=> item.account_id === 4).map((item)=> {
+  opportunity.filter(item=> item.account_id === oppValue).map((item)=> {
     let obj = {};
     obj["key"] = item.name;
     obj["value"] = item.name;
@@ -254,7 +254,7 @@ function ProjectForm({
                   label="Project manager"
                   name="project_manager_id"
                   options={dropdownProjectManager}
-                 
+                  onChange={console.log(name)}
                 />
               </div>
 

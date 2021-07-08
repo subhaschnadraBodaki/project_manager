@@ -73,7 +73,7 @@ const deleteProduct = (deleteData) => {
          console.log(deleteData)
          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Project Status Deleted', life: 3000 });
 
-        const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_status_reports?id=eq.${deleteData.id}` 
+        const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_status_reports?project_id=eq.${deleteData.project_id}` 
       axios.delete(url,
             {
             headers:{
@@ -197,7 +197,7 @@ const dynamicColumns = columns.map((col)=> {
               <TableHeader projectId={projectId} projectName={projectName} label='Add Prj. Status' formType='AddPrjStatusReport'  />
             </div>
               <DataTable value={statusReport} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
-              {/* <Column header="Reporting Date" body={reportingDate}></Column> */}
+              <Column header="Reporting Date" body={reportingDate}></Column>
                         {dynamicColumns}
                            <Column header="Action" body={ActionButton}></Column>
                     </DataTable> 

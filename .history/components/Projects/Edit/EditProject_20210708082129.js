@@ -9,7 +9,7 @@ import { Toast } from 'primereact/toast';
  import {useState} from 'react'
 import {useRef} from 'react'
 
-function EditProject ({projectsData,currencydata,accountdata,projectManager,projectPhase,projectType,projectBillingType, opportunity}) {
+function EditProject ({projectsData,currencydata,accountdata,projectManager,projectPhase,projectType,projectBillingType}) {
   const toast = useRef(null); 
   const projectCode = projectsData[0].project_code
   const projectId = projectsData[0].id

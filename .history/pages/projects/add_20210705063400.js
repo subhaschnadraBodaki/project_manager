@@ -9,8 +9,7 @@ export default function addproject({
   projectManager,
   projectPhase,
   projectBillingType,
-  projectType,
-  opportunity
+  projectType
 }) {
   // const {keycloak}=useKeycloak()
   const authentication = true;
@@ -23,7 +22,6 @@ export default function addproject({
       projectPhase={projectPhase}
       projectType={projectType}
       projectBillingType={projectBillingType}
-      opportunity={opportunity}
     />
   ) : (
     <>
@@ -91,23 +89,14 @@ export async function getStaticProps() {
     },
   });
 
-  const response6 = axios({
-    method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/opportunities?select=name,account_id`,
-    headers: {
-      apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      "Content-Type": "application/json",
-    },
-  });
-
-  const data = await axios.all([response, response1, response2, response3,response4,response5,response6]);
+  const data = await axios.all([response, response1, response2, response3,response4,response5]);
   const accountdata = data[0].data;
   const currencydata = data[1].data;
   const projectManager = data[2].data;
   const projectPhase = data[3].data;
   const projectType = data[4].data;
   const projectBillingType = data[5].data;
-  const opportunity = data[6].data;
+ 
   return {
     props: {
       accountdata,
@@ -116,7 +105,6 @@ export async function getStaticProps() {
       projectPhase,
       projectType,
       projectBillingType,
-      opportunity
 
     },
     revalidate: 60,

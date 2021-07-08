@@ -17,7 +17,9 @@ function EditPrjStatusReport({ projectId,editData}) {
   const contextData = useContext(Context);
     
   // --------------------------------------initial Values---------------------
-  const initialValues = editData
+  const initialValues = {
+       quality_status:  editData.quality_status;
+  }
   
 
    const  dropdownStatus = [{ key: 'Status', value: '' }];
@@ -35,7 +37,7 @@ function EditPrjStatusReport({ projectId,editData}) {
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_status_reports?id=eq.${editData.id}`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_status_reports?project_id=eq.${projectId}`;
 
   const response = (data) => {
     return axios.patch(url, data, {
@@ -110,7 +112,7 @@ function EditPrjStatusReport({ projectId,editData}) {
                   
                 
                   
-       <div>
+                  <div>
                   <FormikControl
                     control='input'
                     type='text'
@@ -150,18 +152,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Billing Status "
+                    label="Billing Status Notes"
                     name="billing_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Budget Status"
+                    label="Budget Status Notes"
                     name="budget_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -187,18 +187,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Cost Status"
+                    label="Cost Status Notes"
                     name="cost_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Custom Status 1"
+                    label="Custom Status 1 Notes"
                     name="custom_status1_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -225,18 +223,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Custom Status 2"
+                    label="Custom Status 2 Notes"
                     name="custom_status2_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Custom Status 3"
+                    label="Custom Status 3 Notes"
                     name="custom_status3_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -262,18 +258,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Custom Status 4"
+                    label="Custom Status 4 Notes"
                     name="custom_status4_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Custom Status 5"
+                    label="Custom Status 5 Notes"
                     name="custom_status5_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -299,18 +293,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="deli. Status"
+                    label="deli. Status Notes"
                     name="deliverables_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Effort Status"
+                    label="Effort Status Notes"
                     name="effort_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -336,18 +328,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Issues Status"
+                    label="Issues Status Notes"
                     name="issues_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Milestone Status"
+                    label="Milestone Status Notes"
                     name="milestone_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -373,18 +363,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Prj. Overall"
+                    label="Prj. Overall  Notes"
                     name="project_overall_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Quality Status"
+                    label="Quality Status Notes"
                     name="quality_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -410,18 +398,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Resource Status"
+                    label="Resource Status Notes"
                     name="resource_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Risk Status"
+                    label="Risk Status Notes"
                     name="risks_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -447,18 +433,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Schedule Status"
+                    label="Schedule Status Notes"
                     name="schedule_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Scope Management "
+                    label="Scope Management Notes"
                     name="scope_management_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 

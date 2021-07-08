@@ -9,7 +9,7 @@ import { Toast } from 'primereact/toast';
  import {useState} from 'react'
 import {useRef} from 'react'
 
-function EditProject ({projectsData,currencydata,accountdata,projectManager,projectPhase,projectType,projectBillingType, opportunity}) {
+function EditProject ({projectsData,currencydata,accountdata,projectManager,projectPhase,projectType,projectBillingType}) {
   const toast = useRef(null); 
   const projectCode = projectsData[0].project_code
   const projectId = projectsData[0].id
@@ -95,14 +95,6 @@ state:projectsData[0].state
     obj["value"] = item.value;
     dropdownOptionsProjectType.push(obj);
   });
-  
-  const dropdownOpportunity = [{ key: "opportunity", value: "" }];
-  opportunity.filter(item=> item.account_id === 4).map((item)=> {
-    let obj = {};
-    obj["key"] = item.name;
-    obj["value"] = item.name;
-    dropdownOpportunity.push(obj);
-  });
 
 
 // -------------------------- Static Select Options----------------------------
@@ -116,7 +108,11 @@ state:projectsData[0].state
       { key: 'Active', value: true },
     ] 
     
-  
+    const dropdownOpportunity = [
+      { key: 'opportunity', value: '' },
+      { key: 'Account1', value: 'Account1' },
+      { key: 'Account2', value: 'Account2' }
+    ]
 
     const dropdownRegion = [
       { key: 'Region', value: '' },

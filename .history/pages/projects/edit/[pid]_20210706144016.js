@@ -39,8 +39,7 @@ deli_Name,
 resourceReqStatus,
 resourceRole,
 resourcePriority,
-projectStatus,
-opportunity 
+projectStatus 
 }) {
   const tabName = ["Teams", "Budget", "Risks", "Deliverables"];
   
@@ -67,7 +66,6 @@ opportunity
           projectPhase={projectPhase}
           projectType={projectType}
           projectBillingType={projectBillingType}
-          opportunity={opportunity}
         />
       </div>
 
@@ -325,18 +323,9 @@ const response17 = axios({
     },
   });
 
-  const response27 = axios({
-    method: "get",
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/opportunities?select=name,account_id`,
-    headers: {
-      apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      "Content-Type": "application/json",
-    },
-  });
-
   
 
-  const data = await axios.all([response, response1, response2, response3,response4,response5,response6,response7,response8,response9,response10,response11,response12,response13,response14,response15,response16,response17,response18,response19,response20,response21,response22,response23,response24,response25,response26,response27]);
+  const data = await axios.all([response, response1, response2, response3,response4,response5,response6,response7,response8,response9,response10,response11,response12,response13,response14,response15,response16,response17,response18,response19,response20,response21,response22,response23,response24,response25,response26]);
   const accountdata = data[0].data;
   const currencydata = data[1].data;
   const projectManager = data[2].data;
@@ -364,7 +353,6 @@ const response17 = axios({
   const resourceRole = data[24].data;
   const resourcePriority = data[25].data;
   const projectStatus = data[26].data;
-  const opportunity = data[27].data;
  
   return {
     props: {
@@ -394,8 +382,7 @@ const response17 = axios({
       resourceReqStatus,
       resourceRole,
       resourcePriority,
-      projectStatus,
-      opportunity
+      projectStatus
 
     },
   };

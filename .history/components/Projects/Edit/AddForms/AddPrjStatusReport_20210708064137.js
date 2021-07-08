@@ -11,13 +11,61 @@ import {useRef} from 'react'
 import {useContext} from 'react'
 import {Context} from '../../../../pages/projects/edit/[pid]'
 
-function EditPrjStatusReport({ projectId,editData}) {
+function AddPrjStatusReport({ projectId}) {
 
    const toast = useRef(null); 
   const contextData = useContext(Context);
     
   // --------------------------------------initial Values---------------------
-  const initialValues = editData
+  const initialValues = {
+    title:'',
+    reporting_date:null,
+    project_id: projectId,
+    billing_status:null,
+    budget_status:null,
+    billing_status_notes:'',
+    budget_status_notes:'',
+    cost_status:null,
+    cost_status_notes:'',
+    custom_status1:null,
+    custom_status1_notes:'',
+    custom_status2:null,
+    custom_status2_notes:'',
+    custom_status3:null,
+    custom_status3_notes:'',
+    custom_status4:null,
+    custom_status4_notes:'',
+    custom_status5:null,
+    custom_status5_notes:'',
+    customer_statisfaction_status:null,
+    deliverables_status:null,
+    deliverables_status_notes:'',
+    effort_status:null,
+    effort_status_notes:'',
+    issues_status:null,
+    issues_status_notes:'',
+    milestone_status:null,
+    milestone_status_notes:'',
+    percentage_of_completion:'',
+    period_end_date:null,
+    period_start_date:null,
+    project_overall_status:null,
+    project_overall_status_notes:'',
+    quality_status:null,
+    quality_status_notes:'',
+    reporting_date:null,
+    resource_status:null,
+    resource_status_notes:'',
+    risks_status:null,
+    // risks_status_notes:'',
+     schedule_status:null,
+    schedule_status_notes:'',
+    scope_management_status:null,
+    scope_management_status_notes:'',
+
+
+  };
+
   
 
    const  dropdownStatus = [{ key: 'Status', value: '' }];
@@ -35,10 +83,10 @@ function EditPrjStatusReport({ projectId,editData}) {
   // -----------------------------Post Data--------------------------------
 
   const queryClient = useQueryClient();
-  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_status_reports?id=eq.${editData.id}`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_status_reports`;
 
   const response = (data) => {
-    return axios.patch(url, data, {
+    return axios.post(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
         "Content-Type": "application/json",
@@ -58,7 +106,7 @@ function EditPrjStatusReport({ projectId,editData}) {
       console.log("onSuccess", variables, data);
     },
     onSettled: (data, error) => {
-      toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Status Report Updated', life: 3000 });
+      toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Status Report Added', life: 3000 });
        
     },
   });
@@ -84,7 +132,7 @@ function EditPrjStatusReport({ projectId,editData}) {
   const onSubmit = data => {
     console.log(data)
     mutation.mutate(data);
-    
+    document.form.reset();
  
     };
 
@@ -105,12 +153,12 @@ function EditPrjStatusReport({ projectId,editData}) {
     
    
 
-    <Form  className="formGridModal" id="a-form" autoComplete="off">
+    <Form name="form" className="formGridModal" id="a-form" autoComplete="off">
        <h2 className="h2FormModal">Basic Details</h2> 
                   
                 
                   
-       <div>
+                  <div>
                   <FormikControl
                     control='input'
                     type='text'
@@ -447,18 +495,16 @@ function EditPrjStatusReport({ projectId,editData}) {
                 <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Schedule Status"
+                    label="Schedule Status Notes"
                     name="schedule_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
                  <div className=" col-span-2 md:ml-5">
                   <FormikControl
                     control="textarea"
-                    label="Scope Management "
+                    label="Scope Management Notes"
                     name="scope_management_status_notes"
-                    placeholder="Notes"
                   />
                 </div>
 
@@ -499,11 +545,11 @@ function EditPrjStatusReport({ projectId,editData}) {
                   />
                 </div>
                
-                <div className="text-right mt-5  col-span-2 mr-10 ">
+                {/* <div className="text-right mt-5  col-span-2 mr-10 ">
                   <button type="submit" class="btn">
-                    Save 
+                    Save and Continue
                   </button>
-                </div>
+                </div> */}
               </Form>
             </div>
           );
@@ -513,4 +559,4 @@ function EditPrjStatusReport({ projectId,editData}) {
   );
 }
 
-export default EditPrjStatusReport;
+export default AddPrjStatusReport;

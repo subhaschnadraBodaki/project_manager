@@ -14,9 +14,9 @@ const Tabs = ({ color, projectsData }) => {
   
   const [openTab, setOpenTab] = React.useState(1);
   
-  const tabs = ['Tasks','Milestones','Team', 'Risks', 'Deliverables', 'Issues', 'Change Req.', 'Resource Req.', 'Status ',  ]
+  const tabs = ['Tasks','Milestones','Team', 'Risks', 'Deliverables', 'Issues', 'Change Req.', 'Resource Req.', 'Status ', 'Financials',  ]
 
-  const TabsContent =[<TasksData projectsData={projectsData}/>,<MilestonesData projectsData={projectsData}/>,<TeamsData projectsData={projectsData} /> , <RisksData projectsData={projectsData}/> , <DeliverablesData projectsData={projectsData}/>,<IssuesData projectsData={projectsData}/>,<ChangeRequestsData projectsData={projectsData}/>,<ResourceRequestData projectsData={projectsData}/>,<StatusReportsData projectsData={projectsData}/>,]
+  const TabsContent =[<TasksData projectsData={projectsData}/>,<MilestonesData projectsData={projectsData}/>,<TeamsData projectsData={projectsData} /> , <RisksData projectsData={projectsData}/> , <DeliverablesData projectsData={projectsData}/>,<IssuesData projectsData={projectsData}/>,<ChangeRequestsData projectsData={projectsData}/>,<ResourceRequestData projectsData={projectsData}/>,<StatusReportsData projectsData={projectsData}/>,<FinancialsData projectsData={projectsData}/>,]
 
   return (
     <>

@@ -37,7 +37,7 @@ function ProjectForm({
     project_notes: "",
     account_id:null
   };
-  const[oppValue,setoppValue] = useState(1)
+  const[oppValue,setoppValue] = useState(4)
   // -----------------------------Dynamic Select Options-----------------------
 
   // --------------Account Id--------------
@@ -116,7 +116,8 @@ function ProjectForm({
     { key: "Noida", value: "Noida" },
   ];
 
- 
+  function random()
+  {alert('working')}
 
   // -----------------------------Post Data--------------------------------
 
@@ -254,7 +255,7 @@ function ProjectForm({
                   label="Project manager"
                   name="project_manager_id"
                   options={dropdownProjectManager}
-                 
+                  onChange={random()}
                 />
               </div>
 

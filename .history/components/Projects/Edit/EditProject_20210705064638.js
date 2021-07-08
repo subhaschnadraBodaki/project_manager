@@ -9,7 +9,7 @@ import { Toast } from 'primereact/toast';
  import {useState} from 'react'
 import {useRef} from 'react'
 
-function EditProject ({projectsData,currencydata,accountdata,projectManager,projectPhase,projectType,projectBillingType, opportunity}) {
+function EditProject ({projectsData,currencydata,accountdata,projectManager,projectPhase,projectType,projectBillingType}) {
   const toast = useRef(null); 
   const projectCode = projectsData[0].project_code
   const projectId = projectsData[0].id
@@ -64,7 +64,7 @@ state:projectsData[0].state
 
   // ---------------Project Manager-----------
   let dropdownProjectManager = [{ key: "Project Manager", value: "" }];
-  projectManager.filter(item=> item.role === 'Project Manager').map((Fitem)=> {
+  projectManager.filter(item=> item.role === 'Software Developer').map((Fitem)=> {
     let obj = {};
     obj["key"] = Fitem.first_name;
     obj["value"] = Fitem.user_id;
@@ -95,14 +95,6 @@ state:projectsData[0].state
     obj["value"] = item.value;
     dropdownOptionsProjectType.push(obj);
   });
-  
-  const dropdownOpportunity = [{ key: "opportunity", value: "" }];
-  opportunity.filter(item=> item.account_id === 4).map((item)=> {
-    let obj = {};
-    obj["key"] = item.name;
-    obj["value"] = item.name;
-    dropdownOpportunity.push(obj);
-  });
 
 
 // -------------------------- Static Select Options----------------------------
@@ -116,7 +108,11 @@ state:projectsData[0].state
       { key: 'Active', value: true },
     ] 
     
-  
+    const dropdownOpportunity = [
+      { key: 'opportunity', value: '' },
+      { key: 'Account1', value: 'Account1' },
+      { key: 'Account2', value: 'Account2' }
+    ]
 
     const dropdownRegion = [
       { key: 'Region', value: '' },
@@ -183,11 +179,6 @@ state:projectsData[0].state
         ' Amount must be greater than 0!', 
         (value) => value > 0
       ),
-      percentage_of_completion: Yup.string().max(14,'Must be 14 digits or less').test(
-        'Is positive?', 
-        ' Amount must be greater than 0!', 
-        (value) => value > 0
-      ),
       planned_hours: Yup.string().test(
         'Is positive?', 
         ' The Number must be positive', 
@@ -228,8 +219,8 @@ state:projectsData[0].state
     <Form className="formGrid
     " autoComplete="off">
       <h2 className="h2Form">Basic Details</h2>
-
       <div>
+        
       <FormikControl
         control='input'
         type='text'
@@ -336,15 +327,6 @@ state:projectsData[0].state
         label='Region'
         name='region'
         options={dropdownRegion}
-      />
-      </div>
-
-      <div>
-      <FormikControl
-        control='input'
-        type='number'
-        label='% Complete'
-        name='percentage_of_completion'
       />
       </div>
       

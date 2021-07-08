@@ -70,7 +70,7 @@ const deleteProduct = (deleteData) => {
         let  _statusReport = statusReport.filter(val => val.id !== deleteData.id);
         SetStatusReport(_statusReport)
         setDeleteItemConfirm(false)
-         console.log(deleteData)
+        //  console.log(rowData)
          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Project Status Deleted', life: 3000 });
 
         const url =  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/project_status_reports?id=eq.${deleteData.id}` 
@@ -171,14 +171,14 @@ const deleteProduct = (deleteData) => {
         );
     }
 // ---------------------------------------------------------
-// function reportingDate (){
-//     if (statusReport[0].reporting_date==null){
-//         return '-'
-//     }
-//     else{
-//         return formatDate(statusReport[0].reporting_date)
-//     }
-// }
+function reportingDate (){
+    if (statusReport[0].reporting_date==null){
+        return '-'
+    }
+    else{
+        return formatDate(statusReport[0].reporting_date)
+    }
+}
 
 // ----------------------------------------------------------
     const columns = [
@@ -197,7 +197,7 @@ const dynamicColumns = columns.map((col)=> {
               <TableHeader projectId={projectId} projectName={projectName} label='Add Prj. Status' formType='AddPrjStatusReport'  />
             </div>
               <DataTable value={statusReport} className="p-datatable-sm" resizableColumns columnResizeMode="expand">
-              {/* <Column header="Reporting Date" body={reportingDate}></Column> */}
+              <Column header="Reporting Date" body={reportingDate}></Column>
                         {dynamicColumns}
                            <Column header="Action" body={ActionButton}></Column>
                     </DataTable> 
