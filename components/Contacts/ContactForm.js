@@ -63,14 +63,6 @@ const ContactForm = ({ accountdata }) => {
 
   const checkboxOptionsActive = [{ key: "Active", value: true }];
 
-  // const statusOptions = [
-  //   { key: 'Active', value: true },
-  // ]
-
-  //     const dropdownOpportunity = [
-  //       { key: 'opportunity', value: '' },
-  //       { key: 'Account1', value: 'Account1' },
-  //       { key: 'Account2', value: 'Account2' }
   // -------------------------------Validation Schema------------------------
 
   const validationSchema = Yup.object({
@@ -127,6 +119,14 @@ const ContactForm = ({ accountdata }) => {
     },
     onSettled: (data, error) => {
       console.log("onSettled", data, error);
+      if (data) {
+        toast.current.show({
+          severity: "success",
+          summary: "Successful",
+          detail: "Contact Added",
+          life: 3000,
+        });
+      }
     },
   });
 

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import FormikControl from "../../../../FormComponents/FormikControl";
+import { mutate } from "swr";
 
 const AddEducation = ({ employeeId, qualification, qualificationStatus }) => {
   const toast = useRef(null);
@@ -43,7 +44,6 @@ const AddEducation = ({ employeeId, qualification, qualificationStatus }) => {
 
   // -----------Post data-----------------
 
-  const queryClient = useQueryClient();
   const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/education`;
 
   const addEducation = (data) => {
@@ -55,33 +55,24 @@ const AddEducation = ({ employeeId, qualification, qualificationStatus }) => {
     });
   };
 
-  const mutation = useMutation(addEducation, {
-    onMutate: (variables) => {
-      console.log("onmutate", variables);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-    onSuccess: (data, variables, context) => {
-      console.log("onSuccess", variables, data);
-    },
-    onSettled: (data, error) => {
-      console.log("onSettled", data, error);
-      if (data) {
-        toast.current.show({
-          severity: "success",
-          summary: "Successful",
-          detail: "Details Added",
-          life: 3000,
-        });
-      }
-    },
-  });
+  const onSubmit = async (data, submitProps) => {
+    // mutation.mutate(data);
+    try {
+      const res = await mutate(url, addEducation(data));
+      console.log(res);
 
-  const onSubmit = (data, submitProps) => {
-    mutation.mutate(data);
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Education details Added",
+        life: 3000,
+      });
+    } catch (error) {
+        console.log(error);
+    }
+
     submitProps.setSubmitting(false);
-    // submitProps.resetForm()
+    submitProps.resetForm()
   };
 
   return (
@@ -132,7 +123,7 @@ const AddEducation = ({ employeeId, qualification, qualificationStatus }) => {
                   <FormikControl
                     control="input"
                     type="number"
-                    label="Percentage of Marks"
+                    label="Perc. of Marks"
                     name="percentage_of_marks"
                   />
                 </div>

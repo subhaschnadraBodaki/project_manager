@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
-
 import FormikControl from "../../../../FormComponents/FormikControl";
+import { mutate } from "swr";
 
 const AddWorkExperience = ({
   employeeId,
@@ -60,34 +60,22 @@ const AddWorkExperience = ({
     });
   };
 
-  const mutation = useMutation(addWorkExperience, {
-    onMutate: (variables) => {
-      console.log("onmutate", variables);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-    onSuccess: (data, variables, context) => {
-      console.log("onSuccess", variables, data);
-    },
-    onSettled: (data, error) => {
-      console.log("onSettled", data, error);
-      if (data) {
-        toast.current.show({
-          severity: "success",
-          summary: "Successful",
-          detail: "Experience Added",
-          life: 3000,
-        });
-      }
-    },
-  });
+  const onSubmit = async (data, submitProps) => {
+    try {
+      const res = await mutate(url, addWorkExperience(data));
+      console.log(res);
 
-  const onSubmit = (data, submitProps) => {
-    mutation.mutate(data);
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Employee Added",
+        life: 3000,
+      });
+    } catch (error) {
+        console.log(error);
+    }
     submitProps.setSubmitting(false);
     submitProps.resetForm();
-    // document.form.reset();
   };
 
   return (

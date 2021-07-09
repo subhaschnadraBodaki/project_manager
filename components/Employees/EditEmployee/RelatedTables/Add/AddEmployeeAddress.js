@@ -6,6 +6,7 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import {useRef} from 'react'
 import FormikControl from '../../../../FormComponents/FormikControl'
+import { mutate } from "swr";
 
 const AddEmployeeAddress = ({ employeeId, addressType, countries }) => {
   const toast = useRef(null);
@@ -42,7 +43,6 @@ const AddEmployeeAddress = ({ employeeId, addressType, countries }) => {
 
   // -----------Post data-----------------
 
-  const queryClient = useQueryClient();
   const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employee_address`;
 
   const addEmployeeAddress = (data) => {
@@ -54,33 +54,24 @@ const AddEmployeeAddress = ({ employeeId, addressType, countries }) => {
     });
   };
 
-  const mutation = useMutation(addEmployeeAddress, {
-    onMutate: (variables) => {
-      console.log("onmutate", variables);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-    onSuccess: (data, variables, context) => {
-      console.log("onSuccess", variables, data);
-    },
-    onSettled: (data, error) => {
-      console.log("onSettled", data, error);
-      if(data) {
+  const onSubmit = async (data, submitProps) => {
+    
+    try {
+      const res = await mutate(url, addEmployeeAddress(data));
+      console.log(res);
+
       toast.current.show({
         severity: "success",
         summary: "Successful",
         detail: "Address Added",
         life: 3000,
       });
+    } catch (error) {
+        console.log(error);
     }
-    },
-  });
 
-  const onSubmit = (data, submitProps) => {
-    mutation.mutate(data);
     submitProps.setSubmitting(false);
-    // submitProps.resetForm()
+    submitProps.resetForm()
   };
 
   return (

@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import { mutate } from "swr";
 
 const EmployeeForm = ({
   qualification,
@@ -125,13 +126,17 @@ const EmployeeForm = ({
     last_name: Yup.string().required("Required"),
     nationality: Yup.string().required("Required"),
     gender: Yup.string().required("Required"),
+    birthday:Yup.date().required("Required"),
+    gender:Yup.string().required("Required"),
     marital_status: Yup.string().required("Required"),
     employment_status: Yup.string().required("Required"),
     job_title: Yup.string().required("Required"),
-    // city: Yup.string().required("Required"),
-    // country: Yup.string().required("Required"),
-    // mobile_phone: Yup.string().required("Required"),
+    employment_status: Yup.string().required("Required"),
+    joined_date:Yup.date().required("Required"),
+    confirmation_date:Yup.date().required("Required"),
+    manager: Yup.string().required("Required"),
     work_email: Yup.string().email("Invalid Email Format").required("Required"),
+
   });
 
   //-----------------Add Data To database-----------------------
@@ -147,32 +152,45 @@ const EmployeeForm = ({
     });
   };
 
-  const mutation = useMutation(addEmployee, {
-    onMutate: (variables) => {
-      console.log("onmutate", variables);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-    onSuccess: (data, variables, context) => {
-      console.log("onSuccess", variables, data);
-    },
-    onSettled: (data, error) => {
-      console.log("onSettled", data, error);
-      if (data) {
-        toast.current.show({
-          severity: "success",
-          summary: "Successful",
-          detail: "Employee Added",
-          life: 3000,
-        });
-      }
-    },
-  });
+  // const mutation = useMutation(addEmployee, {
+  //   onMutate: (variables) => {
+  //     console.log("onmutate", variables);
+  //   },
+  //   onError: (error) => {
+  //     console.log(error);
+  //   },
+  //   onSuccess: (data, variables, context) => {
+  //     console.log("onSuccess", variables, data);
+  //   },
+  //   onSettled: (data, error) => {
+  //     console.log("onSettled", data, error);
+  //     if (data) {
+  //       toast.current.show({
+  //         severity: "success",
+  //         summary: "Successful",
+  //         detail: "Employee Added",
+  //         life: 3000,
+  //       });
+  //     }
+  //   },
+  // });
 
-  const onSubmit = (data, submitProps) => {
-    mutation.mutate(data);
-    console.log(submitProps);
+  const onSubmit = async (data, submitProps) => {
+    // mutation.mutate(data);
+    try {
+      const res = await mutate(url, addEmployee(data));
+      console.log(res);
+
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Employee Added",
+        life: 3000,
+      });
+    } catch (error) {
+        console.log(error);
+    }
+
     submitProps.setSubmitting(false);
     submitProps.resetForm();
   };
@@ -414,7 +432,7 @@ const EmployeeForm = ({
                   <button
                     type="submit"
                     className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
-                    disabled={!formik.isValid || formik.isSubmitting}
+                    // disabled={!formik.isValid || formik.isSubmitting}
                   >
                     Submit
                   </button>

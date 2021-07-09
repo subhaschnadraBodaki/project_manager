@@ -5,6 +5,7 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import FormikControl from "../../../../FormComponents/FormikControl";
+import { mutate } from "swr";
 
 const AddCommunicationDetails = ({ employeeId, phoneType }) => {
   const toast = useRef(null);
@@ -20,7 +21,7 @@ const AddCommunicationDetails = ({ employeeId, phoneType }) => {
 
   //    -----------Options----------------
 
-  const dropDownForphoneType = [{ key: "Type", value: "" }];
+  const dropDownForphoneType = [{ key: "Phone Type", value: "" }];
   phoneType.map((phone) => {
     let obj1 = {};
     obj1["key"] = phone.key;
@@ -46,31 +47,23 @@ const AddCommunicationDetails = ({ employeeId, phoneType }) => {
     });
   };
 
-  const mutation = useMutation(addCommunicationDetails, {
-    onMutate: (variables) => {
-      console.log("onmutate", variables);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-    onSuccess: (data, variables, context) => {
-      console.log("onSuccess", variables, data);
-    },
-    onSettled: (data, error) => {
-      console.log("onSettled", data, error);
-      if (data) {
-        toast.current.show({
-          severity: "success",
-          summary: "Successful",
-          detail: "Communication details Added",
-          life: 3000,
-        });
-      }
-    },
-  });
 
-  const onSubmit = (data, submitProps) => {
-    mutation.mutate(data);
+  const onSubmit = async (data, submitProps) => {
+    // mutation.mutate(data);
+    try {
+      const res = await mutate(url, addCommunicationDetails(data));
+      console.log(res);
+
+      toast.current.show({
+        severity: "success",
+        summary: "Successful",
+        detail: "Details Added",
+        life: 3000,
+      });
+    } catch (error) {
+        console.log(error);
+    }
+
     submitProps.setSubmitting(false);
     // submitProps.resetForm()
   };

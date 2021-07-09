@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import { mutate } from "swr";
 
 const EditEmployee = ({
   qualification,
@@ -103,21 +104,24 @@ const EditEmployee = ({
     last_name: Yup.string().required("Required"),
     nationality: Yup.string().required("Required"),
     gender: Yup.string().required("Required"),
+    birthday:Yup.date().required("Required"),
+    gender:Yup.string().required("Required"),
     marital_status: Yup.string().required("Required"),
-    // education_level: Yup.string().required("Required"),
     employment_status: Yup.string().required("Required"),
     job_title: Yup.string().required("Required"),
-    // city: Yup.string().required("Required"),
-    // country: Yup.string().required("Required"),
-    // mobile_phone: Yup.string().required("Required"),
+    employment_status: Yup.string().required("Required"),
+    joined_date:Yup.date().required("Required"),
+    confirmation_date:Yup.date().required("Required"),
+    manager: Yup.string().required("Required"),
     work_email: Yup.string().email("Invalid Email Format").required("Required"),
+
   });
 
   //-----------------Add Data To database-----------------------
   const queryClient = useQueryClient();
   const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/employees?employee_id=eq.${employeeId}`;
 
-  const addEmployee = (data) => {
+  const editEmployee = (data) => {
     return axios.patch(url, data, {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -126,31 +130,44 @@ const EditEmployee = ({
     });
   };
 
-  const mutation = useMutation(addEmployee, {
-    onMutate: (variables) => {
-      console.log("onmutate", variables);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-    onSuccess: (data, variables, context) => {
-      console.log("onSuccess", variables, data);
-    },
-    onSettled: (data, error) => {
-      console.log("onSettled", data, error);
+  // const mutation = useMutation(addEmployee, {
+  //   onMutate: (variables) => {
+  //     console.log("onmutate", variables);
+  //   },
+  //   onError: (error) => {
+  //     console.log(error);
+  //   },
+  //   onSuccess: (data, variables, context) => {
+  //     console.log("onSuccess", variables, data);
+  //   },
+  //   onSettled: (data, error) => {
+  //     console.log("onSettled", data, error);
+  //     toast.current.show({
+  //       severity: "success",
+  //       summary: "Successful",
+  //       detail: "Employee Updated",
+  //       life: 3000,
+  //     });
+  //   },
+  // });
+
+  const onSubmit = async (data, submitProps) => {
+    // mutation.mutate(data);
+    try {
+      const res = await mutate(url, editEmployee(data));
+      console.log(res);
+
       toast.current.show({
         severity: "success",
         summary: "Successful",
         detail: "Employee Updated",
         life: 3000,
       });
-    },
-  });
+    } catch (error) {
+        console.log(error);
+    }
 
-  const onSubmit = (data, submitProps) => {
-    mutation.mutate(data);
     submitProps.setSubmitting(false);
-    // submitProps.resetForm()
   };
 
   return (
@@ -172,15 +189,6 @@ const EditEmployee = ({
 
               <Form className="formGrid" autoComplete="off">
                 <h2 className="h2Form">Basic Details</h2>
-
-                <div>
-                  <FormikControl
-                    control="input"
-                    type="text"
-                    label="First Name"
-                    name="first_name"
-                  />
-                </div>
 
                 <div>
                   <FormikControl
@@ -316,7 +324,7 @@ const EditEmployee = ({
                   <button
                     type="submit"
                     className="bg-blue-900 text-blue-100 font-bold py-2 px-8 lg:px-12 rounded-sm"
-                    disabled={!formik.isValid || formik.isSubmitting}
+                    // disabled={!formik.isValid || formik.isSubmitting}
                   >
                     Submit
                   </button>
