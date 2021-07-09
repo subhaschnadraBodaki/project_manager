@@ -27,6 +27,9 @@ export default function NavBar(){
              <Link href="/contacts">
              <a className="navBtns">Contacts</a>
              </Link>
+             <Link href="/oppurtunities">
+             <a className="navBtns">Opportunities</a>
+             </Link>
 
              <Link href="/accounts">
              <a className="navBtns">Accounts</a>
