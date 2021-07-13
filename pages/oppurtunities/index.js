@@ -2,10 +2,10 @@ import axios from 'axios';
 import OppurtunityTable from '../../components/Oppurtunities/ListOfOppurtunity/OppurtunityTable'
 import { useKeycloak } from '@react-keycloak/ssr'
 
-export default function Oppurtunity({oppurtunitiessData}) {
+export default function Oppurtunity({oppurtunitiesData}) {
     return (
         <div>
-            <OppurtunityTable oppurtunitiessData={oppurtunitiessData}/>
+            <OppurtunityTable oppurtunitiesData={oppurtunitiesData}/>
         </div>
     )
 }
@@ -24,7 +24,7 @@ export async function getStaticProps() {
     if (response.status!=200) throw new Error(response.statusText)
     
     const oppurtunitiesData =  response.data
-
+    console.log(oppurtunitiesData)
     return {
         props:{
             oppurtunitiesData,  
