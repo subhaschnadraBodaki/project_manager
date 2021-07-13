@@ -31,7 +31,7 @@ export default function OppurtunityTable({ oppurtunitiesData }) {
   return (
     <div className="card px-2 mx-5">
       <h1 className="my-5 text-blue-900 text-2xl flex align-item justify-center">
-        Contact
+        Opportunity
       </h1>
       <TableToolbar/>
 
